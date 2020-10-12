@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=Sansita+Swashed');
+@import url('https://fonts.googleapis.com/css?family=Lobster');
+
+
+.brand-font {
+    font-family: 'Lobster';
+}
+.nav-font {
+    font-family: 'Sansita Swashed';
+}
