@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=Fredoka+One');
+@import url('https://fonts.googleapis.com/css?family=Lobster');
+@import url('https://fonts.googleapis.com/css?family=Acme');
+
+body {
+    background-color: #f5f5f0 !important;
+}
+.main-title {
+    font-family: 'Acme' ;
+}

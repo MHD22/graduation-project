@@ -1,21 +1,20 @@
 import React from 'react' ;
 import { Navbar , Nav } from 'react-bootstrap';
 import './NavBar.css' ;
+import {NavLink} from 'react-router-dom' ;
 
 function NavBar(){
     return (
     <>
         <Navbar bg="dark" variant="dark">
             <Navbar.Brand href="#home" className="brand-font">Graduation Project</Navbar.Brand>
-            <Nav className="mr-auto nav-font">
-                    <Nav.Link href="#home">Home</Nav.Link>
-                    <Nav.Link href="#features">About US</Nav.Link>
-                    <Nav.Link href="#pricing">Contact</Nav.Link>
+            <Nav className="mr-auto">
+                    <NavLink className="ml-3 nav-font p-1" exact to="/">Home</NavLink>
+                    <NavLink className="ml-3 nav-font p-1" to="/about">About US</NavLink>
+                    <NavLink className="ml-3 nav-font p-1" to="/contact">Contact</NavLink>
             </Nav>
-            <Nav className="nav-font">
-            <Nav.Link href="#register">Register</Nav.Link>
-            <Nav.Link href="#Login">Login</Nav.Link>
-            </Nav>
+            <NavLink className="ml-3 nav-font text-light p-1" to="/register">Register</NavLink>
+            <NavLink className="ml-3 nav-font text-light p-1" to="/Login">Login</NavLink>
         </Navbar>
     </>
     )

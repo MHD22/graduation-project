@@ -7,4 +7,11 @@
 }
 .nav-font {
     font-family: 'Sansita Swashed';
+    color: darkgrey !important;
+}
+.active {
+    border-bottom: 2px solid darkgray;
+}
+.nav-font:hover {
+    text-decoration: none;
 }
