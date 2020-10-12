@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
+import Login from '../components/Login' ;
+import Register from '../components/Register' ;
+import NavBar from '../components/NavBar' ;
+import Home from '../components/Home' ;
+import About from '../components/About' ;
+import {BrowserRouter , Route} from 'react-router-dom' ;
 import { Container } from 'react-bootstrap';
-import CreateClass from '../components/CreateClass';
 
 
 class App extends Component {
@@ -11,11 +16,18 @@ class App extends Component {
   }
   render(){
     return (
-      <Container className="App">
-        <CreateClass />
-      </Container>
+      <div className="App">
+        <BrowserRouter>
+        <NavBar />
+        <Container>
+        <Route exact path="/" component={Home} />
+        <Route path="/register" component={Register} />
+        <Route path="/login" component={Login} />
+        <Route path="/about" component={About} />
+        </Container>
+        </BrowserRouter>
+      </div>
     );
   }
 }
-
 export default App;
