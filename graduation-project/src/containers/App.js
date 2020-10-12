@@ -5,7 +5,8 @@ import Register from '../components/Register' ;
 import NavBar from '../components/NavBar' ;
 import Home from '../components/Home' ;
 import About from '../components/About' ;
-import {BrowserRouter , Route} from 'react-router-dom' ;
+import CreateClass from '../components/CreateClass' ;
+import {BrowserRouter , Route,Switch} from 'react-router-dom' ;
 import { Container } from 'react-bootstrap';
 
 
@@ -18,13 +19,16 @@ class App extends Component {
     return (
       <div className="App">
         <BrowserRouter>
-        <NavBar />
-        <Container>
-        <Route exact path="/" component={Home} />
-        <Route path="/register" component={Register} />
-        <Route path="/login" component={Login} />
-        <Route path="/about" component={About} />
-        </Container>
+          <NavBar />
+          <Container>
+            <Switch>
+              <Route path="/" exact component={Home} />
+              <Route path="/register" component={Register} />
+              <Route path="/login" component={Login} />
+              <Route path="/about" component={About} />
+              <Route path="/create" component={CreateClass} />
+            </Switch>
+          </Container>
         </BrowserRouter>
       </div>
     );
