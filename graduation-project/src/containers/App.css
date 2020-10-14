@@ -2,3 +2,52 @@
   text-align: center;
 }
 
+
+.main-title {
+  font-family: 'Acme','Lobster';
+}
+
+
+/* Nav bar styles start */
+.brand-font {
+  font-family: 'Lobster';
+}
+.nav-font {
+  font-family: 'Sansita Swashed';
+  color: darkgrey;
+}
+.active {
+  border-bottom: 2px solid darkgray;
+}
+.nav-font:hover {
+  text-decoration: none;
+}
+/* Nav end  */
+
+
+/* forms (Register , login , create class) start  */
+.form-input {
+  height: 60px;
+  width: 50%;
+  background-color: white;
+  color: gray;
+  border-radius: 150px;
+  border: none;
+  text-align: center;
+  font-family: 'Fredoka One' ;
+  box-shadow: 2px 2px 2px darkgray;
+  outline: none;
+  line-height: 60px;
+}
+.btn-submit {
+  width: 20%;
+  height: 50px;
+  border-radius: 100px !important;
+  font-family: 'Lobster';
+  font-size: medium;
+  margin:0 10px;
+}
+/* .form-file {
+ 
+} */
+/* form end */
