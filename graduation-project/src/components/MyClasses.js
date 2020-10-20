@@ -1,61 +1,48 @@
 import React, { Component } from 'react' ;
-import img from '../img.jpeg';
+import noImage from '../noImage.png' ;
 
 class MyClasses extends Component{
     constructor(){
         super() ;
         this.state = {
-            file: null,
-            size: 0
+            file: null , 
+            width : 0 ,
+            height : 0
         }
     }
     checkAttendence = (e) => {
+        //Create a reader to read an uploaded file .
+        var reader = new FileReader();
+        reader.readAsDataURL(e.target.files[0]);
         
-        
-        console.log(e.target.clientWidth);
+        reader.onload = (event) => {
+        //Get the uploaded image and store it in var image .
+        var image = new Image();
+        image.src = event.target.result;
+
+        //Create to variable to store image width and height .
+        var imgHeight , imgWidth ;
+        image.onload = async function () {
+            imgHeight = this.height ;
+            imgWidth = this.width ;
+
+            //The function will store width and height values in State . 
+            setData() ;
+        }
+        let setData = () => {
+            this.setState({
+                width : imgWidth ,
+                height : imgHeight
+            }) ;
+        }
+    };
         const img = e.target ;
-        var im1 =document.getElementById('img1');
         if(img){
             this.setState({
-                file: URL.createObjectURL(e.target.files[0]),
-                size: im1.clientWidth
+                file: URL.createObjectURL(e.target.files[0])
             })
             this.faceRecognition(img.files[0]) ;
-            
         }
-    }
-    componentDidMount(){
-        // //left: 111, top: 11, right: 487, bottom: 387}
-        
-        
-
-
-
-        // let img1 = document.getElementById('img1');
-        // let w = 400;
-        // let h = 400;
-        // let top=11,right=487,bottom=387,left=111;
-        // let top2 = top ;
-        // let bottom2 =h-bottom;
-        
-        // let canvas = document.getElementById('canvas');
-        // let ctx = canvas.getContext('2d');
-
-        // ctx.strokeRect(left,top,(right+left)-w,(top+bottom));
-        
-        // const data= d.outputs[0].data.regions[0].region_info.bounding_box;
-        // const photo = document.getElementById("faceImage");
-        // const width = Number(photo.width);
-        // const height= Number(photo.height);
-        // return {
-        // top : data.top_row * height ,
-        // bottom : height - (Number(data.bottom_row)*height) ,
-        // right : width-(Number(data.right_col)*width),
-        // left : (Number(data.left_col)*width)
-
-
-       
-
     }
 
     faceRecognition = (img) => {
@@ -75,40 +62,68 @@ class MyClasses extends Component{
         fetch("https://api.luxand.cloud/photo/search", requestOptions)
         .then(response => response.json())
         .then(result => {
-        
-            console.log(result, 'size is :'+ this.state.size) ;
+            
+            //Define canvas to draw rectangle .
+            let canvas = document.getElementById('canvas') ;
+            let ctx = canvas.getContext('2d') ;
+
+            //Canvas properties .
+            ctx.strokeStyle = 'yellow' ;
+            ctx.fillStyle = 'yellow' ;
+            ctx.lineWidth = '5' ;
+
+            //Change the background of context to the uploaded image .
+            var image = document.getElementById('person') ;
+            ctx.drawImage(image , 0 , 0) ;
+            for(var i in result){
+
+            //Get the values of Rectangle .
+            let {left} = result[i].rectangle ,
+            {right} = result[i].rectangle ,
+            {bottom} = result[i].rectangle ,
+            {top} = result[i].rectangle ;
+
+            //Determine the width and hight for rectangle .
+            let Dim = (right - left) ;
+
+            //Determine font size and the space between rectangle and text .
+            let space = parseInt(Dim / 3) ,
+            text = `${space}px Lobster`  ;
+            ctx.font = text ;
+
+            //Draw the rectangle .
+            ctx.strokeRect(left,top,Dim,Dim) ;
+
+            //Type the name of person .
+            ctx.fillText(result[i].name , left, bottom + space) ;
+            }
+            var final_image = canvas.toDataURL("image/png");
+            this.setState({
+                file : final_image
+            });
+            let obj = result ;
+            console.log(obj) ;
         })
         .catch(error => console.log('error', error));
     };
 
 
     render() {
-        
-        var divStyles={
-            position: 'absolute',
-            width:'382px',
-            height:'382px',
-            
-            border: '3px solid black',
-            top:-2,
-            right:486,
-            bottom:380,
-            left:104
-        }
-        var div=<div style={divStyles}></div>;
-         
         return (
             <>
                 <div className="mt-3 bg-black-10 shadow-5 p-5 ">
                     <h1 className="main-title">Upload an image to check attendence</h1>
                     <input onChange={this.checkAttendence} type="file" accept="image/*" id="file2" className="form-file mt-4" required />
                     <br />
-                    <div className='draw-image'>
-                    {div}
-                    <img id='img1'  className=" rounded" src={this.state.file || 'https://via.placeholder.com/400/'} alt='person'/>
-                    </div>
-                    {/* <canvas style ={{backgroundImage: `url(${img||this.state.file || 'https://via.placeholder.com/400/'})` }}id ='canvas' width='400' height='400'></canvas> */}
-                    
+
+                    {/* Image will display the uploaded image , we use it to draw it on canvas . */}
+                    <img hidden id="person" src={this.state.file} alt="Person" />
+
+                    {/* Canvas will draw the image , rectangles and names . */}
+                    <canvas id="canvas" width={this.state.width} height={this.state.height} hidden></canvas>
+
+                    {/* The final result will be shown on the img below , that we can edit it's width and height . */}
+                    <img className="img-thumbnail mt-3" src={this.state.file || noImage} alt="Person" width="600" height='600' />
                 </div>
             </>);
     }
