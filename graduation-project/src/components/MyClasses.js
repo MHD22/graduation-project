@@ -123,7 +123,7 @@ class MyClasses extends Component{
                     <canvas id="canvas" width={this.state.width} height={this.state.height} hidden></canvas>
 
                     {/* The final result will be shown on the img below , that we can edit it's width and height . */}
-                    <img className="img-thumbnail mt-3" src={this.state.file || noImage} alt="Person" width='400' height='400' />
+                    <img className="img-thumbnail mt-3" src={this.state.file || noImage} alt="Person" width="600" height='600' />
                 </div>
             </>);
     }
