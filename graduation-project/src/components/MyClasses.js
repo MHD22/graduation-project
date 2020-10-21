@@ -165,7 +165,8 @@ class MyClasses extends Component{
 
     clear = () => {
         this.setState({
-            showImage : true 
+            showImage : true ,
+            showUploadBtn : false 
         }) ;
         var {students} = this.state ;
         for(var student of students){
@@ -180,6 +181,7 @@ class MyClasses extends Component{
             {true?
                 <div className="container">
 
+                    {/* Spinner when get the result */}
                     <div className="loading" hidden={!this.state.load}>
                         <div className="circle"></div>
                         <div className="circle"></div>
@@ -188,10 +190,15 @@ class MyClasses extends Component{
                     </div>
 
                     <div className="row" hidden={this.state.load}>
+
+                        {/* Student table */}
                         <div className="col-md-6">
+                            <h3 className="mt-2" style={{ fontFamily : 'Lobster' , color : '#343a40' }}>Student of the course</h3>
                             <StudentsTable students={this.state.students}/>
                         </div>
-                        <div className="col-md-6 mt-5">
+                        
+                        {/* Face recognition */}
+                        <div className="col-md-6 align-self-center">
                             <Button hidden = {this.state.showUploadBtn} onClick={this.setShowBtn} style={{ width : '100%' }} className="btn f3 grow btn-dark btn-submit mt-4">Check Attendence</Button>
                             <div hidden = {!this.state.showUploadBtn}>
                                 <label htmlFor="file2" style={{ width : '50%' , backgroundColor : 'darkcyan' }} className="mt-3 grow f4 btn text-light btn-submit">Upload Image</label>
