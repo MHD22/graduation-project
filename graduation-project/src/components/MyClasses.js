@@ -1,4 +1,4 @@
-import { Link , Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import React, { Component } from 'react' ;
 import noImage from '../noImage.png' ;
 import StudentsTable from './StudentsTable';
@@ -22,10 +22,14 @@ class MyClasses extends Component{
                 {id:8,name:'Yousef'},
             ] ,
             showImage : true ,
-            showUploadBtn : false 
+            showUploadBtn : false ,
+            load : false 
         }
     }
     checkAttendence = (e) => {
+        this.setState({
+            load : true
+        });
         //Create a reader to read an uploaded file .
         var reader = new FileReader();
         reader.readAsDataURL(e.target.files[0]);
@@ -59,6 +63,7 @@ class MyClasses extends Component{
             })
             this.faceRecognition(img.files[0]) ;
         }
+        e.target.value = null;
     }
 
     setShowBtn = () => {
@@ -135,6 +140,10 @@ class MyClasses extends Component{
             
             console.log(result) ;
             this.colorTable(result) ;
+            this.setState({
+                load : false
+            });
+            
         })
         .catch(error => console.log('error', error));
     };
@@ -167,9 +176,18 @@ class MyClasses extends Component{
     render() {
     
         return (
-            <>  {true?
+            <>  
+            {true?
                 <div className="container">
-                    <div className="row">
+
+                    <div className="loading" hidden={!this.state.load}>
+                        <div className="circle"></div>
+                        <div className="circle"></div>
+                        <div className="circle"></div>
+                        <div className="circle"></div>
+                    </div>
+
+                    <div className="row" hidden={this.state.load}>
                         <div className="col-md-6">
                             <StudentsTable students={this.state.students}/>
                         </div>
@@ -197,11 +215,8 @@ class MyClasses extends Component{
                         </div>
                     </div>
                 </div>
-
                 :
-                <div className="mt-3 bg-black-10 shadow-5 p-5 ">
-
-                </div>
+                <div></div>
                 }
             </>);
     }
