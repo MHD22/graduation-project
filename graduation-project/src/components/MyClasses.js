@@ -1,5 +1,6 @@
 import React, { Component } from 'react' ;
 import noImage from '../noImage.png' ;
+import StudentsTable from './StudentsTable';
 
 class MyClasses extends Component{
     constructor(){
@@ -7,7 +8,19 @@ class MyClasses extends Component{
         this.state = {
             file: null , 
             width : 0 ,
-            height : 0
+            height : 0,
+            faces:[],
+            students:[
+                {id:1,name:'mhd'},
+                {id:2,name:'mazen'},
+                {id:3,name:'maher'},
+                {id:4,name:'husam'},
+                {id:5,name:'rani'},
+                {id:6,name:'osama'},
+                {id:7,name:'yousef'},
+                {id:8,name:'myar'},
+            ]
+
         }
     }
     checkAttendence = (e) => {
@@ -36,6 +49,7 @@ class MyClasses extends Component{
             }) ;
         }
     };
+
         const img = e.target ;
         if(img){
             this.setState({
@@ -62,7 +76,7 @@ class MyClasses extends Component{
         fetch("https://api.luxand.cloud/photo/search", requestOptions)
         .then(response => response.json())
         .then(result => {
-            
+            let faces=[];
             //Define canvas to draw rectangle .
             let canvas = document.getElementById('canvas') ;
             let ctx = canvas.getContext('2d') ;
@@ -75,8 +89,12 @@ class MyClasses extends Component{
             //Change the background of context to the uploaded image .
             var image = document.getElementById('person') ;
             ctx.drawImage(image , 0 , 0) ;
+            
             for(var i in result){
-
+            if(result[i].probability*100 < 90){
+                continue;
+            }
+            faces.push(result[i].id);
             //Get the values of Rectangle .
             let {left} = result[i].rectangle ,
             {right} = result[i].rectangle ,
@@ -97,20 +115,28 @@ class MyClasses extends Component{
             //Type the name of person .
             ctx.fillText(result[i].name , left, bottom + space) ;
             }
+            this.setState({faces:faces});
+            console.log('faces ids: ', this.state.faces);
+
+
             var final_image = canvas.toDataURL("image/png");
             this.setState({
                 file : final_image
             });
-            let obj = result ;
-            console.log(obj) ;
+            
+            console.log(result) ;
         })
         .catch(error => console.log('error', error));
     };
 
 
     render() {
+       
         return (
-            <>
+            <>  {true?
+                <StudentsTable students={this.state.students}/>
+            
+                :
                 <div className="mt-3 bg-black-10 shadow-5 p-5 ">
                     <h1 className="main-title">Upload an image to check attendence</h1>
                     <input onChange={this.checkAttendence} type="file" accept="image/*" id="file2" className="form-file mt-4" required />
@@ -125,6 +151,7 @@ class MyClasses extends Component{
                     {/* The final result will be shown on the img below , that we can edit it's width and height . */}
                     <img className="img-thumbnail mt-3" src={this.state.file || noImage} alt="Person" width="600" height='600' />
                 </div>
+                }
             </>);
     }
 }
