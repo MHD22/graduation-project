@@ -1,3 +1,4 @@
+import { Button } from 'react-bootstrap';
 import React, { Component } from 'react' ;
 import noImage from '../noImage.png' ;
 import StudentsTable from './StudentsTable';
@@ -11,19 +12,24 @@ class MyClasses extends Component{
             height : 0,
             faces:[],
             students:[
-                {id:1,name:'mhd'},
-                {id:2,name:'mazen'},
-                {id:3,name:'maher'},
-                {id:4,name:'husam'},
-                {id:5,name:'rani'},
-                {id:6,name:'osama'},
-                {id:7,name:'yousef'},
-                {id:8,name:'myar'},
-            ]
-
+                {id:1,name:'Mhd'},
+                {id:2,name:'Mazen'},
+                {id:3,name:'Maher'},
+                {id:4,name:'Osama'},
+                {id:5,name:'Rani'},
+                {id:6,name:'Myar'},
+                {id:7,name:'Hasan'},
+                {id:8,name:'Yousef'},
+            ] ,
+            showImage : true ,
+            showUploadBtn : false ,
+            load : false 
         }
     }
     checkAttendence = (e) => {
+        this.setState({
+            load : true
+        });
         //Create a reader to read an uploaded file .
         var reader = new FileReader();
         reader.readAsDataURL(e.target.files[0]);
@@ -57,7 +63,15 @@ class MyClasses extends Component{
             })
             this.faceRecognition(img.files[0]) ;
         }
+        e.target.value = null;
     }
+
+    setShowBtn = () => {
+        this.setState({
+            showUploadBtn : true 
+        });
+    }
+
 
     faceRecognition = (img) => {
         var myHeaders = new Headers();
@@ -115,7 +129,7 @@ class MyClasses extends Component{
             //Type the name of person .
             ctx.fillText(result[i].name , left, bottom + space) ;
             }
-            this.setState({faces:faces});
+            this.setState({faces:faces , showImage : false});
             console.log('faces ids: ', this.state.faces);
 
 
@@ -125,32 +139,91 @@ class MyClasses extends Component{
             });
             
             console.log(result) ;
+            this.colorTable(result) ;
+            this.setState({
+                load : false
+            });
+            
         })
         .catch(error => console.log('error', error));
     };
 
+    colorTable = (result) => {
+        var {students} = this.state ;
+        for(var student of students){
+            document.getElementById(student.id).className = '' ;
+            var stName = student.name ;
+            for(var res of result){
+                var resName = res.name ;
+                if(stName === resName && res.probability * 100 > 90){
+                    console.log(student.id) ;
+                    document.getElementById(student.id + "").className = 'bg-success text-light' ;
+                }
+            }
+        }
+    }
+
+    clear = () => {
+        this.setState({
+            showImage : true ,
+            showUploadBtn : false 
+        }) ;
+        var {students} = this.state ;
+        for(var student of students){
+            document.getElementById(student.id).className = '' ;
+        }
+    }
 
     render() {
-       
+    
         return (
-            <>  {true?
-                <StudentsTable students={this.state.students}/>
-            
-                :
-                <div className="mt-3 bg-black-10 shadow-5 p-5 ">
-                    <h1 className="main-title">Upload an image to check attendence</h1>
-                    <input onChange={this.checkAttendence} type="file" accept="image/*" id="file2" className="form-file mt-4" required />
-                    <br />
+            <>  
+            {true?
+                <div className="container">
 
-                    {/* Image will display the uploaded image , we use it to draw it on canvas . */}
-                    <img hidden id="person" src={this.state.file} alt="Person" />
+                    {/* Spinner when get the result */}
+                    <div className="loading" hidden={!this.state.load}>
+                        <div className="circle"></div>
+                        <div className="circle"></div>
+                        <div className="circle"></div>
+                        <div className="circle"></div>
+                    </div>
 
-                    {/* Canvas will draw the image , rectangles and names . */}
-                    <canvas id="canvas" width={this.state.width} height={this.state.height} hidden></canvas>
+                    <div className="row" hidden={this.state.load}>
 
-                    {/* The final result will be shown on the img below , that we can edit it's width and height . */}
-                    <img className="img-thumbnail mt-3" src={this.state.file || noImage} alt="Person" width="600" height='600' />
+                        {/* Student table */}
+                        <div className="col-md-6">
+                            <h3 className="mt-2" style={{ fontFamily : 'Lobster' , color : '#343a40' }}>Student of the course</h3>
+                            <StudentsTable students={this.state.students}/>
+                        </div>
+                        
+                        {/* Face recognition */}
+                        <div className="col-md-6 align-self-center">
+                            <Button hidden = {this.state.showUploadBtn} onClick={this.setShowBtn} style={{ width : '100%' }} className="btn f3 grow btn-dark btn-submit mt-4">Check Attendence</Button>
+                            <div hidden = {!this.state.showUploadBtn}>
+                                <label htmlFor="file2" style={{ width : '50%' , backgroundColor : 'darkcyan' }} className="mt-3 grow f4 btn text-light btn-submit">Upload Image</label>
+                                <input hidden onChange={this.checkAttendence} type="file" accept="image/*" id="file2" className="form-file mt-4" required />
+                                <br />
+                                <p hidden={!this.state.showImage} className="mt-5" style={{ fontFamily : 'Acme' }}>To Check Attendence Upload an image for class student , then the system will check it .</p>
+                                <p hidden={!this.state.showImage} style={{ fontFamily : 'Acme' }}><span className="bg-success p-1 text-light rounded">Green</span> rows on table represents the Attendees student , and the <span className="bg-dark p-1 text-light rounded">white</span> rows for Absence students . </p>
+
+                                {/* Image will display the uploaded image , we use it to draw it on canvas . */}
+                                <img hidden id="person" src={this.state.file} alt="Person" />
+
+                                {/* Canvas will draw the image , rectangles and names . */}
+                                <canvas id="canvas" width={this.state.width} height={this.state.height} hidden></canvas>
+
+                                {/* The final result will be shown on the img below , that we can edit it's width and height . */}
+                                <img className="img-thumbnail mt-5" src={this.state.file || noImage} alt="Person" width="400" height='400' hidden = {this.state.showImage} />
+                                <br />
+                                <Button hidden = {this.state.showImage} onClick={this.clear} style={{ width : '30%' }} className="btn f3 grow btn-warning btn-submit mt-4">Clear</Button>
+                                <a className="btn f3 grow btn-info btn-submit mt-4" style={{ width : '30%' }} hidden = {this.state.showImage} href={`${this.state.file}`} download>Download</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                :
+                <div></div>
                 }
             </>);
     }
