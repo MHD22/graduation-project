@@ -1,5 +1,6 @@
 import React, { Component } from 'react' ;
 import noImage from '../noImage.png' ;
+import { Button } from 'react-bootstrap' ;
 
 class MyClasses extends Component{
     constructor(){
@@ -125,6 +126,7 @@ class MyClasses extends Component{
                     {/* The final result will be shown on the img below , that we can edit it's width and height . */}
                     <img className="img-thumbnail mt-3" src={this.state.file || noImage} alt="Person" width="600" height='600' />
                 </div>
+                
             </>);
     }
 }
