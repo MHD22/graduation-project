@@ -19,7 +19,7 @@ class MyClasses extends Component{
                 {id:5,name:'Rani'},
                 {id:6,name:'Myar'},
                 {id:7,name:'Hasan'},
-                {id:8,name:'Yousef'},
+                {id:8,name:'Kamal'},
             ] ,
             showImage : true ,
             showUploadBtn : false ,
