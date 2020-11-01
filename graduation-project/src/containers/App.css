@@ -172,7 +172,7 @@
 }
 /* Emd Spinner */
 
-/* .form-file {
- 
-} */
+.form-file {
+ display: none;
+}
 /* form end */
