@@ -112,7 +112,7 @@ class Register extends Component{
         
 
 
-       fetch('localhost:3000/students',{
+       fetch('http://localhost:3000/students',{
            method: 'POST',
            headers: {
             'Content-Type': 'application/json',

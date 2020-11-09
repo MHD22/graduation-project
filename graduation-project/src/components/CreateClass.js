@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
+import './CreateClass.css';
 
 class CreateClass extends Component {
     constructor() {
@@ -7,7 +8,9 @@ class CreateClass extends Component {
         this.state = {
             isClickedNext: false,
             image: null,
-            url: ''
+            url: '',
+            students:[],
+            search:''
         }
     }
 
@@ -38,6 +41,13 @@ class CreateClass extends Component {
 
     componentDidMount() {
         this.listPerson();
+        fetch('http://localhost:3000/students')
+        .then(res=> res.json()).then(data=>{
+            this.setState({students:data} , ()=>{console.log(this.state.students)});
+        })
+        .catch(e=>console.log(e));
+
+        
     }
 
 
@@ -109,10 +119,21 @@ class CreateClass extends Component {
             .catch(error => console.log('error fetching', error));
         }
     }
+    handleFilter=(event)=>{
+        this.setState({search:event.target.value});
+        console.log(this.state.search);
+    }
 
 
     render() {
         const { isClickedNext } = this.state;
+        let filteredArray = this.state.students.filter( (std)=>{
+            return std.includes(this.state.search);
+        });
+        filteredArray = filteredArray.map((std , i)=>{
+            return <p  key={i}>{std} <input type="checkbox" value={std} /> </p> ;
+        })
+        
         return (
             <>
 
@@ -127,7 +148,20 @@ class CreateClass extends Component {
                         :
                     <>
                             <h1 className="main-title">Add Student</h1>
-                            <input id ='stName' type="text" placeholder="Student Name" className="form-input mt-4" />
+                            <div className= "container-students">
+                                <input className="search" onChange={this.handleFilter} type="search" placeholder="search on students"/>
+                                <div className="cont-cont">
+                                    <div className="students" id="students">
+                                        {filteredArray}
+                                    </div>
+                                    <div className="students" id="students">
+                                        
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            
                             <br />
                             <input type="file" onChange={this.setImage} multiple accept="image/*" id="file2" placeholder="Student Major .." className="form-file mt-4" required />
                             <br />

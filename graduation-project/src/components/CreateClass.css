@@ -1,0 +1,33 @@
+.students{
+    width: 35%;
+    height: 250px;
+    overflow-y: auto;
+    background-color: rgb(182, 179, 179);
+    border: 1px solid black;
+    margin-top: 15px;
+    text-align: center;
+}
+.cont-cont{
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+}
+.container-students{
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    
+}
+.search{
+    display: block;
+    width:30%;
+    
+   
+}
