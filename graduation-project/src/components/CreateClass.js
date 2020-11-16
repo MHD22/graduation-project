@@ -65,28 +65,33 @@ class CreateClass extends Component {
 
     //Sende the students ids to the backend
     addNewClass = (e) => {
+        console.log(this.state.students);
         fetch('http://localhost:3000/classes',{
            method: 'POST',
            headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(this.state.addedStd),
-       }).then(res => res.json()).then(console.log).catch("error during send student data to backend");
+          body: JSON.stringify({
+            className:this.state.courseName,
+            ids:this.state.addedStd
+          }),
+       }).then(res => res.json()).then(console.log).catch(e=>{console.log("error during send classes data to backend")});
        
     }
 
     render() {
         const { isClickedNext } = this.state;
         let filteredArray = this.state.students.filter( (std)=>{
-            return (std.name + std.id).includes(this.state.search);
+            return (`${std.fname} ${std.lname} ${std.id}`).toLowerCase().includes(this.state.search.toLowerCase());
         });
         if (this.state.addedStd.length !== 0){
-        this.state.addedStd.map((id) => {
+        
+        this.state.addedStd.forEach((id) => {
             let name = document.getElementById(id + 'label') ;
             if(name !== null){
             name.style.background = "#004d1a";
             }
-            return <></>
+            
         })
     }
         filteredArray = filteredArray.map((std , i)=>{
