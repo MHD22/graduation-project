@@ -10,140 +10,98 @@ class CreateClass extends Component {
             image: null,
             url: '',
             students:[],
-            search:''
+            search:'' ,
+            addedStd : [] ,
+            courseName : ''
         }
     }
 
     //for hide class name input and show the add new student and done 
-    next = () => {
-        this.setState({ isClickedNext: true });
+    next = (e) => {
+        this.setState({ isClickedNext: true});
     }
-
-
-    listPerson = () => {
-        // const proxi = 'https://cors-anywhere.herokuapp.com/';
-        const url = 'https://api.luxand.cloud/subject'
-        // const fullUrl = proxi + url;
-        fetch(url, {
-            "async": true,
-            "crossDomain": true,
-            'method': 'GET',
-            'headers': {
-                "token": "0ed0d51e90cc4f3ab510a564cfb94b60"
-            },
-            "data": {}
-        }).then(res => res.json())
-            .then(console.log)          // display names all persons.. 
-            .catch(err => console.log('error fetch'));
-    }
-
-
 
     componentDidMount() {
-        this.listPerson();
         fetch('http://localhost:3000/students')
         .then(res=> res.json()).then(data=>{
             this.setState({students:data} , ()=>{console.log(this.state.students)});
         })
         .catch(e=>console.log(e));
-
-        
     }
 
-
-
-    setImage = (e) => { // triggers when select images
-        const file=e.target;
-        if (file.files.length === 3) {
-            this.createPerson(file); //create the first image and add to it the 2 other images 
-        }
-    }
-
-
-
-    //add faces to exist person
-    addFace = (file,id) => {
-        var myHeaders = new Headers();
-        myHeaders.append("token", "0ed0d51e90cc4f3ab510a564cfb94b60");
-
-        var formdata = new FormData();
-        formdata.append("photo", file, "file");
-
-        var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: formdata,
-            redirect: 'follow'
-        };
-
-        fetch(`https://api.luxand.cloud/subject/${id}`, requestOptions) // id of the person ..
-            .then(response => response.json())
-            .then(result => console.log(result))
-            .catch(error => console.log('error add face fetch', error));
-    }
-
-    //create new person
-    createPerson(file) {
-        // check if the name is exist or not ?
-        let stName=document.getElementById('stName').value; 
-        
-
-        if(stName){ //check the name in database.
-
-
-        
-        var myHeaders = new Headers();
-        myHeaders.append("token", '0ed0d51e90cc4f3ab510a564cfb94b60');
-
-        var formdata = new FormData();
-        formdata.append("name", stName);
-        formdata.append("photo", file.files[0], "file");//first image
-        formdata.append("store", "1");
-
-        var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: formdata,
-            redirect: 'follow'
-        };
-
-        fetch("https://api.luxand.cloud/subject/v2", requestOptions)
-            .then(response => response.json())
-            .then(result => {
-                let id = result.id; // get the id for add faces to the same person.
-                this.addFace(file.files[1],id); //add second and third images to the same person
-                this.addFace(file.files[2],id);//add second and third images to the same person
-                console.log(result)
-                //alert .. added successfully
-            })
-            .catch(error => console.log('error fetching', error));
-        }
-    }
     handleFilter=(event)=>{
         this.setState({search:event.target.value});
         console.log(this.state.search);
     }
 
+    //Add the select student to the state .
+    addStudent = (e) => {
+        let id = e.target.value ;
+        let arr = this.state.addedStd;
+        let found = arr.indexOf(id) ;
+        if(found === -1){
+            arr.push(id) ;
+            // document.getElementById(id + 'label').style.background = "#004d1a";
+            this.setState({
+                addedStd : arr
+            }) ;
+        }
+        else {
+            arr.splice(found, 1);
+            this.setState({addStudent: arr});
+            
+            document.getElementById(id + 'label').style.background = "#343a40";
+        }
+        console.log(this.state.addedStd) ;
+    }
+
+    courseName = (e) => {
+        let cName = e.target.value ;
+        console.log(cName) ;
+        this.setState({
+            courseName : cName
+        })
+    }
+
+    //Sende the students ids to the backend
+    addNewClass = (e) => {
+        fetch('http://localhost:3000/classes',{
+           method: 'POST',
+           headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(this.state.addedStd),
+       }).then(res => res.json()).then(console.log).catch("error during send student data to backend");
+       
+    }
 
     render() {
         const { isClickedNext } = this.state;
         let filteredArray = this.state.students.filter( (std)=>{
-            return std.includes(this.state.search);
+            return (std.name + std.id).includes(this.state.search);
         });
-        filteredArray = filteredArray.map((std , i)=>{
-            return <p  key={i}>{std} <input type="checkbox" value={std} /> </p> ;
+        if (this.state.addedStd.length !== 0){
+        this.state.addedStd.map((id) => {
+            let name = document.getElementById(id + 'label') ;
+            if(name !== null){
+            name.style.background = "#004d1a";
+            }
+            return <></>
         })
-        
+    }
+        filteredArray = filteredArray.map((std , i)=>{
+        return <label htmlFor={std.id} id={std.id + 'label'} key={std.id} className="student">{std.fname + ' ' + std.lname + ' | ' + std.id} <input type="checkbox" value={std.id} id={std.id} onChange={this.addStudent} className="check"/></label>
+    })
+      
         return (
             <>
-
                 <div className="mt-3 bg-black-10 shadow-5 p-5 ">
                     {isClickedNext === false ? 
                     <>
                         <h1 className="main-title">Add Class</h1>
-                        <input type="text" placeholder="Class Name" className="form-input mt-4" />
+                        <input type="text" placeholder="Class Name" onChange={this.courseName} className="form-input mt-4" />
                         <br />
-                        <Button onClick={this.next} id='submit' className="btn f3 grow btn-success btn-submit mt-4" >Next</Button>
+                        <Button onClick={this.next} id='submit' className="btn f3 grow btn-success btn-submit mt-4">Next</Button>
                     </>
                         :
                     <>
@@ -151,25 +109,14 @@ class CreateClass extends Component {
                             <div className= "container-students">
                                 <input className="search" onChange={this.handleFilter} type="search" placeholder="search on students"/>
                                 <div className="cont-cont">
-                                    <div className="students" id="students">
-                                        {filteredArray}
+                                    <div className="students p-3" id="students">
+                                            {filteredArray}
                                     </div>
-                                    <div className="students" id="students">
-                                        
-                                    </div>
-
                                 </div>
-
                             </div>
-                            
                             <br />
-                            <input type="file" onChange={this.setImage} multiple accept="image/*" id="file2" placeholder="Student Major .." className="form-file mt-4" required />
-                            <br />
-
-                            <Button id='submit' onClick={this.listPerson} className="btn f3 grow btn-danger btn-submit mt-4" >Add Student</Button>
-                            <Button id='submit' className="btn f3 grow btn-success btn-submit mt-4" >Done</Button><br />
+                            <Button id='submit' className="btn f3 grow btn-success btn-submit" onClick={this.addNewClass}>Done</Button><br />
                     </>}
-
                 </div>
             </>);
     }

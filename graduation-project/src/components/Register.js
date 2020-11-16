@@ -111,7 +111,6 @@ class Register extends Component{
     sendData=() => {
         
 
-
        fetch('http://localhost:3000/students',{
            method: 'POST',
            headers: {
