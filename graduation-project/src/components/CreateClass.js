@@ -11,7 +11,9 @@ class CreateClass extends Component {
             url: '',
             students:[],
             search:'' ,
-            addedStd : [] ,
+            addedStdID : [] ,
+            addedStdFName : [] ,
+            addedStdLName : [] ,
             courseName : ''
         }
     }
@@ -37,22 +39,32 @@ class CreateClass extends Component {
     //Add the select student to the state .
     addStudent = (e) => {
         let id = e.target.value ;
-        let arr = this.state.addedStd;
-        let found = arr.indexOf(id) ;
+        let fname = e.target.getAttribute('data-fname') ;
+        let lname = e.target.getAttribute('data-lname') ;
+        let arrIDS= this.state.addedStdID;
+        let arrFN= this.state.addedStdFName ;
+        let arrLN = this.state.addedStdLName ;
+        let found = arrIDS.indexOf(id) ;
         if(found === -1){
-            arr.push(id) ;
+            arrIDS.push(id) ;
+            arrFN.push(fname) ;
+            arrLN.push(lname) ;
             // document.getElementById(id + 'label').style.background = "#004d1a";
             this.setState({
-                addedStd : arr
+                addedStdID : arrIDS,
+                addedStdFName : arrFN,
+                addedStdLName : arrLN ,
             }) ;
         }
         else {
-            arr.splice(found, 1);
-            this.setState({addStudent: arr});
+            arrIDS.splice(found, 1);
+            arrFN.splice(found, 1);
+            arrLN.splice(found, 1);
+            this.setState({addStudent: arrIDS, addedStdFName : arrFN, addedStdLName : arrLN});
             
             document.getElementById(id + 'label').style.background = "#343a40";
         }
-        console.log(this.state.addedStd) ;
+        console.log(this.state.addedStdID , this.state.addedStdFName , this.state.addedStdLName) ;
     }
 
     courseName = (e) => {
@@ -73,7 +85,9 @@ class CreateClass extends Component {
           },
           body: JSON.stringify({
             className:this.state.courseName,
-            ids:this.state.addedStd
+            ids:this.state.addedStdID ,
+            fnames : this.state.addedStdFName ,
+            lnames : this.state.addedStdLName
           }),
        }).then(res => res.json()).then(console.log).catch(e=>{console.log("error during send classes data to backend")});
        
@@ -84,9 +98,9 @@ class CreateClass extends Component {
         let filteredArray = this.state.students.filter( (std)=>{
             return (`${std.fname} ${std.lname} ${std.id}`).toLowerCase().includes(this.state.search.toLowerCase());
         });
-        if (this.state.addedStd.length !== 0){
+        if (this.state.addedStdID.length !== 0){
         
-        this.state.addedStd.forEach((id) => {
+        this.state.addedStdID.forEach((id) => {
             let name = document.getElementById(id + 'label') ;
             if(name !== null){
             name.style.background = "#004d1a";
@@ -95,7 +109,7 @@ class CreateClass extends Component {
         })
     }
         filteredArray = filteredArray.map((std , i)=>{
-        return <label htmlFor={std.id} id={std.id + 'label'} key={std.id} className="student">{std.fname + ' ' + std.lname + ' | ' + std.id} <input type="checkbox" value={std.id} id={std.id} onChange={this.addStudent} className="check"/></label>
+        return <label htmlFor={std.id} id={std.id + 'label'} key={std.id} data-name={std.fname} className="student">{std.fname + ' ' + std.lname + ' | ' + std.id} <input type="checkbox" data-fname={std.fname} data-lname={std.lname} value={std.id} id={std.id} onChange={this.addStudent} className="check"/></label>
     })
       
         return (
