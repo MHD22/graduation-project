@@ -22,6 +22,12 @@
 .nav-font:hover {
   text-decoration: none;
 }
+/* #navbar button{
+  background-color: rgba(128, 128, 128, 0);
+  color: darkgrey;
+  padding: 6px;
+  outline: none;
+} */
 /* Nav end  */
 
 
