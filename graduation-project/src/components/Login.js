@@ -1,6 +1,4 @@
 import React from 'react' ;
-import { BrowserRouter as Router,Link} from 'react-router-dom';
-
 
 function Login(){
 
@@ -21,8 +19,8 @@ function Login(){
                 const {firstName,lastName,id_number} = data[0];
                 const storedData = {firstName,lastName,id_number};
                 sessionStorage.setItem('teacher',JSON.stringify(storedData));
-
-                window.location.reload();
+                window.location.replace("http://localhost:3001");
+                // window.location.reload();
             }
         })
         .catch("error during send student data to backend");
@@ -37,11 +35,7 @@ function Login(){
             <br/>
             <input name='teacherPassword' type="password" placeholder="Password.." className="form-input mt-4" required/>
             <br />
-            <Router>
-                <Link exact to="/">
-                <input type="submit" id='submit' onClick={checkId} value="Login" className="btn btn-success btn-submit mt-4"  />
-                </Link>
-            </Router>
+            <input type="submit" id='submit' onClick={checkId} value="Login" className="btn btn-success btn-submit mt-4"/>
         </form>
         </>
     );

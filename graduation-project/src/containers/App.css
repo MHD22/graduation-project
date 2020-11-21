@@ -54,6 +54,27 @@
   margin:0 10px;
 }
 
+a {
+  color: white !important;
+}
+
+.info {
+  color: white !important;
+}
+
+.info:hover {
+  color: white !important;
+  background-color: #343a40 !important;
+}
+
+.dropdown-menu{
+  background-color: #343a40 !important;
+  margin-top: 8px !important;
+  border-radius: 0 !important;
+  text-align: center !important;
+  opacity: 0.8;
+}
+
 /* Spinner */
 .loading {
   position: absolute;
@@ -182,3 +203,8 @@
  display: none;
 }
 /* form end */
+
+.class {
+  font-size: 15px;
+  font-family: 'Lobster';
+}

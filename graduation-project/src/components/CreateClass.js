@@ -14,7 +14,21 @@ class CreateClass extends Component {
             addedStdID : [] ,
             addedStdFName : [] ,
             addedStdLName : [] ,
-            courseName : ''
+            courseName : '' ,
+            hidePage : true 
+        }
+    }
+
+    //To Check if LoggedIn .
+    checkLoggedIn = () => {
+        const data = sessionStorage.getItem('teacher') ;
+        if(!data){
+            window.location.replace('http://localhost:3001/login') ;
+        }
+        else {
+            this.setState({
+                hidePage : false
+            })
         }
     }
 
@@ -24,6 +38,7 @@ class CreateClass extends Component {
     }
 
     componentDidMount() {
+        this.checkLoggedIn() ;
         fetch('http://localhost:3000/students')
         .then(res=> res.json()).then(data=>{
             this.setState({students:data} , ()=>{console.log(this.state.students)});
@@ -84,6 +99,7 @@ class CreateClass extends Component {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
+            teacherID : JSON.parse(sessionStorage.getItem('teacher')).id_number ,
             className:this.state.courseName,
             ids:this.state.addedStdID ,
             fnames : this.state.addedStdFName ,
@@ -114,7 +130,7 @@ class CreateClass extends Component {
       
         return (
             <>
-                <div className="mt-3 bg-black-10 shadow-5 p-5 ">
+                <div hidden={this.state.hidePage} className="mt-3 bg-black-10 shadow-5 p-5 ">
                     {isClickedNext === false ? 
                     <>
                         <h1 className="main-title">Add Class</h1>

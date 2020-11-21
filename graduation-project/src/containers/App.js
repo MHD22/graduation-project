@@ -19,6 +19,9 @@ class App extends Component {
   registerStudent =()=>{
     
   }
+
+
+
   render(){
     return (
       <div className="App">
@@ -26,10 +29,10 @@ class App extends Component {
           <NavBar />
           <Container>
             <Switch>
-              <Route path="/" exact component={Home} />
+              <Route path="/" exact component={Home}/>
               <Route path="/register" component={Register} />
               <Route path="/login" component={Login} />
-              <Route path="/about" component={About} />
+              <Route path="/about" component={About}/>
               <Route path="/create" component={()=><CreateClass/>} />
               <Route path="/show" component={()=><MyClasses/>} />
             </Switch>

@@ -23,9 +23,38 @@ class MyClasses extends Component{
             ] ,
             showImage : true ,
             showUploadBtn : false ,
-            load : false 
+            load : false ,
+            hidePage : true ,
+            classes : [] 
         }
     }
+
+    componentDidMount(){
+        this.checkLoggedIn() ;
+        fetch('http://localhost:3000/teacherClasses?id=' + JSON.parse(sessionStorage.getItem('teacher')).id_number)
+        .then(res=> res.json()).then(data=>{
+            this.setState({
+                classes : data
+            })
+            console.log(data);
+            console.log('State' , this.state.classes) ;
+        })
+        .catch(e=>console.log(e));
+    }
+
+    //To Check if LoggedIn .
+    checkLoggedIn = () => {
+        const data = sessionStorage.getItem('teacher') ;
+        if(!data){
+            window.location.replace('http://localhost:3001/login') ;
+        }
+        else {
+            this.setState({
+                hidePage : false
+            })
+        }
+    }
+
     checkAttendence = (e) => {
         this.setState({
             load : true
@@ -175,10 +204,22 @@ class MyClasses extends Component{
     }
 
     render() {
-    
+        let bgColors = ['bg-dark' , 'bg-primary' , 'bg-info' , 'bg-success' , 'bg-secondary'] ;
+        let rows = this.state.classes.map((cs)=>{
+            const num = parseInt(Math.random() * bgColors.length) ;
+            const classNames = `${bgColors[num]} col-md-5 ml-1 class rounded mt-1 text-center text-light` ;
+            return( 
+                <div key={cs._id} id={cs._id} className={classNames}>
+                    <h1>{cs.className}</h1>
+                    <p>Students : {cs.students.length}</p>
+                </div>
+            )
+            
+         });
+
         return (
-            <>  
-            {true?
+            <div hidden={this.state.hidePage}>  
+            {false?
                 <div className="container">
 
                     {/* Spinner when get the result */}
@@ -223,9 +264,14 @@ class MyClasses extends Component{
                     </div>
                 </div>
                 :
-                <div></div>
+                <div className="container text-center">
+                    <h1 className="main-title">Select A Class</h1>
+                    <div className="row d-flex justify-content-center">
+                        {rows}
+                    </div>
+                </div>
                 }
-            </>);
+            </div>);
     }
 }
 export default MyClasses ;
