@@ -2,30 +2,25 @@ import React from 'react' ;
 
 function Login(){
 
-    const checkId=(e)=>{
-        e.preventDefault();
-        const form = document.getElementById('signInForm');
-        // form.preventDefault();
-        console.log(form.teacherId.value,form.teacherPassword.value);
-        fetch('http://localhost:3000/loginTeacher',{
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({id: form.teacherId.value , password:form.teacherPassword.value }),
-        }).then(res => res.json())
-        .then(data=>{
-            if(data.length === 1){
-                const {firstName,lastName,id_number} = data[0];
-                const storedData = {firstName,lastName,id_number};
-                sessionStorage.setItem('teacher',JSON.stringify(storedData));
-                window.location.replace("http://localhost:3001");
-                // window.location.reload();
-            }
-        })
-        .catch("error during send student data to backend");
+    const checkId=(event)=>{
 
-    
+        event.preventDefault();
+        const form = document.getElementById('signInForm');
+        let user= {id: form.teacherId.value , password:form.teacherPassword.value };
+
+          checkTheUserData(user)
+          .then(userData=>{
+
+            if(isUserLoggedIn(userData)){
+                storedUserInSession(userData);
+                goToHomePage();   
+            }
+            else{
+                alert("ID OR Password is wrong! \n try again..")
+            }
+
+        })
+        .catch(e=>{console.log("error during send user data to backend within the sign in page.")});    
     };
     return(
         <>
@@ -41,3 +36,36 @@ function Login(){
     );
 }
 export default Login
+
+
+
+//helper functions:
+
+function isUserLoggedIn (userData){
+    if(userData.length===1){
+        return true;
+    }
+    return false;
+}
+
+function storedUserInSession(userData){
+    const {firstName,lastName,id_number} = userData[0];
+    const storedData = {firstName,lastName,id_number};
+    sessionStorage.setItem('teacher',JSON.stringify(storedData));
+}
+
+function goToHomePage(){
+    window.location.replace("http://localhost:3001");
+}
+
+function checkTheUserData(user){
+    return fetch('http://localhost:3000/loginTeacher',{
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(user),
+    })
+    .then(res => res.json())
+
+}

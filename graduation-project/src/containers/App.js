@@ -16,12 +16,8 @@ class App extends Component {
     super();
     this.state={};
   }
-  registerStudent =()=>{
-    
-  }
 
-
-
+  
   render(){
     return (
       <div className="App">

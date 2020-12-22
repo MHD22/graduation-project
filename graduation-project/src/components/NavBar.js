@@ -2,6 +2,10 @@ import React, { Component } from 'react' ;
 import { Navbar , Nav , NavDropdown} from 'react-bootstrap';
 import {NavLink} from 'react-router-dom' ;
 
+
+function getUserDataFromSession(){
+    return JSON.parse(sessionStorage.getItem('teacher')) || '';
+}
 class NavBar extends Component{
     constructor(){
         super();
@@ -11,9 +15,10 @@ class NavBar extends Component{
         }
     }
     componentDidMount(){
-        const data = JSON.parse(sessionStorage.getItem('teacher')) || '';
-        if(data){
-            const name =`${data.firstName} ${data.lastName}`;
+        const userData = getUserDataFromSession();
+        if(userData){
+
+            const name =`${userData.firstName} ${userData.lastName}`;
             this.setState({teacherName:name, login:true});
 
         }
@@ -24,7 +29,7 @@ class NavBar extends Component{
     
     logOut = () => {
         sessionStorage.clear() ;
-        window.location.reload() ;
+        window.location.reload();
     }
     
    
