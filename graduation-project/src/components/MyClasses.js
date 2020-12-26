@@ -11,21 +11,43 @@ class MyClasses extends Component{
             width : 0 ,
             height : 0,
             faces:[],
-            students:[
-                {id:1,name:'Mhd'},
-                {id:2,name:'Mazen'},
-                {id:3,name:'Maher'},
-                {id:4,name:'Osama'},
-                {id:5,name:'Rani'},
-                {id:6,name:'Myar'},
-                {id:7,name:'Hasan'},
-                {id:8,name:'Kamal'},
-            ] ,
+            students:[] ,
             showImage : true ,
             showUploadBtn : false ,
-            load : false 
+            load : false ,
+            hidePage : false ,
+            classes : [] 
         }
     }
+
+    componentDidMount(){
+        this.checkLoggedIn() ;
+        fetch('http://localhost:3000/teacherClasses?id=' + JSON.parse(sessionStorage.getItem('teacher')).id_number)
+        .then(res=> res.json()).then(data=>{
+            this.setState({
+                classes : data
+            })
+            console.log(data);
+            console.log('State' , this.state.classes) ;
+        })
+        .catch(e=>console.log(e));
+    }
+
+    //To Check if LoggedIn .
+    checkLoggedIn = () => {
+        const data = sessionStorage.getItem('teacher') ;
+        if(!data){
+            window.location.replace('http://localhost:3001/login') ;
+        }
+        else {
+            this.setState({
+                hidePage : false
+            })
+        }
+    }
+
+    
+
     checkAttendence = (e) => {
         this.setState({
             load : true
@@ -174,13 +196,38 @@ class MyClasses extends Component{
         }
     }
 
+    classClicked = (e) => {
+        const name = e.target.getAttribute('data-class') ;
+        var arr = []
+        this.state.classes.forEach(element => {
+            if(element.className === name){
+                element.students.forEach((std)=>{
+                    arr.push({id:std.id_number , name:std.firstName + std.lastName})
+                })
+            }
+        });
+        this.setState({
+            students:arr ,
+            hidePage : true 
+        })       
+    }
+
     render() {
-    
+        let bgColors = ['bg-dark' , 'bg-primary' , 'bg-info' , 'bg-success' , 'bg-secondary'] ;
+        let rows = this.state.classes.map((cs)=>{
+            const num = parseInt(Math.random() * bgColors.length) ;
+            const classNames = `${bgColors[num]} col-md-5 ml-1 class rounded mt-1 text-center text-light` ;
+            return( 
+                <div onClick={this.classClicked} key={cs._id} data-class={cs.className} data-student={cs.students} id={cs._id} className={classNames}>
+                    <h1 data-class={cs.className}>{cs.className}</h1>
+                    <p data-class={cs.className}>Students : {cs.students.length}</p>
+                </div>
+            )
+         });
+
         return (
             <>  
-            {true?
-                <div className="container">
-
+                <div className="container" hidden={!this.state.hidePage}>
                     {/* Spinner when get the result */}
                     <div className="loading" hidden={!this.state.load}>
                         <div className="circle"></div>
@@ -222,9 +269,12 @@ class MyClasses extends Component{
                         </div>
                     </div>
                 </div>
-                :
-                <div></div>
-                }
+                <div className="container text-center" hidden={this.state.hidePage}>
+                    <h1 className="main-title">Select A Class</h1>
+                    <div className="row d-flex justify-content-center">
+                        {rows}
+                    </div>
+                </div>
             </>);
     }
 }
