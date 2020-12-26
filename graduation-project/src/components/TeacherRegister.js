@@ -3,39 +3,42 @@ import React, { Component } from 'react' ;
 class TeacherRegister extends Component{
     constructor(){
         super();
-        this.state={
-            firstName : '',
-            lastName : '',
-            id_number: '',
-            password:'',
-        }
+        this.state={}
     }
-    // 
-    newTeacher=(e)=> { // triggers when select images
+    newTeacher=(e)=> {
         e.preventDefault();
         let formTeacher = document.getElementById('formTeacher');
-        let firstName= formTeacher.fname.value;
-        let lastName= formTeacher.lname.value;
-        let password= formTeacher.tpassword.value;
-        let id_number= formTeacher.t_id.value;
-        if(firstName && lastName && password && id_number){
-            this.setState({firstName, lastName,password,id_number}, ()=>{
-                console.log(this.state)
-                this.sendData() ;
-            });
+        let teacherData ={
+        firstName : formTeacher.fname.value,
+         lastName : formTeacher.lname.value,
+         password : formTeacher.tpassword.value,
+         id_number : formTeacher.t_id.value
+        }
+        
+        if(teacherData.firstName && teacherData.lastName && teacherData.password && teacherData.id_number){
+                this.storeTeacherDataInDB(teacherData) ;    
+        }
+        else {
+            alert("you should enter all the fields.")
+        }
     }
-}
 
-    //
-    sendData=() => {
+    storeTeacherDataInDB=(teacherData) => {
         
         fetch('http://localhost:3000/teachers',{
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
             },
-            body: JSON.stringify(this.state),
-        }).then(res => res.json()).then(console.log).catch("error during send student data to backend");
+            body: JSON.stringify(teacherData),
+        })
+        .then(res => res.json())
+        .then(res=>{
+            // response if added :   Teacher Added Successfully
+            // if not :          :   Teacher Is Already Exist.
+            console.log(res)
+        })
+        .catch("error during send Teacher data to backend");
         
         
     }; 
