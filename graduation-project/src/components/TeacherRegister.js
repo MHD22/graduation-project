@@ -1,4 +1,6 @@
 import React, { Component } from 'react' ;
+import {Modal , Button} from 'react-bootstrap' ;
+import { Redirect } from "react-router-dom";
 
 class TeacherRegister extends Component{
     constructor(){
@@ -10,10 +12,12 @@ class TeacherRegister extends Component{
         let formTeacher = document.getElementById('formTeacher');
         let teacherData ={
         firstName : formTeacher.fname.value,
-         lastName : formTeacher.lname.value,
-         password : formTeacher.tpassword.value,
-         id_number : formTeacher.t_id.value
+        lastName : formTeacher.lname.value,
+        password : formTeacher.tpassword.value,
+        id_number : formTeacher.t_id.value
         }
+
+        this.clearForm() ;
         
         if(teacherData.firstName && teacherData.lastName && teacherData.password && teacherData.id_number){
                 this.storeTeacherDataInDB(teacherData) ;    
@@ -36,13 +40,50 @@ class TeacherRegister extends Component{
         .then(res=>{
             // response if added :   Teacher Added Successfully
             // if not :          :   Teacher Is Already Exist.
+            if(res === 'Teacher Added Successfully'){
+                this.setState({
+                    title : 'Done' ,
+                    body : 'Teacher Added Successfully ..' ,
+                    show : true
+                });
+            }
+            else {
+                this.setState({
+                    title : 'Error' ,
+                    body : 'Teacher ID is already Used !!' ,
+                    show : true
+                });
+            }
             console.log(res)
         })
         .catch("error during send Teacher data to backend");
-        
-        
     }; 
+
+    clearForm = () => {
+        document.getElementById('fname').value = "" ;
+        document.getElementById('lname').value = "" ;
+        document.getElementById('t_id').value = "" ;
+        document.getElementById('tpassword').value = "" ;
+    }
+
+    handleClose = (e) => {
+        this.setState({
+            show : false 
+        }) ;
+    }
+
+    done = (e) => {
+        this.setState({
+            redirect : true
+        }) ;
+    }
+
     render(){
+
+        if(this.state.redirect){
+            return <Redirect to='/'/>;
+        }
+
         return(
             <>
             <form id="formTeacher">
@@ -59,6 +100,24 @@ class TeacherRegister extends Component{
                 Register
                 </button>
             </form>
+
+            <Modal
+                show={this.state.show}
+                onHide={this.handleClose}
+                backdrop="static"
+                keyboard={false}
+                size = "lg"
+                centered
+            >
+
+                <Modal.Title className="text-info text-center p-5 font-lobster">{this.state.title}</Modal.Title>
+
+                <Modal.Body className="text-center  font-acme">{this.state.body}</Modal.Body>
+                <Modal.Footer>
+                <Button variant="primary" className="text-center grow" onClick={this.done}>Done</Button>
+                </Modal.Footer>
+            </Modal>
+            
             </>
         );}
 }

@@ -20,6 +20,7 @@ class MyClasses extends Component{
         }
     }
 
+    // Get all the classes for the logged in teacher .
     componentDidMount(){
         this.checkLoggedIn() ;
         fetch('http://localhost:3000/teacherClasses?id=' + JSON.parse(sessionStorage.getItem('teacher')).id_number)
@@ -27,8 +28,6 @@ class MyClasses extends Component{
             this.setState({
                 classes : data
             })
-            console.log(data);
-            console.log('State' , this.state.classes) ;
         })
         .catch(e=>console.log(e));
     }
@@ -46,12 +45,12 @@ class MyClasses extends Component{
         }
     }
 
-    
-
+    // Will check the faces from the uploaded image .
     checkAttendence = (e) => {
         this.setState({
             load : true
         });
+
         //Create a reader to read an uploaded file .
         var reader = new FileReader();
         reader.readAsDataURL(e.target.files[0]);
@@ -88,13 +87,14 @@ class MyClasses extends Component{
         e.target.value = null;
     }
 
+    // To show checkAttendence page .
     setShowBtn = () => {
         this.setState({
             showUploadBtn : true 
         });
     }
 
-
+    // To detect faces from an image .
     faceRecognition = (img) => {
         var myHeaders = new Headers();
         myHeaders.append("token", "0ed0d51e90cc4f3ab510a564cfb94b60");
@@ -125,11 +125,19 @@ class MyClasses extends Component{
             //Change the background of context to the uploaded image .
             var image = document.getElementById('person') ;
             ctx.drawImage(image , 0 , 0) ;
-            
+            let studetnsIDs = this.state.students.map(std => {
+                return std.id 
+            });
             for(var i in result){
+            let name = result[i].name.substring(0 , result[i].name.indexOf('|')) ;
+            let id = result[i].name.substring(result[i].name.indexOf('|') + 2) ;
+            if(!studetnsIDs.includes(id)){
+                continue ;
+            }
             if(result[i].probability*100 < 90){
                 continue;
             }
+            
             faces.push(result[i].id);
             //Get the values of Rectangle .
             let {left} = result[i].rectangle ,
@@ -149,17 +157,18 @@ class MyClasses extends Component{
             ctx.strokeRect(left,top,Dim,Dim) ;
 
             //Type the name of person .
-            ctx.fillText(result[i].name , left, bottom + space) ;
+            ctx.fillText(name , left, bottom + space) ;
             }
+            let space = this.state.width / 20 ;
+            ctx.fillStyle = 'black' ;
+            let text = `${space}px serif`  ;
+            ctx.font = text ;
+            ctx.fillText(new Date().toLocaleString() , (this.state.width / 2) - 5 * space , 50) ;
             this.setState({faces:faces , showImage : false});
-            console.log('faces ids: ', this.state.faces);
-
-
             var final_image = canvas.toDataURL("image/png");
             this.setState({
                 file : final_image
             });
-            
             console.log(result) ;
             this.colorTable(result) ;
             this.setState({
@@ -170,14 +179,16 @@ class MyClasses extends Component{
         .catch(error => console.log('error', error));
     };
 
+    // To change the row color according to the attendence .
     colorTable = (result) => {
         var {students} = this.state ;
         for(var student of students){
             document.getElementById(student.id).className = '' ;
-            var stName = student.name ;
+            var stID = student.id ;
             for(var res of result){
-                var resName = res.name ;
-                if(stName === resName && res.probability * 100 > 90){
+                var resName = res.name.substring(res.name.indexOf('|') + 2) ;
+                console.log(stID) ;
+                if(stID === resName && res.probability * 100 > 90){
                     console.log(student.id) ;
                     document.getElementById(student.id + "").className = 'bg-success text-light' ;
                 }
@@ -185,6 +196,7 @@ class MyClasses extends Component{
         }
     }
 
+    // Clear data from upload image and recolor the table .
     clear = () => {
         this.setState({
             showImage : true ,
@@ -196,13 +208,14 @@ class MyClasses extends Component{
         }
     }
 
-    classClicked = (e) => {
+    // Get the student of each class .
+    CheckClass = (e) => {
         const name = e.target.getAttribute('data-class') ;
         var arr = []
         this.state.classes.forEach(element => {
             if(element.className === name){
                 element.students.forEach((std)=>{
-                    arr.push({id:std.id_number , name:std.firstName + std.lastName})
+                    arr.push({id:std.id_number , name:std.firstName +" "+ std.lastName})
                 })
             }
         });
@@ -212,13 +225,21 @@ class MyClasses extends Component{
         })       
     }
 
+    // Back to the classes page .
+    back = () => {
+        this.setState({
+            hidePage : false 
+        });
+        this.clear() ;
+    }
+
     render() {
         let bgColors = ['bg-dark' , 'bg-primary' , 'bg-info' , 'bg-success' , 'bg-secondary'] ;
         let rows = this.state.classes.map((cs)=>{
             const num = parseInt(Math.random() * bgColors.length) ;
-            const classNames = `${bgColors[num]} col-md-5 ml-1 class rounded mt-1 text-center text-light` ;
+            const classNames = `${bgColors[num]} col-md-5 ml-1 class rounded mt-1 text-center text-light cursor` ;
             return( 
-                <div onClick={this.classClicked} key={cs._id} data-class={cs.className} data-student={cs.students} id={cs._id} className={classNames}>
+                <div onClick={this.CheckClass} key={cs._id} data-class={cs.className} data-student={cs.students} id={cs._id} className={classNames}>
                     <h1 data-class={cs.className}>{cs.className}</h1>
                     <p data-class={cs.className}>Students : {cs.students.length}</p>
                 </div>
@@ -243,9 +264,9 @@ class MyClasses extends Component{
                             <h3 className="mt-2" style={{ fontFamily : 'Lobster' , color : '#343a40' }}>Student of the course</h3>
                             <StudentsTable students={this.state.students}/>
                         </div>
-                        
                         {/* Face recognition */}
                         <div className="col-md-6 align-self-center">
+                        <img className="mt-2" onClick={this.back} src="https://img.icons8.com/fluent/48/000000/circled-left.png"/>
                             <Button hidden = {this.state.showUploadBtn} onClick={this.setShowBtn} style={{ width : '100%' }} className="btn f3 grow btn-dark btn-submit mt-4">Check Attendence</Button>
                             <div hidden = {!this.state.showUploadBtn}>
                                 <label htmlFor="file2" style={{ width : '50%' , backgroundColor : 'darkcyan' }} className="mt-3 grow f4 btn text-light btn-submit">Upload Image</label>
@@ -261,7 +282,7 @@ class MyClasses extends Component{
                                 <canvas id="canvas" width={this.state.width} height={this.state.height} hidden></canvas>
 
                                 {/* The final result will be shown on the img below , that we can edit it's width and height . */}
-                                <img className="img-thumbnail mt-5" src={this.state.file || noImage} alt="Person" width="400" height='400' hidden = {this.state.showImage} />
+                                <img className="img-thumbnail mt-4" src={this.state.file || noImage} alt="Person" width="300" height='300' hidden = {this.state.showImage} />
                                 <br />
                                 <Button hidden = {this.state.showImage} onClick={this.clear} style={{ width : '30%' }} className="btn f3 grow btn-warning btn-submit mt-4">Clear</Button>
                                 <a className="btn f3 grow btn-info btn-submit mt-4" style={{ width : '30%' }} hidden = {this.state.showImage} href={`${this.state.file}`} download>Download</a>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button , Modal } from 'react-bootstrap';
 import './CreateClass.css';
+import { Redirect } from "react-router-dom";
 
 class CreateClass extends Component {
     constructor() {
@@ -15,7 +16,11 @@ class CreateClass extends Component {
             addedStdFName : [] ,
             addedStdLName : [] ,
             courseName : '' ,
-            hidePage : true 
+            hidePage : true ,
+            show : false ,
+            title : '' ,
+            body : '' ,
+            redirect : false
         }
     }
 
@@ -105,11 +110,35 @@ class CreateClass extends Component {
             fnames : this.state.addedStdFName ,
             lnames : this.state.addedStdLName
           }),
-       }).then(res => res.json()).then(console.log).catch(e=>{console.log("error during send classes data to backend")});
-       
+       }).then(res => res.json()).then(
+        this.setState({
+            title : 'Done' ,
+            body : 'Class Created Successfully ..' ,
+            show : true
+        })
+       ).catch(
+
+       );   
+    }
+
+    handleClose = (e) => {
+        this.setState({
+            show : false 
+        }) ;
+    }
+
+    done = (e) => {
+        this.setState({
+            redirect : true
+        }) ;
     }
 
     render() {
+
+        if(this.state.redirect){
+            return <Redirect to='/show'/>;
+        }
+
         const { isClickedNext } = this.state;
         let filteredArray = this.state.students.filter( (std)=>{
             return (`${std.fname} ${std.lname} ${std.id}`).toLowerCase().includes(this.state.search.toLowerCase());
@@ -152,6 +181,22 @@ class CreateClass extends Component {
                             <br />
                             <Button id='submit' className="btn f3 grow btn-success btn-submit" onClick={this.addNewClass}>Done</Button><br />
                     </>}
+                    <Modal
+                        show={this.state.show}
+                        onHide={this.handleClose}
+                        backdrop="static"
+                        keyboard={false}
+                        size = "lg"
+                        centered
+                    >
+
+                        <Modal.Title className="text-info text-center p-5 font-lobster">{this.state.title}</Modal.Title>
+
+                        <Modal.Body className="text-center  font-acme">{this.state.body}</Modal.Body>
+                        <Modal.Footer>
+                        <Button variant="primary" className="text-center grow" onClick={this.done}>Done</Button>
+                        </Modal.Footer>
+                    </Modal>
                 </div>
             </>);
     }

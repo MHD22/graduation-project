@@ -7,7 +7,22 @@
   font-family: 'Acme','Lobster';
 }
 
+.font-lobster {
+  font-family: 'Lobster';
+  letter-spacing: 2px;
+}
 
+.back {
+  outline: none;
+  border: none;
+  background-color: none;
+}
+
+.font-acme {
+  font-family: 'Acme';
+  letter-spacing: 2px;
+  font: 15px;
+}
 /* Nav bar styles start */
 .brand-font {
   font-family: 'Lobster';
@@ -207,4 +222,12 @@ a {
 .class {
   font-size: 15px;
   font-family: 'Lobster';
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.cursor:hover {
+  transform: scale(1.01 , 1.01);
 }
