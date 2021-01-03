@@ -43,7 +43,7 @@ class CreateClass extends Component {
     }
 
     componentDidMount() {
-        this.checkLoggedIn() ;
+        this.checkLoggedIn();
         fetch('http://localhost:3000/students')
         .then(res=> res.json()).then(data=>{
             this.setState({students:data} , ()=>{console.log(this.state.students)});
@@ -53,7 +53,6 @@ class CreateClass extends Component {
 
     handleFilter=(event)=>{
         this.setState({search:event.target.value});
-        console.log(this.state.search);
     }
 
     //Add the select student to the state .
@@ -97,40 +96,41 @@ class CreateClass extends Component {
 
     //Sende the students ids to the backend
     addNewClass = (e) => {
-        console.log(this.state.students);
+        let teacherID = JSON.parse(sessionStorage.getItem('teacher')).id_number;
+        let classData = {
+            teacherID,
+            className:this.state.courseName,
+            ids:this.state.addedStdID ,
+            fnames : this.state.addedStdFName ,
+            lnames : this.state.addedStdLName };
+
         fetch('http://localhost:3000/classes',{
            method: 'POST',
            headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            teacherID : JSON.parse(sessionStorage.getItem('teacher')).id_number ,
-            className:this.state.courseName,
-            ids:this.state.addedStdID ,
-            fnames : this.state.addedStdFName ,
-            lnames : this.state.addedStdLName
-          }),
-       }).then(res => res.json()).then(
-        this.setState({
+          body: JSON.stringify(classData),
+        })
+        .then(res => res.json())
+        .then(
+            this.setState({
             title : 'Done' ,
             body : 'Class Created Successfully ..' ,
             show : true
         })
-       ).catch(
-
-       );   
+       ).catch(e=>{console.log(e)});   
     }
 
     handleClose = (e) => {
         this.setState({
             show : false 
-        }) ;
+        });
     }
 
     done = (e) => {
         this.setState({
             redirect : true
-        }) ;
+        });
     }
 
     render() {
@@ -163,7 +163,7 @@ class CreateClass extends Component {
                     {isClickedNext === false ? 
                     <>
                         <h1 className="main-title">Add Class</h1>
-                        <input type="text" placeholder="Class Name" onChange={this.courseName} className="form-input mt-4" />
+                        <input type="text" placeholder="Class Name" onChange={this.courseName} className="form-input mt-4" required />
                         <br />
                         <Button onClick={this.next} id='submit' className="btn f3 grow btn-success btn-submit mt-4">Next</Button>
                     </>
@@ -191,7 +191,6 @@ class CreateClass extends Component {
                     >
 
                         <Modal.Title className="text-info text-center p-5 font-lobster">{this.state.title}</Modal.Title>
-
                         <Modal.Body className="text-center  font-acme">{this.state.body}</Modal.Body>
                         <Modal.Footer>
                         <Button variant="primary" className="text-center grow" onClick={this.done}>Done</Button>

@@ -96,23 +96,21 @@ class MyClasses extends Component{
 
     // To detect faces from an image .
     faceRecognition = (img) => {
-        var myHeaders = new Headers();
-        myHeaders.append("token", "0ed0d51e90cc4f3ab510a564cfb94b60");
 
         var formdata = new FormData();
         formdata.append("photo", img, "file");
 
         var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: formdata,
-        redirect: 'follow'
-    };
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+          };
+          
 
-        fetch("https://api.luxand.cloud/photo/search", requestOptions)
+
+        fetch('http://localhost:3000/checkImage',requestOptions)
         .then(response => response.json())
         .then(result => {
-            let faces=[];
             //Define canvas to draw rectangle .
             let canvas = document.getElementById('canvas') ;
             let ctx = canvas.getContext('2d') ;
@@ -138,7 +136,7 @@ class MyClasses extends Component{
                 continue;
             }
             
-            faces.push(result[i].id);
+            
             //Get the values of Rectangle .
             let {left} = result[i].rectangle ,
             {right} = result[i].rectangle ,
@@ -164,12 +162,11 @@ class MyClasses extends Component{
             let text = `${space}px serif`  ;
             ctx.font = text ;
             ctx.fillText(new Date().toLocaleString() , (this.state.width / 2) - 5 * space , 50) ;
-            this.setState({faces:faces , showImage : false});
+            this.setState({showImage : false});
             var final_image = canvas.toDataURL("image/png");
             this.setState({
                 file : final_image
             });
-            console.log(result) ;
             this.colorTable(result) ;
             this.setState({
                 load : false
@@ -187,9 +184,7 @@ class MyClasses extends Component{
             var stID = student.id ;
             for(var res of result){
                 var resName = res.name.substring(res.name.indexOf('|') + 2) ;
-                console.log(stID) ;
                 if(stID === resName && res.probability * 100 > 90){
-                    console.log(student.id) ;
                     document.getElementById(student.id + "").className = 'bg-success text-light' ;
                 }
             }
@@ -266,7 +261,7 @@ class MyClasses extends Component{
                         </div>
                         {/* Face recognition */}
                         <div className="col-md-6 align-self-center">
-                        <img className="mt-2" onClick={this.back} src="https://img.icons8.com/fluent/48/000000/circled-left.png"/>
+                        <img className="mt-2" onClick={this.back} src="https://img.icons8.com/fluent/48/000000/circled-left.png" alt="go back"/>
                             <Button hidden = {this.state.showUploadBtn} onClick={this.setShowBtn} style={{ width : '100%' }} className="btn f3 grow btn-dark btn-submit mt-4">Check Attendence</Button>
                             <div hidden = {!this.state.showUploadBtn}>
                                 <label htmlFor="file2" style={{ width : '50%' , backgroundColor : 'darkcyan' }} className="mt-3 grow f4 btn text-light btn-submit">Upload Image</label>
