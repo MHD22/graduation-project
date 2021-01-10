@@ -2,6 +2,7 @@ import { Button } from 'react-bootstrap';
 import React, { Component } from 'react';
 import noImage from '../noImage.png';
 import StudentsTable from './StudentsTable';
+import { storage } from '../firebase/index';
 
 class MyClasses extends Component {
     constructor() {
@@ -17,8 +18,10 @@ class MyClasses extends Component {
             load: false,
             hidePage: false,
             classes: [],
-            selected_class: '' ,
-            imgs : []
+            selected_class: '',
+            imgs: [],
+            faces: [] ,
+            disableButton : false
         }
     }
 
@@ -82,6 +85,7 @@ class MyClasses extends Component {
         const img = e.target;
         if (img) {
             this.setState({
+                file2: e.target.files[0],
                 file: URL.createObjectURL(e.target.files[0])
             })
             this.faceRecognition(img.files[0]);
@@ -94,6 +98,31 @@ class MyClasses extends Component {
         this.setState({
             showUploadBtn: true
         });
+    }
+
+    sendHistoryData = () => {
+        var requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'ids': this.state.ids,
+                'imgs': this.state.imgs
+            }),
+        };
+
+        fetch(`http://localhost:3000/history/${this.state.selected_class}`, requestOptions)
+            .then(res => res.json())
+            .then(console.log)
+            .catch(e => {console.log("An Error occured while sending history Data .." , e)});
+
+            this.setState({
+                ids : [] ,
+                imgs : [] ,
+                selected_class : [] ,
+                disableButton : true
+            })
     }
 
     // To detect faces from an image .
@@ -113,6 +142,8 @@ class MyClasses extends Component {
         fetch('http://localhost:3000/checkImage', requestOptions)
             .then(response => response.json())
             .then(result => {
+
+                console.log(result);
                 //Define canvas to draw rectangle .
                 let canvas = document.getElementById('canvas');
                 let ctx = canvas.getContext('2d');
@@ -161,7 +192,7 @@ class MyClasses extends Component {
                     ctx.fillText(name, left, bottom + space);
                 }
                 this.setState({
-                    ids: ids ,
+                    ids: ids,
                     // imgs : [imagesLink]
                 });
                 let space = this.state.width / 20;
@@ -171,10 +202,16 @@ class MyClasses extends Component {
                 ctx.fillText(new Date().toLocaleString(), (this.state.width / 2) - 5 * space, 50);
                 this.setState({ showImage: false });
                 // Store image in firebase ........
-                var final_image = canvas.toDataURL("image/png");
+                var dataURL = canvas.toDataURL("image/png");
+                console.log(ids);
                 this.setState({
-                    file: final_image
+                    file: dataURL
                 });
+
+                let formdata = this.getImageURL(dataURL);
+                this.convertImageToURL(formdata.get('image'));
+
+                console.log("Imgs : ", this.state.imgs);
                 this.colorTable(result);
                 this.setState({
                     load: false
@@ -184,18 +221,48 @@ class MyClasses extends Component {
             .catch(error => console.log('error', error));
     };
 
+    getImageURL(dataURL) {
+        var blobBin = atob(dataURL.split(',')[1]);
+        var array = [];
+        for (let i = 0; i < blobBin.length; i++) {
+            array.push(blobBin.charCodeAt(i));
+        }
+        var file = new Blob([new Uint8Array(array)], { type: 'image/png' });
+        var formdata = new FormData();
+        formdata.append("image", file);
+        return formdata;
+    }
+
+    convertImageToURL(image) {
+        if (image) {
+            const upload = storage.ref(`images/${image.name}`).put(image);
+            upload.on('state_changed',
+                (snapshot) => { },
+                (err) => {
+                    console.log("error while getting data from firebase.\n", err);
+                    return '';
+                },
+                () => {
+                    storage.ref('images').child(image.name).getDownloadURL().then(urll => {
+                        console.log(urll);
+
+                        let imgs = [].concat(this.state.imgs);
+                        imgs.push(urll);
+                        this.setState({
+                            imgs: imgs
+                        })
+                        return urll;
+                    })
+
+                })
+        }
+    }
+
     // To change the row color according to the attendence .
     colorTable = (result) => {
-        var { students } = this.state;
-        for (var student of students) {
-            document.getElementById(student.id).className = '';
-            var stID = student.id;
-            for (var res of result) {
-                var resName = res.name.substring(res.name.indexOf('|') + 2);
-                if (stID === resName && res.probability * 100 > 90) {
-                    document.getElementById(student.id + "").className = 'bg-success text-light';
-                }
-            }
+        var { ids } = this.state;
+        for (let i of ids) {
+            document.getElementById(i + "").className = 'bg-success text-light';
         }
     }
 
@@ -227,7 +294,7 @@ class MyClasses extends Component {
         });
         this.setState({
             ids: [],
-            imgs : [] ,
+            imgs: [],
             students: arr,
             hidePage: true,
         })
@@ -277,8 +344,8 @@ class MyClasses extends Component {
                             <img className="mt-2" onClick={this.back} src="https://img.icons8.com/fluent/48/000000/circled-left.png" alt="go back" />
                             <Button hidden={this.state.showUploadBtn} onClick={this.setShowBtn} style={{ width: '100%' }} className="btn f3 grow btn-dark btn-submit mt-4">Check Attendence</Button>
                             <div hidden={!this.state.showUploadBtn}>
-                                <label htmlFor="file2" style={{ width: '50%', backgroundColor: 'darkcyan' }} className="mt-3 grow f4 btn text-light btn-submit">Upload Image</label>
-                                <input hidden onChange={this.checkAttendence} type="file" accept="image/*" id="file2" className="form-file mt-4" required />
+                                <label htmlFor="file2" style={{ width: '50%', backgroundColor: 'darkcyan' }} className="mt-3 grow f4 btn text-light btn-submit">{(this.state.ids.length === 0) ? 'Check Image' : 'Check another Image'}</label>
+                                <input hidden onChange={this.checkAttendence} type="file" accept="image/*" id="file2" className="form-file mt-4" required disabled={this.state.disableButton} />
                                 <br />
                                 <p hidden={!this.state.showImage} className="mt-5" style={{ fontFamily: 'Acme' }}>To Check Attendence Upload an image for class student , then the system will check it .</p>
                                 <p hidden={!this.state.showImage} style={{ fontFamily: 'Acme' }}><span className="bg-success p-1 text-light rounded">Green</span> rows on table represents the Attendees student , and the <span className="bg-dark p-1 text-light rounded">white</span> rows for Absence students . </p>
@@ -294,7 +361,9 @@ class MyClasses extends Component {
                                 <br />
                                 <Button hidden={this.state.showImage} onClick={this.clear} style={{ width: '30%' }} className="btn f3 grow btn-warning btn-submit mt-4">Clear</Button>
                                 <a className="btn f3 grow btn-info btn-submit mt-4" style={{ width: '30%' }} hidden={this.state.showImage} href={`${this.state.file}`} download>Download</a>
-                            </div>
+                                <br />
+                                <Button hidden={this.state.showImage} onClick={this.sendHistoryData} style={{ width: '30%' }} className="btn f3 grow btn-success btn-submit mt-4 mb-4" disabled={!this.state.ids.length}>Done</Button>
+                            </div> 
                         </div>
                     </div>
                 </div>
