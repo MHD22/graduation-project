@@ -1,9 +1,16 @@
 import React, { Component } from 'react' ;
+import {Modal , Button} from 'react-bootstrap' ;
+import { Redirect } from "react-router-dom";
 
 class StudentRegister extends Component{
     constructor(){
         super();
-        this.state={}
+        this.state={
+            show : false ,
+            title : '' ,
+            body : '' ,
+            redirect : false
+        }
     }
     checkThreeImages(file) {
         return file.files.length === 3;
@@ -52,15 +59,47 @@ class StudentRegister extends Component{
         .then(responseStudentData=>{
             // response if added: Student Is Added Successfuly
             // if exist : The Student Is Already Exist
+            if(responseStudentData === 'Student Is Added Successfuly'){
+                this.setState({
+                    title : 'Done' ,
+                    body : 'Student Added Successfully ..' ,
+                    show : true
+                });
+            }
+            else {
+                this.setState({
+                    title : 'Error' ,
+                    body : 'Student ID is already Used !!' ,
+                    show : true
+                });
+                document.getElementById('id_number').style.boxShadow = "2px 2px 10px red" ;
+            }
             console.log(responseStudentData);  
         })
         .catch(e=>{console.log("error while create the person..",e)});   //fffff
     }
 
+    handleClose = (e) => {
+        this.setState({
+            show : false 
+        }) ;
+    }
+
+    done = (e) => {
+        this.setState({
+            redirect : true
+        }) ;
+    }
+
     render(){
+
+        if(this.state.redirect){
+            return <Redirect to='/'/>;
+        }
+
         return(
             <>
-            <form id="formStudent">
+            <form id="formStudent" hidden={this.state.hideform}>
                 <input type="text" id="firstName" placeholder="First Name .." className="form-input mt-4" name="firstName" required />
                 <br />
                 <input type="text" placeholder="Last Name .." className="form-input mt-4" name="lastName" required/>
@@ -77,6 +116,24 @@ class StudentRegister extends Component{
                 Register
                 </button>
             </form>
+            
+            <Modal
+                show={this.state.show}
+                onHide={this.handleClose}
+                backdrop="static"
+                keyboard={false}
+                size = "lg"
+                centered
+            >
+
+                <Modal.Title className="text-info text-center p-5 font-lobster">{this.state.title}</Modal.Title>
+
+                <Modal.Body className="text-center  font-acme">{this.state.body}</Modal.Body>
+                <Modal.Footer>
+                <Button variant="primary" className="text-center grow" onClick={this.done}>Done</Button>
+                </Modal.Footer>
+            </Modal>
+
             </>
         );}
 }

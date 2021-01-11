@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button , Modal } from 'react-bootstrap';
 import './CreateClass.css';
+import { Redirect } from "react-router-dom";
 
 class CreateClass extends Component {
     constructor() {
@@ -15,7 +16,11 @@ class CreateClass extends Component {
             addedStdFName : [] ,
             addedStdLName : [] ,
             courseName : '' ,
-            hidePage : true 
+            hidePage : true ,
+            show : false ,
+            title : '' ,
+            body : '' ,
+            redirect : false
         }
     }
 
@@ -38,7 +43,7 @@ class CreateClass extends Component {
     }
 
     componentDidMount() {
-        this.checkLoggedIn() ;
+        this.checkLoggedIn();
         fetch('http://localhost:3000/students')
         .then(res=> res.json()).then(data=>{
             this.setState({students:data} , ()=>{console.log(this.state.students)});
@@ -48,7 +53,6 @@ class CreateClass extends Component {
 
     handleFilter=(event)=>{
         this.setState({search:event.target.value});
-        console.log(this.state.search);
     }
 
     //Add the select student to the state .
@@ -92,24 +96,49 @@ class CreateClass extends Component {
 
     //Sende the students ids to the backend
     addNewClass = (e) => {
-        console.log(this.state.students);
+        let teacherID = JSON.parse(sessionStorage.getItem('teacher')).id_number;
+        let classData = {
+            teacherID,
+            className:this.state.courseName,
+            ids:this.state.addedStdID ,
+            fnames : this.state.addedStdFName ,
+            lnames : this.state.addedStdLName };
+
         fetch('http://localhost:3000/classes',{
            method: 'POST',
            headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            teacherID : JSON.parse(sessionStorage.getItem('teacher')).id_number ,
-            className:this.state.courseName,
-            ids:this.state.addedStdID ,
-            fnames : this.state.addedStdFName ,
-            lnames : this.state.addedStdLName
-          }),
-       }).then(res => res.json()).then(console.log).catch(e=>{console.log("error during send classes data to backend")});
-       
+          body: JSON.stringify(classData),
+        })
+        .then(res => res.json())
+        .then(
+            this.setState({
+            title : 'Done' ,
+            body : 'Class Created Successfully ..' ,
+            show : true
+        })
+       ).catch(e=>{console.log(e)});   
+    }
+
+    handleClose = (e) => {
+        this.setState({
+            show : false 
+        });
+    }
+
+    done = (e) => {
+        this.setState({
+            redirect : true
+        });
     }
 
     render() {
+
+        if(this.state.redirect){
+            return <Redirect to='/show'/>;
+        }
+
         const { isClickedNext } = this.state;
         let filteredArray = this.state.students.filter( (std)=>{
             return (`${std.fname} ${std.lname} ${std.id}`).toLowerCase().includes(this.state.search.toLowerCase());
@@ -134,7 +163,7 @@ class CreateClass extends Component {
                     {isClickedNext === false ? 
                     <>
                         <h1 className="main-title">Add Class</h1>
-                        <input type="text" placeholder="Class Name" onChange={this.courseName} className="form-input mt-4" />
+                        <input type="text" placeholder="Class Name" onChange={this.courseName} className="form-input mt-4" required />
                         <br />
                         <Button onClick={this.next} id='submit' className="btn f3 grow btn-success btn-submit mt-4">Next</Button>
                     </>
@@ -152,6 +181,21 @@ class CreateClass extends Component {
                             <br />
                             <Button id='submit' className="btn f3 grow btn-success btn-submit" onClick={this.addNewClass}>Done</Button><br />
                     </>}
+                    <Modal
+                        show={this.state.show}
+                        onHide={this.handleClose}
+                        backdrop="static"
+                        keyboard={false}
+                        size = "lg"
+                        centered
+                    >
+
+                        <Modal.Title className="text-info text-center p-5 font-lobster">{this.state.title}</Modal.Title>
+                        <Modal.Body className="text-center  font-acme">{this.state.body}</Modal.Body>
+                        <Modal.Footer>
+                        <Button variant="primary" className="text-center grow" onClick={this.done}>Done</Button>
+                        </Modal.Footer>
+                    </Modal>
                 </div>
             </>);
     }

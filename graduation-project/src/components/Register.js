@@ -29,7 +29,7 @@ class Register extends Component{
 
     
     return(
-        <div className="mt-3 bg-black-10 shadow-5 p-5 ">
+        <div>
         <h1 className="main-title">Register Page</h1>
         <br/>
         <div className="row text-center">

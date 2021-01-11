@@ -9,6 +9,7 @@ import CreateClass from '../components/CreateClass' ;
 import MyClasses from '../components/MyClasses' ;
 import {BrowserRouter , Route,Switch} from 'react-router-dom' ;
 import { Container } from 'react-bootstrap';
+import Footer from '../components/Footer' ;
 
 
 class App extends Component {
@@ -34,6 +35,7 @@ class App extends Component {
             </Switch>
           </Container>
         </BrowserRouter>
+        <Footer />
       </div>
     );
   }
