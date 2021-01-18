@@ -3,6 +3,7 @@ import { Component } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import AddStudents from './AddStudents';
+import Swal from 'sweetalert2'
 
 class EditClass extends Component {
     constructor(){
@@ -37,25 +38,34 @@ class EditClass extends Component {
     }
 
     deleteStd=(id)=> {
-        let conf = window.confirm("Are you sure you want to delete ..");
-        if (conf) {
-            let changedList =[].concat(this.state.lastStateOfStudents);
-            let lastStateOfStudents = changedList.length? changedList : [].concat(this.state.students); 
-            lastStateOfStudents = lastStateOfStudents.filter(std => {
-                return std.id !== id;
-            })
-            let rows = this.state.rows;
-            rows = rows.filter(std => std.key !== id);
-            this.setState({
-                rows,
-                isThereChanges:true,
-                lastStateOfStudents
-            });
-        }
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'User will have Admin Privileges',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33', 
+            confirmButtonText: 'Yes!'
+        })
+        .then((result) => {
+            if (result.value) {
+                let changedList =[].concat(this.state.lastStateOfStudents);
+                let lastStateOfStudents = changedList.length? changedList : [].concat(this.state.students); 
+                lastStateOfStudents = lastStateOfStudents.filter(std => {
+                    return std.id !== id;
+                })
+                let rows = this.state.rows;
+                rows = rows.filter(std => std.key !== id);
+                this.setState({
+                    rows,
+                    isThereChanges:true,
+                    lastStateOfStudents
+                });
+            }
+        })
     }
 
     addStd=(arr)=>{
-
         let changedList =[].concat(this.state.lastStateOfStudents);
         let lastStateOfStudents = changedList.length? changedList : [].concat(this.state.students); 
         let idsOfCurrentStudents = lastStateOfStudents.map(obj=>obj.id).join(' ');
@@ -79,67 +89,95 @@ class EditClass extends Component {
     }
 
     onDeleteClass=()=>{
-        let classData={
-            className:this.props.classInfo.className
-        }
-        let url='http://localhost:3000/deleteClass';
-        let requestOptions={
-            method: 'DELETE',
-            headers: {
-             'Content-Type': 'application/json',
-           },
-           body: JSON.stringify(classData),
-         }
-        fetch(url, requestOptions)
-        .then(res=>res.json())
-        .then(console.log)
-        .catch(e=>{console.log("error on Delete class request..",e)});
-
-        this.setState({route:'/'});
-
-
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'User will have Admin Privileges',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33', 
+            confirmButtonText: 'Yes!'
+        })
+        .then((result) => {
+            if(result.value){
+                let classData={
+                    className:this.props.classInfo.className
+                }
+                let url='http://localhost:3000/deleteClass';
+                let requestOptions={
+                    method: 'DELETE',
+                    headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(classData),
+                }
+                fetch(url, requestOptions)
+                .then(res=>res.json())
+                .then(console.log)
+                .catch(e=>{console.log("error on Delete class request..",e)});
+                this.setState({route:'/'});
+            }
+        })
     }
 
     onConfirm=()=>{
-        let classData={
-            className:this.props.classInfo.className,
-            students : this.state.lastStateOfStudents
-        }
-        let url='http://localhost:3000/editClass';
-        let requestOptions={
-            method: 'PUT',
-            headers: {
-             'Content-Type': 'application/json',
-           },
-           body: JSON.stringify(classData),
-         }
-        fetch(url, requestOptions)
-        .then(res=>res.json())
-        .then(console.log)
-        .catch(e=>{console.log("error on edit class request..",e)});
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'User will have Admin Privileges',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33', 
+            confirmButtonText: 'Yes!'
+        })
+        .then((result) => {
+            if(result.value){
+                let classData={
+                    className:this.props.classInfo.className,
+                    students : this.state.lastStateOfStudents
+                }
+                let url='http://localhost:3000/editClass';
+                let requestOptions={
+                    method: 'PUT',
+                    headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(classData),
+                }
+                fetch(url, requestOptions)
+                .then(res=>res.json())
+                .then(console.log)
+                .catch(e=>{console.log("error on edit class request..",e)});
 
-        this.setState({
-            isThereChanges:false,
-            lastStateOfStudents:[],
-            route:'/'
-        });
+                this.setState({
+                    isThereChanges:false,
+                    lastStateOfStudents:[],
+                    route:'/'
+                });
+            }
+        })
     }
 
     onCancel=()=>{
         this.renderTable(this.state.students);
-
         this.setState({
         isThereChanges:false,
         lastStateOfStudents:[]
     });
     }
 
+    back = () => {
+        this.setState({
+            route:'/show'
+        });
+    }
+
     render(){
         let {rows} = this.state;
         return (
-
             <>
                 {this.state.route? <Redirect to={this.state.route}/> : null}
+                <img className="mt-2 grow pointer" onClick={this.back} src="https://img.icons8.com/fluent/48/000000/circled-left.png" alt="go back" />
                 <h2 className="f2 mt4 ">{this.props.classInfo.className}</h2>
                 <>
                     <table className="table table-bordered mt5" style={{ width: '100%' }}>

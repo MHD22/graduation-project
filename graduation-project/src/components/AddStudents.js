@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
+import Swal from 'sweetalert2' ;
+
 class AddStudents extends Component {
     constructor() {
         super();
@@ -26,10 +28,16 @@ class AddStudents extends Component {
             })
 
         console.log(this.state)
-
     }
 
-
+    opensweetalert = () => {
+        Swal.fire({
+        title: 'Success',
+        text: 'Class Created Successfully !',
+        type: 'success',
+        })
+        this.done() ;
+    }
 
     addNewClass = (e) => {
         let teacherID = JSON.parse(sessionStorage.getItem('teacher')).id_number;
@@ -49,13 +57,18 @@ class AddStudents extends Component {
             body: JSON.stringify(classData),
         })
             .then(res => res.json())
+            .then(console.log)
             .then(
                 this.setState({
                     title: 'Done',
                     body: 'Class Created Successfully ..',
                     show: true
-                })
-            ).catch(e => { console.log(e) });
+                }) ,
+                this.opensweetalert() 
+            )
+            .catch(
+                e => { console.log(e) }
+            );
     }
 
     addStudent = (e) => {
@@ -158,22 +171,6 @@ class AddStudents extends Component {
                             :
                             this.editStudents
                     }>Done</button><br />
-
-                <Modal
-                    show={this.state.show}
-                    onHide={this.handleClose}
-                    backdrop="static"
-                    keyboard={false}
-                    size="lg"
-                    centered
-                >
-
-                    <Modal.Title className="text-info text-center p-5 font-lobster">{this.state.title}</Modal.Title>
-                    <Modal.Body className="text-center  font-acme">{this.state.body}</Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="primary" className="text-center grow" onClick={this.done}>Done</Button>
-                    </Modal.Footer>
-                </Modal>
             </>
         )
     }
