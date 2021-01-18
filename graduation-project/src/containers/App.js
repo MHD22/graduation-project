@@ -31,7 +31,7 @@ class App extends Component {
               <Route path="/login" component={Login} />
               <Route path="/about" component={About}/>
               <Route path="/create" component={()=><CreateClass/>} />
-              <Route path="/show" component={()=><MyClasses/>} />
+              <Route path="/show" component={MyClasses} />
             </Switch>
           </Container>
         </BrowserRouter>

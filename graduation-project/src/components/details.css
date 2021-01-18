@@ -1,0 +1,7 @@
+#imageContainer {
+    display:grid;
+    grid-template-columns: repeat( auto-fit, minmax(300px, .5fr) );
+    justify-content:center;
+    gap:30px;
+    padding:30px;
+}
