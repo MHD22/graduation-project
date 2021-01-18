@@ -16,13 +16,18 @@ class History extends Component {
         }
     }
     componentDidMount() {
+        console.log(this.props.selected_class,"aaaaa");
         let url = `http://localhost:3000/classHistory/${this.props.selected_class}`;
         fetch(url)
             .then(response => response.json())
             .then(classData => {
+                let allStudents = classData.students.map(std=>{
+                    return { id:std.id_number,
+                            name:std.firstName + ' ' + std.lastName}
+                })
                 this.setState({ 
                     history: classData.history ,
-                    allStudents: classData.students
+                    allStudents: allStudents
                 });
             })
             .catch(e => { console.log("error while getting history data \n", e) });

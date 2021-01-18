@@ -5,6 +5,8 @@ import StudentsTable from './StudentsTable';
 import Details from './Details';
 import History from './History';
 import { storage } from '../firebase/index';
+import EditClass from './EditClass';
+import {  Redirect, Route} from 'react-router-dom';
 
 class MyClasses extends Component {
     constructor() {
@@ -26,40 +28,47 @@ class MyClasses extends Component {
             imgs: [],
             faces: [],
             disableButton: false,
-            direction:'check' // OR history , details
-
+            direction: 'check', // OR history , details , edit
+            historyData: {},
+            route: null,
+            doneDisable: true
         }
     }
 
     // Get all the classes for the logged in teacher .
     componentDidMount() {
-        this.checkLoggedIn();
-        fetch('http://localhost:3000/teacherClasses?id=' + JSON.parse(sessionStorage.getItem('teacher')).id_number)
-            .then(res => res.json()).then(data => {
-                this.setState({
-                    classes: data
+
+        if(this.checkLoggedIn()){
+            fetch('http://localhost:3000/teacherClasses?id=' + JSON.parse(sessionStorage.getItem('teacher')).id_number)
+                .then(res => res.json()).then(data => {
+                    this.setState({
+                        classes: data,
+    
+                    })
                 })
-            })
-            .catch(e => console.log(e));
+                .catch(e => console.log(e));
+        }
     }
 
     //To Check if LoggedIn .
     checkLoggedIn = () => {
         const data = sessionStorage.getItem('teacher');
         if (!data) {
-            window.location.replace('http://localhost:3001/login');
+           this.setState({
+               route:'/login'
+           })
+           return false;
         }
         else {
-            this.setState({
-                hidePage: false
-            })
+            return true;
         }
     }
 
     // Will check the faces from the uploaded image .
     checkAttendence = (e) => {
         this.setState({
-            load: true
+            load: true,
+            doneDisable: true
         });
 
         //Create a reader to read an uploaded file .
@@ -107,7 +116,6 @@ class MyClasses extends Component {
     }
 
     sendHistoryData = () => {
-        debugger
         let requestOptions = {
             method: 'POST',
             headers: {
@@ -123,13 +131,23 @@ class MyClasses extends Component {
             .then(res => res.json())
             .then(console.log)
             .catch(e => { console.log("An Error occured while sending history Data ..", e) });
+        let date = new Date();
+        let fullDate = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+        let historyData = {
+            students: this.state.ids,
+            allStudents: this.state.students,
+            imgs: this.state.imgs,
+            className: this.state.selected_class,
+            date: fullDate
+        };
 
         this.setState({
             ids: [],
             imgs: [],
             selected_class: [],
+            historyData: historyData,
             disableButton: true,
-            direction:'history'
+            route: '/show/details',
         })
     }
 
@@ -243,7 +261,8 @@ class MyClasses extends Component {
 
     convertImageToURL(image) {
         if (image) {
-            const upload = storage.ref(`images/${image.name}`).put(image);
+            let imageName = "studentsImage" + new Date().getTime();
+            const upload = storage.ref(`images/${imageName}`).put(image);
             upload.on('state_changed',
                 (snapshot) => { },
                 (err) => {
@@ -251,13 +270,14 @@ class MyClasses extends Component {
                     return '';
                 },
                 () => {
-                    storage.ref('images').child(image.name).getDownloadURL().then(urll => {
+                    storage.ref('images').child(imageName).getDownloadURL().then(urll => {
                         console.log(urll);
 
                         let imgs = [].concat(this.state.imgs);
                         imgs.push(urll);
                         this.setState({
-                            imgs: imgs
+                            imgs: imgs,
+                            doneDisable: false
                         })
                         return urll;
                     })
@@ -305,24 +325,39 @@ class MyClasses extends Component {
             imgs: [],
             students: arr,
             hidePage: true,
+            route: '/show/classData'
         })
     }
+
+    editClass = () => {
+        this.setState({
+            direction: 'edit',
+            route: '/show/editClass'
+        });
+    }
+
 
     // Back to the classes page .
     back = () => {
         this.setState({
-            hidePage: false
+            hidePage: false,
+            route:'/show'
         });
         this.clear();
     }
 
-    setDirectionHistory=()=>{
+    showHistoryPage = () => {
         this.setState({
-            direction: 'history'
+            route: '/show/classHistory'
         });
     }
 
     render() {
+        let {path} = this.props.match;
+        let classInfo = {
+            'students': this.state.students,
+            'className': this.state.selected_class
+        };
         let bgColors = ['bg-dark', 'bg-primary', 'bg-info', 'bg-success', 'bg-secondary'];
         let rows = this.state.classes.map((cs) => {
             const num = parseInt(Math.random() * bgColors.length);
@@ -335,14 +370,26 @@ class MyClasses extends Component {
             )
         });
 
+
         return (
 
-            <>  
 
-                {this.state.direction === 'history' && (<History selected_class={this.state.selected_class}/>)}
-                {this.state.direction === 'details' && (<Details/>)}
-                {this.state.direction === 'check' &&(<>
-                    <div className="container" hidden={!this.state.hidePage}>
+            <>
+                {this.state.route ? <Redirect to={this.state.route} /> : null}
+                <Route path={`${path}/editClass`} component={() => <EditClass classInfo={classInfo} />} />
+                <Route path={`${path}/classHistory`} component={() => <History selected_class={this.state.selected_class} />} />
+                <Route path={`${path}/details`} component={() => <Details historyData={this.state.historyData} />} />
+                <Route path={`${path}`} exact >
+                    <div className="container text-center" >
+                        <h1 className="main-title">Select A Class</h1>
+                        <div className="row d-flex justify-content-center">
+                            {rows}
+                        </div>
+                    </div>
+                </Route>
+                <Route path={`${path}/classData`}>
+
+                    <div className="container">
                         {/* Spinner when get the result */}
                         <div className="loading" hidden={!this.state.load}>
                             <div className="circle"></div>
@@ -350,8 +397,9 @@ class MyClasses extends Component {
                             <div className="circle"></div>
                             <div className="circle"></div>
                         </div>
-                        <div className="d-flex justify-content-end">
-                            <button onClick={this.setDirectionHistory} className=" mt4 btn btn-warning shadow grow" >History</button>
+                        <div className="d-flex justify-content-between">
+                            <button hidden={this.state.load} onClick={this.editClass} className=" mt4 btn btn-info shadow grow" >Edit Students</button>
+                            <button hidden={this.state.load} onClick={this.showHistoryPage} className=" mt4 btn btn-warning shadow grow" >History</button>
                         </div>
                         <div className="row" hidden={this.state.load}>
 
@@ -368,7 +416,7 @@ class MyClasses extends Component {
                             </div>
                             {/* Face recognition */}
                             <div className="col-md-6 align-self-center">
-                                <img className="mt-2" onClick={this.back} src="https://img.icons8.com/fluent/48/000000/circled-left.png" alt="go back" />
+                                <img className="mt-2 grow pointer" onClick={this.back} src="https://img.icons8.com/fluent/48/000000/circled-left.png" alt="go back" />
                                 <Button hidden={this.state.showUploadBtn} onClick={this.setShowBtn} style={{ width: '100%' }} className="btn f3 grow btn-dark btn-submit mt-4">Check Attendence</Button>
                                 <div hidden={!this.state.showUploadBtn}>
                                     <label htmlFor="file2" style={{ width: '50%', backgroundColor: 'darkcyan' }} className="mt-3 grow f4 btn text-light btn-submit">{(this.state.ids.length === 0) ? 'Check Image' : 'Check another Image'}</label>
@@ -389,19 +437,14 @@ class MyClasses extends Component {
                                     <Button hidden={this.state.showImage} onClick={this.clear} style={{ width: '30%' }} className="btn f3 grow btn-warning btn-submit mt-4">Clear</Button>
                                     <a className="btn f3 grow btn-info btn-submit mt-4" style={{ width: '30%' }} hidden={this.state.showImage} href={`${this.state.file}`} download>Download</a>
                                     <br />
-                                    <Button hidden={this.state.showImage} onClick={this.sendHistoryData} style={{ width: '30%' }} className="btn f3 grow btn-success btn-submit mt-4 mb-4" disabled={!this.state.ids.length}>Done</Button>
+                                    <Button hidden={this.state.showImage} onClick={this.sendHistoryData} style={{ width: '30%' }} className="btn f3 grow btn-success btn-submit mt-4 mb-4" disabled={this.state.doneDisable}>Done</Button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="container text-center" hidden={this.state.hidePage}>
-                        <h1 className="main-title">Select A Class</h1>
-                        <div className="row d-flex justify-content-center">
-                            {rows}
-                        </div>
-                    </div>
+                </Route>
 
-                </>)}
+
             </>);
     }
 }

@@ -3,13 +3,21 @@ import './details.css';
 
 function Details({ historyData }) {
 
-
+    console.log("history Data:",historyData);
     function getImages() {
         let images = historyData.imgs;
         let imgTags = images.map((img, ind) => {
+            let style = {
+                'height': '400px',
+                'backgroundColor': 'rgba(0,0,0,0)',
+                'backgroundImage': `url(${img})`,
+                'backgroundSize': '100% 100%',
+                'backgroundRepeat': 'no-repeat',
+                'backgroundPosition': 'center',
+                'borderRadius': '17%'
+            }
             return (
-                <div key={ind} className="br3">
-                    <img src={img} className="br3 shadow" alt={ind} />
+                <div onClick={()=>{window.open(img,"_blank")}} style={style} key={ind} className="shadow br3 grow pointer dim">
                 </div>
             )
         })
@@ -21,8 +29,8 @@ function Details({ historyData }) {
         let stdTable = students.map(stdID => {
             let name;
             allStudents.forEach(found => {
-                if (found.id_number === stdID) {
-                    name = found.firstName + ' ' + found.lastName;
+                if (found.id === stdID) {
+                    name = found.name;
                 }
                 
             });
@@ -40,9 +48,13 @@ function Details({ historyData }) {
     console.log(attend)
     let imgTags = getImages();
     return (
+        
 
         <>
+        
+        <h2 className="orange mt4 b" style={{ fontFamily : 'Lobster', letterSpacing : '3px' }}>{`Details of ${historyData.date} day, for ${historyData.className}.`}</h2>
         <div className="pa3 ph6 f3 mb5">
+            <h4 className="green b" style={{ fontFamily : 'Lobster', letterSpacing : '3px' }}>Attendants Students.</h4>
             <table className="table table-bordered" style={{ width : '100%' }}>
                     <thead className="text-dark" style={{ fontFamily : 'Lobster', letterSpacing : '2px' }}>
                         <tr>
