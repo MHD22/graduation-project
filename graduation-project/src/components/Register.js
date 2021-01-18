@@ -34,8 +34,8 @@ class Register extends Component{
         <br/>
         <div className="row text-center">
             <div className="col-md-12">
-                <button className="btn btn-success mr-2 btn-submit grow" onClick={this.regStd}>Register As Student</button>
-                <button className="btn btn-info ml-2 btn-submit grow" onClick={this.regTec}>Register As Teacher</button>
+                <button className="registerAsButton btn btn-success mr-2 btn-submit grow" onClick={this.regStd}>Register As Student</button>
+                <button className="registerAsButton btn btn-info ml-2 btn-submit grow" onClick={this.regTec}>Register As Teacher</button>
             </div>
         </div>
         <div hidden={!this.state.student}>

@@ -35,6 +35,7 @@ class About extends Component {
       title: 'Therichpost',
       text: "OOPS",
       type: 'warning',
+      icon: 'warning'
       
       
     })
