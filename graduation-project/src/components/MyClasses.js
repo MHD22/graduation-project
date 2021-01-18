@@ -6,7 +6,7 @@ import Details from './Details';
 import History from './History';
 import { storage } from '../firebase/index';
 import EditClass from './EditClass';
-import {  Redirect, Route} from 'react-router-dom';
+import { Redirect, Route} from 'react-router-dom';
 
 class MyClasses extends Component {
     constructor() {
@@ -31,13 +31,13 @@ class MyClasses extends Component {
             direction: 'check', // OR history , details , edit
             historyData: {},
             route: null,
-            doneDisable: true
+            doneDisable: true ,
+            showStudents : [] 
         }
     }
 
     // Get all the classes for the logged in teacher .
     componentDidMount() {
-
         if(this.checkLoggedIn()){
             fetch('http://localhost:3000/teacherClasses?id=' + JSON.parse(sessionStorage.getItem('teacher')).id_number)
                 .then(res => res.json()).then(data => {
@@ -217,8 +217,34 @@ class MyClasses extends Component {
                     //Type the name of person .
                     ctx.fillText(name, left, bottom + space);
                 }
+
+                let attendStudents = [] ;
+                let absenceStudents = [] ;
+                for(let i of this.state.students){
+                    let flag = false ;
+                    for(let j of this.state.ids){
+                        if(i.id === j){
+                            flag = true ;
+                        }
+                    }
+                    if(flag){
+                        attendStudents.push({
+                            id : i.id ,
+                            name : i.name
+                        }) ;
+                    }
+                    else {
+                        absenceStudents.push({
+                            id : i.id ,
+                            name : i.name
+                        }) ;
+                    }
+                }
+
                 this.setState({
                     ids: ids,
+                    attendStudents ,
+                    absenceStudents
                     // imgs : [imagesLink]
                 });
                 let space = this.state.width / 20;
@@ -287,10 +313,13 @@ class MyClasses extends Component {
     }
 
     // To change the row color according to the attendence .
-    colorTable = (result) => {
+    colorTable = () => {
         let { ids } = this.state;
         for (let i of ids) {
-            document.getElementById(i + "").className = 'bg-success text-light';
+            let row = document.getElementById(i + "") ;
+            if(row){
+                row.className = 'bg-success text-light';
+            }
         }
     }
 
@@ -325,6 +354,7 @@ class MyClasses extends Component {
             imgs: [],
             students: arr,
             hidePage: true,
+            showStudents : arr ,
             route: '/show/classData'
         })
     }
@@ -350,6 +380,28 @@ class MyClasses extends Component {
         this.setState({
             route: '/show/classHistory'
         });
+    }
+
+    showAllStudents = () => {
+        let showStudents = this.state.students ;
+        this.setState({
+            showStudents
+        }) ;
+        this.colorTable() ;
+    }
+
+    showAttendStudents = () => {
+        let showStudents = this.state.attendStudents ;
+        this.setState({
+            showStudents
+        }) ;
+    }
+
+    showAbcentStudents = () => {
+        let showStudents = this.state.absenceStudents ;
+        this.setState({
+            showStudents
+        }) ;
     }
 
     render() {
@@ -407,11 +459,11 @@ class MyClasses extends Component {
 
                             <div className="col-md-6">
                                 <h3 className="mt-2" style={{ fontFamily: 'Lobster', color: '#343a40' }}>Student of the course</h3>
-                                <StudentsTable students={this.state.students} />
+                                <StudentsTable students={this.state.showStudents} />
                                 <div className="d-flex justify-content-around">
-                                    <button className="btn btn-dark br4 grow shadow dim">All Students</button>
-                                    <button className="btn btn-success br4 grow shadow dim">Attendance Students</button>
-                                    <button className="btn btn-danger  br4 grow shadow dim">Absence Students</button>
+                                    <button onClick={this.showAllStudents} className="btn btn-dark br4 grow shadow dim">All Students</button>
+                                    <button onClick={this.showAttendStudents} className="btn btn-success br4 grow shadow dim">Attendance Students</button>
+                                    <button onClick={this.showAbcentStudents} className="btn btn-danger  br4 grow shadow dim">Absence Students</button>
                                 </div>
                             </div>
                             {/* Face recognition */}

@@ -1,6 +1,8 @@
 import React from 'react' ;
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 function Home (){
+    
     return (
         <>
         <h1 className="main-title">Welcome to our Graduation Project</h1>

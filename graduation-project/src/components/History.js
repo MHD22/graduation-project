@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Details from './Details';
-
+import { Redirect } from 'react-router-dom';
 
 class History extends Component {
 
@@ -12,7 +12,8 @@ class History extends Component {
             allStudents:[],
             imgs: [],
             date: '',
-            showDitails: false
+            showDitails: false ,
+            route : null 
         }
     }
     componentDidMount() {
@@ -56,18 +57,24 @@ class History extends Component {
                 })
             }
         })
+    }
 
+    back = () => {
+        this.setState({
+            route:'/show/'
+        });
     }
     render() {
         let rows = this.renderTable();
         let {students, allStudents, imgs, date} = this.state;
         let className = this.props.selected_class;
-        
         let historyData={students, allStudents, imgs, date, className};
         return (
             <>
+                {this.state.route ? <Redirect exact to={this.state.route} /> : null}
                 {this.state.showDitails && (<Details historyData={historyData} />)}
                 { ! this.state.showDitails &&(<>
+                    <img className="mt-2 grow pointer" onClick={this.back} src="https://img.icons8.com/fluent/48/000000/circled-left.png" alt="go back" />
                     <div className="table-responsive mt-3">
                         <table className="table table-bordered" style={{ width: '100%' }}>
                             <thead className="text-dark f2" style={{ fontFamily: 'Lobster', letterSpacing: '2px' }}>
