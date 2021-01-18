@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import './CreateClass.css';
 import { Redirect } from "react-router-dom";
 import AddStudents from './AddStudents';
+import Swal from 'sweetalert2' ;
 
 class CreateClass extends Component {
     constructor() {
@@ -33,8 +34,26 @@ class CreateClass extends Component {
         }
     }
 
+    opensweetalertdanger = () => {
+        Swal.fire({
+        title: 'OOPS',
+        text: "Class Name is already Exist !",
+        type: 'warning',
+        })
+    }
+
     next = (e) => {
-        this.setState({ isClickedNext: true});
+        fetch(`http://localhost:3000/checkClass/${this.state.courseName}`)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data) ;
+            if(data){
+                this.opensweetalertdanger() ;
+            }
+            else {
+                this.setState({ isClickedNext: true}); 
+            }
+        })
     }
 
     componentDidMount() {

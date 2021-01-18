@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './details.css';
+import { Redirect } from 'react-router-dom' ;
 
 function Details({ historyData }) {
-
+    const [router, setRouter] = useState(0);
     console.log("history Data:",historyData);
     function getImages() {
         let images = historyData.imgs;
@@ -22,6 +23,11 @@ function Details({ historyData }) {
             )
         })
         return imgTags;
+    }
+
+    function back() {
+        setRouter('/show/') ;
+        console.log(router) ;
     }
 
     function getAttend() {
@@ -48,10 +54,9 @@ function Details({ historyData }) {
     console.log(attend)
     let imgTags = getImages();
     return (
-        
-
         <>
-        
+        {router ? <Redirect to={router} /> : null}
+        <img className="mt-2 grow pointer" onClick={back} src="https://img.icons8.com/fluent/48/000000/circled-left.png" alt="go back" />
         <h2 className="orange mt4 b" style={{ fontFamily : 'Lobster', letterSpacing : '3px' }}>{`Details of ${historyData.date} day, for ${historyData.className}.`}</h2>
         <div className="pa3 ph6 f3 mb5">
             <h4 className="green b" style={{ fontFamily : 'Lobster', letterSpacing : '3px' }}>Attendants Students.</h4>
