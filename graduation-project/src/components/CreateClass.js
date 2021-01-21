@@ -36,10 +36,10 @@ class CreateClass extends Component {
 
     opensweetalertdanger = () => {
         Swal.fire({
-        title: 'OOPS',
-        text: "Class Name is already Exist !",
-        type: 'warning',
-        })
+            icon: 'error',
+            title: 'Oops ..! ',
+            html: '<h5 class="text-danger">Class Name is already Exist !</h5>',
+          })
     }
 
     next = (e) => {

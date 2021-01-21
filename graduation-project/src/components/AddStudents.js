@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Button, Modal } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import Swal from 'sweetalert2' ;
 
@@ -33,8 +32,9 @@ class AddStudents extends Component {
     opensweetalert = () => {
         Swal.fire({
         title: 'Success',
-        text: 'Class Created Successfully !',
+        html: '<h5 class="text-success">Class Created Successfully !</h5>',
         type: 'success',
+        icon: 'success'
         })
         this.done() ;
     }
@@ -59,11 +59,6 @@ class AddStudents extends Component {
             .then(res => res.json())
             .then(console.log)
             .then(
-                this.setState({
-                    title: 'Done',
-                    body: 'Class Created Successfully ..',
-                    show: true
-                }) ,
                 this.opensweetalert() 
             )
             .catch(
