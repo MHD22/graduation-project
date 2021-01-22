@@ -185,17 +185,6 @@ class TeacherRegister extends Component {
                         Register
                 </button>
                 </form>
-                {/* <form hidden={! this.state.verified} >
-                <fieldset >
-                    <legend>Verification</legend>
-                    <label htmlFor="token">Enter your access token Which sent on your email:</label>
-                    <br/>
-                    <input type="text" id="token" placeholder="Access token" className="form-input mt-4" name="token" required />
-                    <br/>
-                    <input type="submit" className="btn btn-success btn-submit mt-4" onClick={this.saveTeacher} value="OK!"/>     
-                </fieldset>
-            </form> */}
-
             </>
         );
     }
