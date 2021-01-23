@@ -70,8 +70,8 @@ class StudentRegister extends Component{
     }
 
     sendToken=(id)=>{
-
-        let url ="http://localhost:3000/sendTokenStd";
+        let baseUrl= document.getElementById('baseUrl').defaultValue;
+        let url =`${baseUrl}/sendTokenStd`;
         let requestOptions = 
         {
             method: 'POST',
@@ -97,8 +97,8 @@ class StudentRegister extends Component{
             body: file,
             redirect: 'follow'
             };
-
-        fetch('http://localhost:3000/createPerson', requestOptions)
+        let baseUrl= document.getElementById('baseUrl').defaultValue;
+        fetch(`${baseUrl}/createPerson`, requestOptions)
         .then(response => response.json())
         .then(responseStudentData=>{
 

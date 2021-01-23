@@ -55,7 +55,8 @@ class Login extends Component{
         let token = document.getElementById('resetToken').value;
         let {email, newPass, hashedToken} = this.state;
         let bodyData={email, newPass, token, hashedToken};
-        let url ="http://localhost:3000/resetPass";
+        let baseUrl= document.getElementById('baseUrl').defaultValue;
+        let url =`${baseUrl}/resetPass`;
         let requestOptions = 
         {
             method: 'POST',
@@ -100,7 +101,8 @@ class Login extends Component{
         let newPass = resetForm.newPass.value;
         if(email && newPass){
             this.setState({email,newPass});
-            let url ="http://localhost:3000/sendToken";
+            let baseUrl= document.getElementById('baseUrl').defaultValue;
+            let url =`${baseUrl}/sendToken`;
             let requestOptions = 
             {
                 method: 'POST',
@@ -216,7 +218,8 @@ function goToHomePage(){
 }
 
 function checkTheUserData(user){
-    return fetch('http://localhost:3000/loginTeacher',{
+    let baseUrl= document.getElementById('baseUrl').defaultValue;
+    return fetch(`${baseUrl}/loginTeacher`,{
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',

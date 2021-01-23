@@ -1,7 +1,6 @@
 import React from 'react';
 import { Component } from 'react';
 import { Col, Row } from 'react-bootstrap';
-import { Redirect } from 'react-router-dom';
 import AddStudents from './AddStudents';
 import Swal from 'sweetalert2'
 import './CreateClass.css';
@@ -15,7 +14,6 @@ class EditClass extends Component {
             isThereChanges: false,
             students: [],
             lastStateOfStudents: [],
-            route: null
         }
     }
 
@@ -124,7 +122,8 @@ class EditClass extends Component {
                 let classData = {
                     className: this.props.classInfo.className
                 }
-                let url = 'http://localhost:3000/deleteClass';
+                let baseUrl= document.getElementById('baseUrl').defaultValue;
+                let url = `${baseUrl}/deleteClass`;
                 let requestOptions = {
                     method: 'DELETE',
                     headers: {
@@ -136,7 +135,7 @@ class EditClass extends Component {
                     .then(res => res.json())
                     .then(console.log)
                     .catch(e => { console.log("error on Delete class request..", e) });
-                this.setState({ route: '/' });
+                this.props.onChangeRoute('/show',500);
                 Swal.fire(
                     'Deleted!',
                     'Class has been deleted.',
@@ -160,7 +159,8 @@ class EditClass extends Component {
                     className: this.props.classInfo.className,
                     students: this.state.lastStateOfStudents
                 }
-                let url = 'http://localhost:3000/editClass';
+                let baseUrl= document.getElementById('baseUrl').defaultValue;
+                let url = `${baseUrl}/editClass`;
                 let requestOptions = {
                     method: 'PUT',
                     headers: {
@@ -176,8 +176,8 @@ class EditClass extends Component {
                 this.setState({
                     isThereChanges: false,
                     lastStateOfStudents: [],
-                    route: '/'
                 });
+                this.props.onChangeRoute('/show',500);
                 Swal.fire('Saved!', '', 'success')
             } else if (result.isDenied) {
                 this.onCancel();
@@ -196,15 +196,15 @@ class EditClass extends Component {
 
     back = () => {
         this.setState({
-            route: '/show'
         });
+        this.props.onChangeRoute('/show/classData',0);
     }
 
     render() {
         let { rows } = this.state;
         return (
             <>
-                {this.state.route ? <Redirect to={this.state.route} /> : null}
+                
                 <img className="mt-2 grow pointer" onClick={this.back} src="https://img.icons8.com/fluent/48/000000/circled-left.png" alt="go back" />
                 <h2 className="f2 mt4 ">{this.props.classInfo.className}</h2>
                 <>

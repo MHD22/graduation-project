@@ -19,7 +19,8 @@ class AddStudents extends Component {
         }
     }
     componentDidMount() {
-        let url = 'http://localhost:3000/students';
+        let baseUrl= document.getElementById('baseUrl').defaultValue;
+        let url = `${baseUrl}/students`;
         fetch(url)
             .then(response => response.json())
             .then(data => {
@@ -48,8 +49,8 @@ class AddStudents extends Component {
             fnames: this.state.addedStdFName,
             lnames: this.state.addedStdLName
         };
-
-        fetch('http://localhost:3000/classes', {
+        let baseUrl= document.getElementById('baseUrl').defaultValue;
+        fetch(`${baseUrl}/classes`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

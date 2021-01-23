@@ -42,7 +42,8 @@ class TeacherRegister extends Component {
     storeTeacherDataInDB = (teacherData) => {
         let { email, id_number } = teacherData;
         let bodyData = { email, id_number };
-        fetch('http://localhost:3000/teachers', {
+        let baseUrl= document.getElementById('baseUrl').defaultValue;
+        fetch(`${baseUrl}/teachers`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -114,8 +115,8 @@ class TeacherRegister extends Component {
             teacherData.hashedToken = hashedToken;
             teacherData.token = token;
             console.log(teacherData, " <= teacher data.  ");
-
-            fetch('http://localhost:3000/teacherRegister', {
+            let baseUrl= document.getElementById('baseUrl').defaultValue;
+            fetch(`${baseUrl}/teacherRegister`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

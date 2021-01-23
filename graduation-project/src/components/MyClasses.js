@@ -8,38 +8,41 @@ import { storage } from '../firebase/index';
 import EditClass from './EditClass';
 import { Redirect, Route} from 'react-router-dom';
 
+const initialState ={
+    file: null,
+    width: 0,
+    height: 0,
+    ids: [],
+    students: [],
+    absenceStudents: [],
+    attendStudents: [],
+    showImage: true,
+    showUploadBtn: false,
+    load: false,
+    hidePage: false,
+    classes: [],
+    selected_class: '',
+    imgs: [],
+    faces: [],
+    disableButton: false,
+    direction: 'check', // OR history , details , edit
+    historyData: {},
+    route: null,
+    doneDisable: true ,
+    showStudents : [] ,
+    flag:0
+}
 class MyClasses extends Component {
     constructor() {
         super();
-        this.state = {
-            file: null,
-            width: 0,
-            height: 0,
-            ids: [],
-            students: [],
-            absenceStudents: [],
-            attendStudents: [],
-            showImage: true,
-            showUploadBtn: false,
-            load: false,
-            hidePage: false,
-            classes: [],
-            selected_class: '',
-            imgs: [],
-            faces: [],
-            disableButton: false,
-            direction: 'check', // OR history , details , edit
-            historyData: {},
-            route: null,
-            doneDisable: true ,
-            showStudents : [] 
-        }
+        this.state = initialState;
     }
 
     // Get all the classes for the logged in teacher .
     componentDidMount() {
         if(this.checkLoggedIn()){
-            fetch('http://localhost:3000/teacherClasses?id=' + JSON.parse(sessionStorage.getItem('teacher')).id_number)
+            let baseUrl= document.getElementById('baseUrl').defaultValue;
+            fetch(`${baseUrl}/teacherClasses?id=` + JSON.parse(sessionStorage.getItem('teacher')).id_number)
                 .then(res => res.json()).then(data => {
                     this.setState({
                         classes: data,
@@ -47,6 +50,23 @@ class MyClasses extends Component {
                     })
                 })
                 .catch(e => console.log(e));
+        }
+    }
+
+    componentDidUpdate(prevProps,prevState) {
+        if(prevState.flag !== 1 ){
+            if(this.checkLoggedIn()){
+                let baseUrl= document.getElementById('baseUrl').defaultValue;
+                fetch(`${baseUrl}/teacherClasses?id=` + JSON.parse(sessionStorage.getItem('teacher')).id_number)
+                    .then(res => res.json()).then(data => {
+                        this.setState({
+                            classes: data,
+                            flag:1
+        
+                        })
+                    })
+                    .catch(e => console.log(e));
+            }
         }
     }
 
@@ -126,8 +146,8 @@ class MyClasses extends Component {
                 'imgs': this.state.imgs
             }),
         };
-
-        fetch(`http://localhost:3000/history/${this.state.selected_class}`, requestOptions)
+        let baseUrl= document.getElementById('baseUrl').defaultValue;
+        fetch(`${baseUrl}/history/${this.state.selected_class}`, requestOptions)
             .then(res => res.json())
             .then(console.log)
             .catch(e => { console.log("An Error occured while sending history Data ..", e) });
@@ -140,7 +160,7 @@ class MyClasses extends Component {
             className: this.state.selected_class,
             date: fullDate
         };
-
+        this.clear() ;
         this.setState({
             ids: [],
             imgs: [],
@@ -164,8 +184,8 @@ class MyClasses extends Component {
         };
 
 
-
-        fetch('http://localhost:3000/checkImage', requestOptions)
+        let baseUrl= document.getElementById('baseUrl').defaultValue;
+        fetch(`${baseUrl}/checkImage`, requestOptions)
             .then(response => response.json())
             .then(result => {
 
@@ -327,8 +347,11 @@ class MyClasses extends Component {
     clear = () => {
         this.setState({
             showImage: true,
-            showUploadBtn: false
+            showUploadBtn: false,
+            ids:[],
+            imgs:[]
         });
+        document.getElementById("file2").value = '' ;
         let { students } = this.state;
         for (let student of students) {
             document.getElementById(student.id).className = '';
@@ -404,6 +427,23 @@ class MyClasses extends Component {
         }) ;
     }
 
+    onChangeRoute=(route,timer)=>{
+        setTimeout(() => {
+            console.log(route , "clicked");
+            if(this.checkLoggedIn()){
+                let baseUrl= document.getElementById('baseUrl').defaultValue;
+                fetch(`${baseUrl}/teacherClasses?id=` + JSON.parse(sessionStorage.getItem('teacher')).id_number)
+                    .then(res => res.json()).then(data => {
+                        this.setState({
+                            classes: data,
+                            route
+                        })
+                    })
+                    .catch(e => console.log(e));
+            }
+        }, timer);
+    }
+
     render() {
         let {path} = this.props.match;
         let classInfo = {
@@ -422,15 +462,17 @@ class MyClasses extends Component {
             )
         });
 
+        
+
 
         return (
 
 
             <>
                 {this.state.route ? <Redirect to={this.state.route} /> : null}
-                <Route path={`${path}/editClass`} component={() => <EditClass classInfo={classInfo} />} />
-                <Route path={`${path}/classHistory`} component={() => <History selected_class={this.state.selected_class} />} />
-                <Route path={`${path}/details`} component={() => <Details historyData={this.state.historyData} />} />
+                <Route path={`${path}/editClass`} component={() => <EditClass classInfo={classInfo} onChangeRoute={this.onChangeRoute} />} />
+                <Route path={`${path}/classHistory`} component={() => <History selected_class={this.state.selected_class} onChangeRoute={this.onChangeRoute} />} />
+                <Route path={`${path}/details`} component={() => <Details historyData={this.state.historyData} onChangeRoute={this.onChangeRoute} backToHistory={false} />} />
                 <Route path={`${path}`} exact >
                     <div className="container text-center" >
                         <h1 className="main-title">Select A Class</h1>
@@ -472,7 +514,7 @@ class MyClasses extends Component {
                                 <Button hidden={this.state.showUploadBtn} onClick={this.setShowBtn} style={{ width: '100%' }} className="btn f3 grow btn-dark btn-submit mt-4">Check Attendence</Button>
                                 <div hidden={!this.state.showUploadBtn}>
                                     <label htmlFor="file2" style={{ width: '50%', backgroundColor: 'darkcyan' }} className="mt-3 grow f4 btn text-light btn-submit">{(this.state.ids.length === 0) ? 'Check Image' : 'Check another Image'}</label>
-                                    <input hidden onChange={this.checkAttendence} type="file" accept="image/*" id="file2" className="form-file mt-4" required disabled={this.state.disableButton} />
+                                    <input hidden onChange={this.checkAttendence} type="file" accept="image/*" id="file2" className="form-file mt-4" required />
                                     <br />
                                     <p hidden={!this.state.showImage} className="mt-5" style={{ fontFamily: 'Acme' }}>To Check Attendence Upload an image for class student , then the system will check it .</p>
                                     <p hidden={!this.state.showImage} style={{ fontFamily: 'Acme' }}><span className="bg-success p-1 text-light rounded">Green</span> rows on table represents the Attendees student , and the <span className="bg-dark p-1 text-light rounded">white</span> rows for Absence students . </p>

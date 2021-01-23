@@ -17,8 +17,9 @@ class History extends Component {
         }
     }
     componentDidMount() {
-        console.log(this.props.selected_class,"aaaaa");
-        let url = `http://localhost:3000/classHistory/${this.props.selected_class}`;
+
+        let baseUrl= document.getElementById('baseUrl').defaultValue;
+        let url = `${baseUrl}/classHistory/${this.props.selected_class}`;
         fetch(url)
             .then(response => response.json())
             .then(classData => {
@@ -60,9 +61,7 @@ class History extends Component {
     }
 
     back = () => {
-        this.setState({
-            route:'/show/'
-        });
+        this.props.onChangeRoute('/show/classData',0);
     }
     render() {
         let rows = this.renderTable();
@@ -72,7 +71,7 @@ class History extends Component {
         return (
             <>
                 {this.state.route ? <Redirect exact to={this.state.route} /> : null}
-                {this.state.showDitails && (<Details historyData={historyData} />)}
+                {this.state.showDitails && (<Details historyData={historyData} onChangeRoute={this.props.onChangeRoute} backToHistory={true}  />)}
                 { ! this.state.showDitails &&(<>
                     <img className="mt-2 grow pointer" onClick={this.back} src="https://img.icons8.com/fluent/48/000000/circled-left.png" alt="go back" />
                     <div className="table-responsive mt-3">
