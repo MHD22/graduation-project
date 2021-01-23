@@ -1,5 +1,4 @@
 import React from 'react' ;
-import SweetAlert from 'react-bootstrap-sweetalert';
 
 function Home (){
     

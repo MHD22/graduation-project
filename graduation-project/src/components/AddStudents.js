@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Button, Modal } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import Swal from 'sweetalert2' ;
 
@@ -20,7 +19,8 @@ class AddStudents extends Component {
         }
     }
     componentDidMount() {
-        let url = 'http://localhost:3000/students';
+        let baseUrl= document.getElementById('baseUrl').defaultValue;
+        let url = `${baseUrl}/students`;
         fetch(url)
             .then(response => response.json())
             .then(data => {
@@ -33,8 +33,9 @@ class AddStudents extends Component {
     opensweetalert = () => {
         Swal.fire({
         title: 'Success',
-        text: 'Class Created Successfully !',
+        html: '<h5 class="text-success">Class Created Successfully !</h5>',
         type: 'success',
+        icon: 'success'
         })
         this.done() ;
     }
@@ -48,8 +49,8 @@ class AddStudents extends Component {
             fnames: this.state.addedStdFName,
             lnames: this.state.addedStdLName
         };
-
-        fetch('http://localhost:3000/classes', {
+        let baseUrl= document.getElementById('baseUrl').defaultValue;
+        fetch(`${baseUrl}/classes`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -59,11 +60,6 @@ class AddStudents extends Component {
             .then(res => res.json())
             .then(console.log)
             .then(
-                this.setState({
-                    title: 'Done',
-                    body: 'Class Created Successfully ..',
-                    show: true
-                }) ,
                 this.opensweetalert() 
             )
             .catch(

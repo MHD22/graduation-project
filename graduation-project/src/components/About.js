@@ -1,16 +1,11 @@
 import React, { Component } from 'react';
 import Swal from 'sweetalert2'
-// import {Route } from 'react-router-dom';
-// import T1 from './T1';
-// import T2 from './T2';
-
 class About extends Component {
     constructor() {
         super();
         this.state = {}
     }
 
-      //Button Click Function
   opensweetalert()
   {
     Swal.fire({
@@ -28,7 +23,7 @@ class About extends Component {
        }
     })
   }
-  //Button Click Function
+
   opensweetalertdanger()
   {
     Swal.fire({
@@ -54,13 +49,3 @@ class About extends Component {
 };
 }
 export default About;
-
-/*
-let {url,path} = this.props.match;
-console.log("url:",url,"\nPath:",path);
-<Route exact path={`${path}`}>
-    <h1 className="main-title">About Us</h1>
-</Route>
-<Route path={`${path}/test1`} component={T1}/>
-<Route path={`${path}/test2`} component={T2}/>
-*/

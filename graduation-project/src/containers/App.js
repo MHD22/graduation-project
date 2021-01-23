@@ -36,6 +36,7 @@ class App extends Component {
           </Container>
         </BrowserRouter>
         <Footer />
+        <input id="baseUrl" hidden defaultValue='https://class-take-attendance.herokuapp.com' />
       </div>
     );
   }

@@ -50,3 +50,7 @@
 .check {
     display: none;
 }
+
+.swal2-confirm {
+    margin-left: 5px !important;
+}

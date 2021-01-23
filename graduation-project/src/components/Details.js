@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Component } from 'react';
 import './details.css';
-import { Redirect } from 'react-router-dom' ;
 
-function Details({ historyData }) {
-    const [router, setRouter] = useState(0);
-    console.log("history Data:",historyData);
-    function getImages() {
-        let images = historyData.imgs;
+class Details extends Component {
+    constructor(){
+        super();
+        this.state={}
+    }
+
+    getImages = () => {
+        let images = this.props.historyData.imgs;
         let imgTags = images.map((img, ind) => {
             let style = {
                 'height': '400px',
@@ -25,13 +28,13 @@ function Details({ historyData }) {
         return imgTags;
     }
 
-    function back() {
-        setRouter('/show/') ;
-        console.log(router) ;
+    back= () => {
+        let route = this.props.backToHistory ? '/show/classHistory' : '/show';
+        this.props.onChangeRoute(route,0);
     }
 
-    function getAttend() {
-        let { allStudents, students } = historyData;
+    getAttend= ()=> {
+        let { allStudents, students } = this.props.historyData;
         let stdTable = students.map(stdID => {
             let name;
             allStudents.forEach(found => {
@@ -50,34 +53,36 @@ function Details({ historyData }) {
 
         return stdTable ;
     }
-    let attend = getAttend();
-    console.log(attend)
-    let imgTags = getImages();
-    return (
-        <>
-        {router ? <Redirect to={router} /> : null}
-        <img className="mt-2 grow pointer" onClick={back} src="https://img.icons8.com/fluent/48/000000/circled-left.png" alt="go back" />
-        <h2 className="orange mt4 b" style={{ fontFamily : 'Lobster', letterSpacing : '3px' }}>{`Details of ${historyData.date} day, for ${historyData.className}.`}</h2>
-        <div className="pa3 ph6 f3 mb5">
-            <h4 className="green b" style={{ fontFamily : 'Lobster', letterSpacing : '3px' }}>Attendants Students.</h4>
-            <table className="table table-bordered" style={{ width : '100%' }}>
-                    <thead className="text-dark" style={{ fontFamily : 'Lobster', letterSpacing : '2px' }}>
-                        <tr>
-                            <th>Student ID</th>
-                            <th>Student Name</th>
-                        </tr>
-                    </thead>
-                    <tbody id='body' style={{ fontFamily : 'Acme' , color : 'gray' }}>
-                        {attend}
-                    </tbody>
-                </table>
-            </div>
-            <div id="imageContainer" className="row  ma4 shadow">
-                {imgTags}
-            </div>
+    render() {
+        let attend = this.getAttend();
+        console.log(attend)
+        let imgTags = this.getImages();
+        return (
+            <>
             
-
-        </>
-    )
+            <img className="mt-2 grow pointer" onClick={this.back} src="https://img.icons8.com/fluent/48/000000/circled-left.png" alt="go back" />
+            <h2 className="orange mt4 b" style={{ fontFamily : 'Lobster', letterSpacing : '3px' }}>{`Details of ${this.props.historyData.date} day, for ${this.props.historyData.className}.`}</h2>
+            <div className="pa3 ph6 f3 mb5">
+                <h4 className="green b" style={{ fontFamily : 'Lobster', letterSpacing : '3px' }}>Attendants Students.</h4>
+                <table className="table table-bordered" style={{ width : '100%' }}>
+                        <thead className="text-dark" style={{ fontFamily : 'Lobster', letterSpacing : '2px' }}>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Student Name</th>
+                            </tr>
+                        </thead>
+                        <tbody id='body' style={{ fontFamily : 'Acme' , color : 'gray' }}>
+                            {attend}
+                        </tbody>
+                    </table>
+                </div>
+                <div id="imageContainer" className="row  ma4 shadow">
+                    {imgTags}
+                </div>
+                
+    
+            </>
+        )
+    }
 }
 export default Details;

@@ -36,14 +36,15 @@ class CreateClass extends Component {
 
     opensweetalertdanger = () => {
         Swal.fire({
-        title: 'OOPS',
-        text: "Class Name is already Exist !",
-        type: 'warning',
-        })
+            icon: 'error',
+            title: 'Oops ..! ',
+            html: '<h5 class="text-danger">Class Name is already Exist !</h5>',
+          })
     }
 
     next = (e) => {
-        fetch(`http://localhost:3000/checkClass/${this.state.courseName}`)
+        let baseUrl= document.getElementById('baseUrl').defaultValue;
+        fetch(`${baseUrl}/checkClass/${this.state.courseName}`)
         .then(res => res.json())
         .then(data => {
             console.log(data) ;
@@ -58,7 +59,8 @@ class CreateClass extends Component {
 
     componentDidMount() {
         if(this.checkLoggedIn()){
-            fetch('http://localhost:3000/students')
+            let baseUrl= document.getElementById('baseUrl').defaultValue;
+            fetch(`${baseUrl}/students`)
             .then(res=> res.json()).then(data=>{
                 this.setState({students:data} , ()=>{console.log(this.state.students)});
             })
