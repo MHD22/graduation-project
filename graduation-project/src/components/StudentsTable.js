@@ -1,4 +1,5 @@
 import React from 'react' ;
+import './table.css';
 
 
 function StudentsTable({students}){
@@ -13,8 +14,8 @@ function StudentsTable({students}){
 
     return(
         <>
-            <div className="table-responsive mt-3">
-                <table className="table table-bordered" style={{ width : '100%' }}>
+            <div className="table-container mt-3">
+                <table id="table1" className=" ">
                     <thead className="text-dark" style={{ fontFamily : 'Lobster', letterSpacing : '2px' }}>
                         <tr>
                             <th>Student ID</th>
