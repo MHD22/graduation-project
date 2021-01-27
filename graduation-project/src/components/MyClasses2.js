@@ -538,9 +538,7 @@ class MyClasses extends Component {
                         </div>
 
                         {/* buttons ,, top  */}
-                        <div className=" d-flex justify-content-between" style={{ paddingRight: '12%', paddingLeft: '12%' }}>
-
-
+                        <div className=" d-flex justify-content-between btns" style={{ paddingRight: '12%', paddingLeft: '12%' }}>
                             <button hover-data="Back"
                                 onClick={this.back} className="red-btn mt4 ma1 my-button" >
                                 <i className="btn-icon far fa-arrow-alt-circle-left"></i>
@@ -554,30 +552,20 @@ class MyClasses extends Component {
                                     hidden={this.state.load} onClick={this.showHistoryPage} className=" mt4 ma1 my-button" >
                                     <i className="btn-icon fas fa-history"></i>
                                 </button>
-
                             </div>
-
-
-
-
-
                         </div>
-                        <div className="my-line"></div>
+                        <div className="my-line2"></div>
                         {/* Face recognition */}
                         <Row hidden={this.state.load}>
                             <Col xs={12}>
                                 <button hidden={this.state.showUploadBtn} onClick={this.setShowBtn} className="my-button mt-4">Check Attendence</button>
                                 <div hidden={!this.state.showUploadBtn}>
 
+                                    <p hidden={!this.state.showImage} className="mt-5 f3 b i upload-text">Upload one or more image to take the attendance, Then click on <span className='red f3'>'Done'</span> Button.</p>
 
-                                    <p hidden={!this.state.showImage} className="mt-5 f3 b i">Upload one or more image to take the attendance, Then click on <span className='red f3'>'Done'</span> Button.</p>
-                                    
                                     <label htmlFor="file2" className="mt-3 my-button">{(this.state.ids.length === 0) ? 'Upload An Image' : 'Upload Another Image'}</label>
                                     <input type="file" hidden onChange={this.checkAttendence} accept="image/*" id="file2" className="form-file mt-4 " required />
                                     <br />
-
-
-
 
                                     {/* Image will display the uploaded image , we use it to draw it on canvas . */}
                                     <img hidden id="person" src={this.state.file} alt="Person" />
@@ -603,10 +591,9 @@ class MyClasses extends Component {
                                 <h3 className="mt-2 table-header" >Student of the course</h3>
                                 <StudentsTable students={this.state.showStudents} />
                                 <div className="table-buttons">
-                                    <button onClick={this.showAllStudents} className="my-button">All Students</button>
-                                    <button onClick={this.showAttendStudents} className="my-button grn-btn">Attendance Students</button>
-                                    <button onClick={this.showAbcentStudents} className="
-                                    my-button red-btn">Absence Students</button>
+                                    <button onClick={this.showAllStudents} className="my-button grow">All Students</button>
+                                    <button onClick={this.showAttendStudents} className="my-button grn-btn grow">Attendance Students</button>
+                                    <button onClick={this.showAbcentStudents} className="my-button grow red-btn">Absence Students</button>
                                 </div>
                             </Col>
                         </Row>

@@ -1,11 +1,11 @@
-a:hover {
-  text-decoration: underline;
-}
-
-/* Hero Unit ----------------------*/
+/* a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Hero Unit ----------------------*/
 
 .hero-unit {
-  height: 20px;
+  height: 900px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -26,28 +26,12 @@ a:hover {
   margin: 3rem 0;
 }
 
-.hero-unit .card-icon {
-  /* front of card */
-  display: block;
-  margin: 0.5rem auto 0;
-  font-size: 2rem;
-  color: white;
-}
-
 .hero-unit .clients {
   margin: 2rem auto;
 }
 
 .hero-unit .clients a {
   color: white;
-}
-
-.clients .fa-stack-2x {
-  color: gray;
-}
-
-.clients:hover .fa-stack-2x {
-  color: #333333;
 }
 
 /* Card design - front */
@@ -73,8 +57,8 @@ a:hover {
 }
 
 /* Buttons Card Flipper 
- * Source: https://cssdeck.com/labs/rxcleo5w
- */
+   * Source: https://cssdeck.com/labs/rxcleo5w
+   */
 
 .flip-cards {
   width: 100%;
@@ -168,8 +152,8 @@ a:hover {
 }
 
 /*
- * RESPONSIVENESS -------------------------------------------------
- */
+   * RESPONSIVENESS -------------------------------------------------
+   */
 
 @media only screen and ( max-width: 40em) {
   .hero-unit {
@@ -240,7 +224,7 @@ a:hover {
   justify-content: center;
   align-items: center;
   border-radius: 20px;
-  box-shadow: 1px 1px 2px 1px rgba(48, 238, 255, 0.657);
+  box-shadow: 2px 2px 15px 1px rgba(48, 238, 255, 0.657);
 }
 
 i.icons {
@@ -263,16 +247,39 @@ i.icons {
   font-weight: bold;
 }
 
-.btns {
-  margin-top: -10%;
-}
-
-.upload-text {
-  font-family: 'Lora';
-  letter-spacing: 2px;
-}
 @media (max-width: 600px) {
   .table-header {
     font-size: 1.7em;
   }
+}
+
+.main-div {
+  margin-top: -9%;
+}
+
+.main-div p , .main-div ol {
+  letter-spacing: 1px;
+  font-family: 'Lora';
+  font-size: 20px;
+}
+
+.main-div h1 {
+  font-family: 'Cormorant';
+  letter-spacing: 2px;
+  color : orange;
+  font-weight: bold;
+  font-size: 40px;
+}
+
+.main-div b {
+  color: orange;
+  letter-spacing: 3px;
+}
+
+.main-div ol{
+  list-style-position: inside;
+}
+
+.home-imgs {
+  width: 300px;
 }
