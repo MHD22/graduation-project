@@ -54,3 +54,49 @@
 .swal2-confirm {
     margin-left: 5px !important;
 }
+
+.new-input {
+    width: 60%;
+    height: 50px;
+    text-align: center;
+    border: 2px solid black;
+    border-radius: 2px;
+    outline: none;
+}
+
+.search {
+    width: 80%;
+    height: 50px;
+    text-align: center;
+    border: 2px solid black;
+    border-radius: 150px;
+    outline: none;
+}
+
+.main-title {
+    letter-spacing: 2px;
+}
+
+.next-btn {
+    width: 25%;
+}
+
+.next-btn:focus {
+    outline: none;
+}
+
+.icon {
+    width: 40px;
+}
+
+.icon:hover {
+    transform: scale(1.2,1.2);
+}
+
+#body tr:hover {
+    background-color: black; 
+}
+
+.edit-class {
+    margin-top: -8%;
+}

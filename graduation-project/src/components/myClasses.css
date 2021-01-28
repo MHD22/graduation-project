@@ -276,3 +276,16 @@ i.icons {
     font-size: 1.7em;
   }
 }
+
+.date {
+  font-size: 25px !important;
+}
+.details {
+  width: 200px;
+  height: 50px;
+  margin-top: 0;
+}
+
+.history {
+  margin-top: -27%;
+}

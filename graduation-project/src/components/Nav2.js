@@ -104,7 +104,7 @@ class Nav2 extends Component {
                         <div className="nshadow one"></div>
                         <div className="nshadow two"></div>
                         {/* <div class="nshadow three"></div> */}
-                        <div className="nshadow four"></div>
+                        {/* <div className="nshadow four"></div> */}
                     </div>
                     <div className="links">
                         <ul>

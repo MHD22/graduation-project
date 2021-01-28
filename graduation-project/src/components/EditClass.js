@@ -4,6 +4,8 @@ import { Col, Row } from 'react-bootstrap';
 import AddStudents from './AddStudents';
 import Swal from 'sweetalert2'
 import './CreateClass.css';
+import './table.css';
+import './myClasses.css';
 
 class EditClass extends Component {
     constructor() {
@@ -29,7 +31,7 @@ class EditClass extends Component {
                 <tr id={`r${std.id}`} key={std.id}>
                     <td>{std.id}</td>
                     <td>{std.name}</td>
-                    <td><button onClick={() => this.deleteStd(std.id)}>X</button></td>
+                    <td onClick={() => this.deleteStd(std.id)}><img className="icon" src="https://img.icons8.com/flat_round/64/000000/minus.png" alt="delete"/></td>
                 </tr>
             )
         });
@@ -47,7 +49,7 @@ class EditClass extends Component {
 
         swalWithBootstrapButtons.fire({
             title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            text: "You want to delete this student",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Yes, delete it!',
@@ -69,7 +71,7 @@ class EditClass extends Component {
                 });
                 swalWithBootstrapButtons.fire(
                     'Deleted!',
-                    'Your file has been deleted.',
+                    'Student has been deleted.',
                     'success'
                 )
             } else if (
@@ -77,7 +79,7 @@ class EditClass extends Component {
             ) {
                 swalWithBootstrapButtons.fire(
                     'Cancelled',
-                    'Your imaginary file is safe :)',
+                    'No changes done',
                     'error'
                 )
             }
@@ -122,7 +124,7 @@ class EditClass extends Component {
                 let classData = {
                     className: this.props.classInfo.className
                 }
-                let baseUrl= document.getElementById('baseUrl').defaultValue;
+                let baseUrl = document.getElementById('baseUrl').defaultValue;
                 let url = `${baseUrl}/deleteClass`;
                 let requestOptions = {
                     method: 'DELETE',
@@ -135,7 +137,7 @@ class EditClass extends Component {
                     .then(res => res.json())
                     .then(console.log)
                     .catch(e => { console.log("error on Delete class request..", e) });
-                this.props.onChangeRoute('/show',500);
+                this.props.onChangeRoute('/show', 500);
                 Swal.fire(
                     'Deleted!',
                     'Class has been deleted.',
@@ -159,7 +161,7 @@ class EditClass extends Component {
                     className: this.props.classInfo.className,
                     students: this.state.lastStateOfStudents
                 }
-                let baseUrl= document.getElementById('baseUrl').defaultValue;
+                let baseUrl = document.getElementById('baseUrl').defaultValue;
                 let url = `${baseUrl}/editClass`;
                 let requestOptions = {
                     method: 'PUT',
@@ -177,7 +179,7 @@ class EditClass extends Component {
                     isThereChanges: false,
                     lastStateOfStudents: [],
                 });
-                this.props.onChangeRoute('/show',500);
+                this.props.onChangeRoute('/show', 500);
                 Swal.fire('Saved!', '', 'success')
             } else if (result.isDenied) {
                 this.onCancel();
@@ -197,18 +199,20 @@ class EditClass extends Component {
     back = () => {
         this.setState({
         });
-        this.props.onChangeRoute('/show/classData',0);
+        this.props.onChangeRoute('/show/classData', 0);
     }
 
     render() {
         let { rows } = this.state;
         return (
-            <>
-                
-                <img className="mt-2 grow pointer" onClick={this.back} src="https://img.icons8.com/fluent/48/000000/circled-left.png" alt="go back" />
-                <h2 className="f2 mt4 ">{this.props.classInfo.className}</h2>
+            <div className="edit-class">
+                <button hover-data="Back"
+                    onClick={this.back} className="red-btn my-button">
+                    <i className="btn-icon far fa-arrow-alt-circle-left"></i>
+                </button>
+                <h2 className="f2 mt2 font-lobster">{this.props.classInfo.className}</h2>
                 <>
-                    <table className="table table-bordered mt5" style={{ width: '100%' }}>
+                    <table id="table1" className="" style={{ width: '100%' }}>
                         <thead className="text-dark" style={{ fontFamily: 'Lobster', letterSpacing: '2px' }}>
                             <tr>
                                 <th>Student ID</th>
@@ -222,19 +226,19 @@ class EditClass extends Component {
                     </table>
                 </>
 
-                { !this.state.clickedAdd && (<button className="btn f3 grow btn-warning br4 shadow" onClick={this.onAddStd}>Add Students</button>)}
+                { !this.state.clickedAdd && (<button className="my-button grow mt-2" onClick={this.onAddStd}>Add Students</button>)}
                 {   this.state.clickedAdd && (<AddStudents createNew={false} onAddStd={this.addStd} />)}
 
                 { this.state.isThereChanges && (
-                    <Row className="mv5 justify-content-center" xs={1} md={2}>
-                        <Col xs={12} md={3}><button className="ma2 btn f3 grow btn-success br4 shadow" onClick={this.onConfirm}>Confirm Changes</button></Col>
-                        <Col xs={12} md={3}><button className="ma2 btn f3 grow btn-danger  br4 shadow " onClick={this.onCancel}>Cancel </button></Col>
+                    <Row className="d-flex justify-content-center" xs={1} md={2}>
+                        <Col xs={12} md={6}><button className="my-button grn-btn grow" onClick={this.onConfirm}>Confirm Changes</button></Col>
+                        <Col xs={12} md={6}><button className="my-button grow red-btn" onClick={this.onCancel}>Cancel </button></Col>
                     </Row>
                 )}
                 <Row className="ma3 justify-content-start"  >
-                    <Col className="pa0 justify-start flex" xs={12} md={12}><button onClick={this.onDeleteClass} className="ma2 btn f5 grow btn-danger  br4 shadow">Delete Class !</button></Col>
+                    <Col className="pa0 justify-start flex" xs={12} md={12}><button onClick={this.onDeleteClass} className="my-button grow red-btn">Delete Class !</button></Col>
                 </Row>
-            </>
+            </div>
         )
     }
 

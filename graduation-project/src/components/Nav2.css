@@ -13,10 +13,11 @@ body {
 .nav-container {
     max-height: 100vh;
     width: 100%;
-    background-color: #353941;
-    /* background-image: linear-gradient(135deg, #131414 0%, #000000 100%); */
+    /* background-color: #000000e1; */
+    background-image: linear-gradient(135deg, #144b55 0%, #1a1819 100%);
     transform-style: preserve-3d;
     overflow: hidden;
+    
 }
 
 .navbar {

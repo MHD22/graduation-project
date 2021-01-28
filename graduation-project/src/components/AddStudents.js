@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Swal from 'sweetalert2' ;
+import './CreateClass.css'
 
 class AddStudents extends Component {
     constructor() {
@@ -150,9 +151,9 @@ class AddStudents extends Component {
         return (
             <>
                 {this.state.route ? <Redirect to={this.state.route} /> : null}
-                <h1 className="main-title">Add Student</h1>
+                <h1 className="main-title">Add Students</h1>
                 <div className="container-students">
-                    <input className="search" onChange={this.handleFilter} type="search" placeholder="search on students" />
+                <input className="search" onChange={this.handleFilter} type="search" placeholder='search on students' />
                     <div className="cont-cont">
                         <div className="students p-3" id="students">
                             {filteredArray}

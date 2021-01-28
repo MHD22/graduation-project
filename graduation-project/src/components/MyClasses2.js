@@ -597,10 +597,6 @@ class MyClasses extends Component {
                                 </div>
                             </Col>
                         </Row>
-
-
-
-
                     </div>
                 </Route>
 
