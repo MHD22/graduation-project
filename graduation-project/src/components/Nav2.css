@@ -16,7 +16,7 @@ body {
     /* background-color: #000000e1; */
     background-image: linear-gradient(135deg, #144b55 0%, #1a1819 100%);
     transform-style: preserve-3d;
-    overflow: auto;
+    overflow: hidden;
     
 }
 
@@ -131,7 +131,7 @@ header {
     color: #fff;
     padding: 200px 0;
     padding-top: 350px;
-    z-index: 5;
+    /* z-index: 5; */
 }
 .cont-cont{
     position: absolute;
@@ -151,7 +151,7 @@ header {
 }
 
 .Particles {
-    position: fixed;
+    position: absolute;
     top: 10%;
     right: 0;
     bottom: 0;
@@ -160,8 +160,8 @@ header {
 }
 
 #first-container {
-    margin-top: -250px;
-    z-index: 4;
+    margin-top: -222px;
+    z-index: 5;
 }
 
 .inner {

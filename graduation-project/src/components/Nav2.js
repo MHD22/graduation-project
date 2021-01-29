@@ -85,8 +85,8 @@ class Nav2 extends Component {
                     <div className="main-container">
                         <div className="main">
                             <header>
-                                <div className="overlay">
                                     <Particles className="Particles" params={par} />
+                                <div className="overlay">
                                     {/* <div className="cont-cont"> */}
                                         <Container id="first-container" >
                                             <Switch>
