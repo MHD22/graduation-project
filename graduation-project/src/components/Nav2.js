@@ -50,6 +50,7 @@ class Nav2 extends Component {
             container.classList.toggle("active");
         })
 
+
         const userData = getUserDataFromSession();
         if (userData) {
 
@@ -86,17 +87,18 @@ class Nav2 extends Component {
                             <header>
                                 <div className="overlay">
                                     <Particles className="Particles" params={par} />
-
-                                    <Container id="first-container" >
-                                        <Switch>
-                                            <Route path="/" exact component={Home} />
-                                            <Route path="/register" component={Register} />
-                                            <Route path="/login" component={Login} />
-                                            <Route path="/about" component={About} />
-                                            <Route path="/create" component={() => <CreateClass />} />
-                                            <Route path="/show" component={MyClasses2} />
-                                        </Switch>
-                                    </Container>
+                                    {/* <div className="cont-cont"> */}
+                                        <Container id="first-container" >
+                                            <Switch>
+                                                <Route path="/" exact component={Home} />
+                                                <Route path="/register" component={Register} />
+                                                <Route path="/login" component={Login} />
+                                                <Route path="/about" component={About} />
+                                                <Route path="/create" component={() => <CreateClass />} />
+                                                <Route path="/show" component={MyClasses2} />
+                                            </Switch>
+                                        </Container>
+                                    {/* </div> */}
 
                                 </div>
                             </header>
