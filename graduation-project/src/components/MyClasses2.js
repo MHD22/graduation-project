@@ -198,9 +198,9 @@ class MyClasses extends Component {
                 let ctx = canvas.getContext('2d');
 
                 //Canvas properties .
-                ctx.strokeStyle = 'yellow';
-                ctx.fillStyle = 'yellow';
-                ctx.lineWidth = '5';
+                ctx.strokeStyle = '#fcff04';
+                ctx.fillStyle = '#fcff04';
+                ctx.lineWidth = '3';
 
                 //Change the background of context to the uploaded image .
                 let image = document.getElementById('person');
@@ -215,7 +215,7 @@ class MyClasses extends Component {
                     if (!studetnsIDs.includes(id)) {
                         continue;
                     }
-                    if (result[i].probability * 100 < 90) {
+                    if (result[i].probability * 100 < 85) {
                         continue;
                     }
 
@@ -230,8 +230,8 @@ class MyClasses extends Component {
                     let Dim = (right - left);
 
                     //Determine font size and the space between rectangle and text .
-                    let space = parseInt(Dim / 3),
-                        text = `${space}px Lobster`;
+                    let space = parseInt(Dim /3) +2,
+                        text = `${space}px Carter One`;
                     ctx.font = text;
 
                     //Draw the rectangle .

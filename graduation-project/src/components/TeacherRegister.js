@@ -10,6 +10,8 @@ class TeacherRegister extends Component {
             teacherData: {},
             hashedToken: '',
             route: null,
+            showTrueSignE:false,
+            showFalseSignE:false,
 
         }
     }
@@ -27,14 +29,26 @@ class TeacherRegister extends Component {
 
         // this.clearForm() ;
 
-        if (teacherData.firstName && teacherData.lastName && teacherData.password && teacherData.id_number && teacherData.email) {
-            this.storeTeacherDataInDB(teacherData);
+        let pattern = /^\d*[A-Za-z]+\w*@zu.edu.jo$/ig;
+        let regex = pattern.test(teacherData.email) ;
+        // let regex = true;
+        if(regex){
+            if (teacherData.firstName && teacherData.lastName && teacherData.password && teacherData.id_number && teacherData.email) {
+                this.storeTeacherDataInDB(teacherData);
+            }
+            else {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Hmmm ..',
+                    html: '<h5 class="text-warning font-lobster mt-2">All fields are required</h5>',
+                })
+            }
         }
         else {
             Swal.fire({
-                icon: 'warning',
-                title: 'Hmmm ..',
-                html: '<h5 class="text-warning font-lobster mt-2">All fields are required</h5>',
+                icon: 'error',
+                title: 'Oops..',
+                html: '<h5 class="text-warning font-lobster mt-2">Email is not valid!</h5>',
             })
         }
     }
@@ -42,7 +56,7 @@ class TeacherRegister extends Component {
     storeTeacherDataInDB = (teacherData) => {
         let { email, id_number } = teacherData;
         let bodyData = { email, id_number };
-        let baseUrl= document.getElementById('baseUrl').defaultValue;
+        let baseUrl = document.getElementById('baseUrl').defaultValue;
         fetch(`${baseUrl}/teachers`, {
             method: 'POST',
             headers: {
@@ -64,9 +78,7 @@ class TeacherRegister extends Component {
                     let start = res.indexOf('token:'); //5
                     if (start !== -1) {
                         let hashedToken = res.slice(6);
-                        this.setState({ hashedToken })
-                        document.getElementsByClassName('registerAsButton')[0].style.display = 'none';
-                        document.getElementsByClassName('registerAsButton')[1].style.display = 'none';
+                        this.setState({ hashedToken });
                         Swal.fire({
                             title: '<h3 class="font-acme">Enter the verification code sent to your email :</3>',
                             icon: 'question',
@@ -115,7 +127,7 @@ class TeacherRegister extends Component {
             teacherData.hashedToken = hashedToken;
             teacherData.token = token;
             console.log(teacherData, " <= teacher data.  ");
-            let baseUrl= document.getElementById('baseUrl').defaultValue;
+            let baseUrl = document.getElementById('baseUrl').defaultValue;
             fetch(`${baseUrl}/teacherRegister`, {
                 method: 'POST',
                 headers: {
@@ -160,7 +172,19 @@ class TeacherRegister extends Component {
         sessionStorage.setItem('teacher', JSON.stringify(storedData));
     }
     goToHomePage = () => {
-        window.location.replace("http://localhost:3001");
+        window.location.replace("http://localhost:3000");
+    }
+
+    checkMail =(e)=>{
+
+        let pattern = /^\d*[A-Za-z]+\w*@zu.edu.jo$/ig;
+        let regex = pattern.test(e.target.value) ;
+        if(regex){this.setState({showTrueSignE:true , showFalseSignE:false});
+        }
+        else{
+        this.setState({showTrueSignE:false , showFalseSignE:true});
+        }
+        
     }
 
     render() {
@@ -172,20 +196,33 @@ class TeacherRegister extends Component {
         return (
             <>
                 <form id="formTeacher" hidden={this.state.verified}>
-                    <input type="text" id="fname" placeholder="First Name .." className="form-input mt-4" name="fname" required />
-                    <br />
-                    <input type="text" placeholder="Last Name .." className="form-input mt-4" id="lname" name="lname" required />
-                    <br />
-                    <input type="email" placeholder="Email .." className="form-input mt-4" id="email" name="email" required />
-                    <br />
-                    <input type="text" id="t_id" placeholder="Teacher ID .." className="form-input mt-4" name="t_id" required />
-                    <br />
-                    <input type="password" placeholder="Password .." className="form-input mt-4" name="tpassword" id="tpassword" required />
-                    <br />
-                    <button type="submit" className="btn btn-success btn-submit mt-4" onClick={this.newTeacher} >
-                        Register
-                </button>
+
+                    <label>First Name</label>
+                    <input name="fname" id="fname" type="text" />
+
+                    <label>Last Name</label>
+                    <input name="lname" id="lname" type="text" />
+
+                    <label>ID Number</label>
+                    <input name="t_id" id="t_id" type="text" />
+
+                    <label>E-MAIL</label>
+                    <div className="contSigns">
+                        <input name="email" id="email" type="email" onChange={this.checkMail} />
+                        <span className="spanSign" ><i hidden={ ! this.state.showFalseSignE} className=" fas fa-exclamation errorSign "></i><i hidden={ ! this.state.showTrueSignE} className="far fa-check-circle checkSign"></i></span>
+                    </div>
+
+                    <label>PASSWORD</label>
+                    <input name="tpassword" id="tpassword" type="password" />
+
+                    <button className="mt4 my-button" onClick={this.newTeacher} >Sign Up</button>
+
                 </form>
+
+
+
+
+
             </>
         );
     }

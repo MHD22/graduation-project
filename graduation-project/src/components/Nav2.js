@@ -10,6 +10,7 @@ import MyClasses2 from '../components/MyClasses2';
 import { Route, Switch } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import Particles from 'react-particles-js';
+import Registration from './Registration';
 
 const par = {
     "particles": {
@@ -43,13 +44,19 @@ class Nav2 extends Component {
     }
     componentDidMount() {
         const hamburger_menu = document.querySelector(".hamburger-menu");
-
+        
         const container = document.querySelector(".nav-container");
-
-        hamburger_menu.addEventListener("click", () => {
+        const links = document.querySelectorAll(".links ul li a");
+        console.log(links)
+        
+        hamburger_menu.addEventListener("click", (e) => {
+            
             container.classList.toggle("active");
+            
         })
-
+        
+       document.getElementById('logoutLink').classList.remove('active');
+        
 
         const userData = getUserDataFromSession();
         if (userData) {
@@ -67,6 +74,13 @@ class Nav2 extends Component {
         sessionStorage.clear();
         window.location.reload();
     }
+    onClickNavItems = (e)=>{
+        if(!e.target.id.includes('navLink')){
+            const container = document.querySelector(".nav-container");
+            container.classList.toggle("active");
+        }
+
+    }
 
 
     render() {
@@ -76,30 +90,30 @@ class Nav2 extends Component {
                 <div className="nav-container">
                     <div className="navbar">
                         <div className="menu">
-                            <h3 className="logo">Class<span>Image</span></h3>
+                            <h3 className="logo">Face<span className="orange ">ify</span></h3>
+                           
                             <div className="hamburger-menu">
                                 <div className="bar"></div>
                             </div>
+                            
                         </div>
+                            <p hidden={! this.state.login} className="navName">DR.<span>{this.state.teacherName}</span></p>
                     </div>
                     <div className="main-container">
                         <div className="main">
                             <header>
                                     <Particles className="Particles" params={par} />
                                 <div className="overlay">
-                                    {/* <div className="cont-cont"> */}
                                         <Container id="first-container" >
                                             <Switch>
                                                 <Route path="/" exact component={Home} />
-                                                <Route path="/register" component={Register} />
-                                                <Route path="/login" component={Login} />
+                                                <Route path="/login" component={Registration} />
                                                 <Route path="/about" component={About} />
                                                 <Route path="/create" component={() => <CreateClass />} />
                                                 <Route path="/show" component={MyClasses2} />
                                             </Switch>
                                         </Container>
-                                    {/* </div> */}
-
+                                        
                                 </div>
                             </header>
                         </div>
@@ -108,32 +122,35 @@ class Nav2 extends Component {
                         {/* <div class="nshadow three"></div> */}
                         {/* <div className="nshadow four"></div> */}
                     </div>
-                    <div className="links">
+                    <div className="links" onClick={this.onClickNavItems}>
                         <ul>
+                            <li>
+                                <p hidden={! this.state.login}  style={{ "--i": "0.02s" }} className="navName2">DR.<span>{this.state.teacherName}</span></p>
+                            </li>
                             <li >
-                                <NavLink style={{ "--i": "0.05s" }} exact to="/">
+                                <NavLink id="navLink1" style={{ "--i": "0.05s" }} exact to="/">
                                     Home
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink style={{ "--i": "0.1s" }} to="/show">
+                                <NavLink id="navLink2" style={{ "--i": "0.1s" }} to="/show">
                                     My Classes
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink style={{ "--i": "0.15s" }}
+                                <NavLink id="navLink3" style={{ "--i": "0.15s" }}
                                     to="/create">
                                     Add Class
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink style={{ "--i": "0.2s" }} to="/login" hidden={this.state.login}>
+                                <NavLink id="navLink4" style={{ "--i": "0.2s" }} to="/login" hidden={this.state.login}>
                                     Login
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink style={{ "--i": "0.25s" }} to="/register" hidden={this.state.login}>
-                                    Register
+                                <NavLink id="logoutLink" onClick={this.logOut}  style={{ "--i": "0.25s" }} to="/" hidden={! this.state.login}>
+                                    Log out
                                 </NavLink>
                             </li>
                         </ul>
