@@ -1,3 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Recursive:wght@400;500;600;700;800;900&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lobster+Two:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Carter+One&display=swap');
+
+/* scroll bar: */
+::-webkit-scrollbar {
+  width: 10px;
+  
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 5px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(9, 219, 226, 0.102); 
+  
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(9, 219, 226, 0.753); 
+}
+
+
+
 .App {
   text-align: center;
 }
@@ -31,9 +66,9 @@
   font-family: 'Sansita Swashed';
   color: darkgrey;
 }
-.active {
+/* .active {
   border-bottom: 2px solid darkgray;
-}
+} */
 .nav-font:hover {
   text-decoration: none;
 }
@@ -61,17 +96,17 @@
   line-height: 60px;
 }
 .btn-submit {
-  width: 20%;
-  height: 50px;
+  
+  
   border-radius: 100px !important;
   font-family: 'Lobster';
   font-size: medium;
   margin:0 10px;
 }
 
-a {
+/* a {
   color: white !important;
-}
+} */
 
 .info {
   color: white !important;
@@ -231,3 +266,10 @@ a {
 .cursor:hover {
   transform: scale(1.01 , 1.01);
 }
+
+
+@media (max-width: 600px) {
+  .table-header{  
+      font-size:.5em;
+  }
+} 

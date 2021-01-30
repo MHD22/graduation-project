@@ -4,6 +4,7 @@ import './CreateClass.css';
 import { Redirect } from "react-router-dom";
 import AddStudents from './AddStudents';
 import Swal from 'sweetalert2' ;
+import './table.css' ;
 
 class CreateClass extends Component {
     constructor() {
@@ -83,13 +84,13 @@ class CreateClass extends Component {
         return (
             <>
                 {this.state.route? <Redirect to={this.state.route}/>:null}
-                <div className="mt-3 bg-black-10 shadow-5 p-5 ">
+                <div className="p-5">
                     {isClickedNext === false ? 
                     <>
-                        <h1 className="main-title">Add Class</h1>
-                        <input type="text" placeholder="Class Name" onChange={this.courseName} className="form-input mt-4" required />
+                        <h1 className="main-title">Create new Class</h1>
+                        <input type="text" placeholder="Class Name" onChange={this.courseName} className="new-input mt-3" required />
                         <br />
-                        <Button onClick={this.next} id='submit' className="btn f3 grow btn-success btn-submit mt-4">Next</Button>
+                        <Button onClick={this.next} id='submit' className="btn f3 grow btn-success next-btn mt-4">Next</Button>
                     </>
                         :
                         <AddStudents createNew={true} courseName={this.state.courseName}/>

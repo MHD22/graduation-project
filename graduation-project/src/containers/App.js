@@ -1,39 +1,22 @@
 import React, { Component } from 'react';
 import './App.css';
-import Login from '../components/Login' ;
-import Register from '../components/Register' ;
-import NavBar from '../components/NavBar' ;
-import Home from '../components/Home' ;
-import About from '../components/About' ;
-import CreateClass from '../components/CreateClass' ;
-import MyClasses from '../components/MyClasses' ;
-import {BrowserRouter , Route,Switch} from 'react-router-dom' ;
-import { Container } from 'react-bootstrap';
-import Footer from '../components/Footer' ;
-
+import Nav2 from '../components/Nav2';
+import { BrowserRouter } from 'react-router-dom';
+import Footer from '../components/Footer';
 
 class App extends Component {
-  constructor(){
+  constructor() {
     super();
-    this.state={};
+    this.state = {};
   }
 
-  
-  render(){
+  render() {
     return (
       <div className="App">
         <BrowserRouter>
-          <NavBar />
-          <Container>
-            <Switch>
-              <Route path="/" exact component={Home}/>
-              <Route path="/register" component={Register} />
-              <Route path="/login" component={Login} />
-              <Route path="/about" component={About}/>
-              <Route path="/create" component={()=><CreateClass/>} />
-              <Route path="/show" component={MyClasses} />
-            </Switch>
-          </Container>
+
+          <Nav2 />
+
         </BrowserRouter>
         <Footer />
         <input id="baseUrl" hidden defaultValue='https://class-take-attendance.herokuapp.com' />

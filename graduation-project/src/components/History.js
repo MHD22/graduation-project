@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Details from './Details';
 import { Redirect } from 'react-router-dom';
+import './table.css';
+import './myClasses.css';
 
 class History extends Component {
 
@@ -9,26 +11,28 @@ class History extends Component {
         this.state = {
             history: [],
             students: [],
-            allStudents:[],
+            allStudents: [],
             imgs: [],
             date: '',
-            showDitails: false ,
-            route : null 
+            showDitails: false,
+            route: null
         }
     }
     componentDidMount() {
 
-        let baseUrl= document.getElementById('baseUrl').defaultValue;
+        let baseUrl = document.getElementById('baseUrl').defaultValue;
         let url = `${baseUrl}/classHistory/${this.props.selected_class}`;
         fetch(url)
             .then(response => response.json())
             .then(classData => {
-                let allStudents = classData.students.map(std=>{
-                    return { id:std.id_number,
-                            name:std.firstName + ' ' + std.lastName}
+                let allStudents = classData.students.map(std => {
+                    return {
+                        id: std.id_number,
+                        name: std.firstName + ' ' + std.lastName
+                    }
                 })
-                this.setState({ 
-                    history: classData.history ,
+                this.setState({
+                    history: classData.history,
                     allStudents: allStudents
                 });
             })
@@ -39,8 +43,8 @@ class History extends Component {
         let rows = historyData.map((history, ind) => {
             return (
                 <tr key={ind}>
-                    <td className="f3 ">{history.date}</td>
-                    <td><button className="btn f4 btn-dark shadow btn-submit grow " onClick={() => { this.showDitails(history._id) }}>showDetails</button></td>
+                    <td className="date">{history.date}</td>
+                    <td><button className="btn btn-light shadow grow details" onClick={() => { this.showDitails(history._id) }}>showDetails</button></td>
                 </tr>
             )
         });
@@ -54,28 +58,31 @@ class History extends Component {
                     students: hist.students,
                     imgs: hist.images,
                     date: hist.date,
-                    showDitails:true
+                    showDitails: true
                 })
             }
         })
     }
 
     back = () => {
-        this.props.onChangeRoute('/show/classData',0);
+        this.props.onChangeRoute('/show/classData', 0);
     }
     render() {
         let rows = this.renderTable();
-        let {students, allStudents, imgs, date} = this.state;
+        let { students, allStudents, imgs, date } = this.state;
         let className = this.props.selected_class;
-        let historyData={students, allStudents, imgs, date, className};
+        let historyData = { students, allStudents, imgs, date, className };
         return (
             <>
                 {this.state.route ? <Redirect exact to={this.state.route} /> : null}
-                {this.state.showDitails && (<Details historyData={historyData} onChangeRoute={this.props.onChangeRoute} backToHistory={true}  />)}
-                { ! this.state.showDitails &&(<>
-                    <img className="mt-2 grow pointer" onClick={this.back} src="https://img.icons8.com/fluent/48/000000/circled-left.png" alt="go back" />
+                {this.state.showDitails && (<Details historyData={historyData} onChangeRoute={this.props.onChangeRoute} backToHistory={true} />)}
+                { !this.state.showDitails && (<div className="history">
+                    <button hover-data="Back"
+                        onClick={this.back} className="red-btn my-button" >
+                        <i className="btn-icon far fa-arrow-alt-circle-left"></i>
+                    </button>
                     <div className="table-responsive mt-3">
-                        <table className="table table-bordered" style={{ width: '100%' }}>
+                        <table id="table1">
                             <thead className="text-dark f2" style={{ fontFamily: 'Lobster', letterSpacing: '2px' }}>
                                 <tr>
                                     <th>Date</th>
@@ -87,7 +94,7 @@ class History extends Component {
                             </tbody>
                         </table>
                     </div>
-                </>)}
+                </div>)}
             </>
         )
     }
