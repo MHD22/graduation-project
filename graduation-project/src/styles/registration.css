@@ -4,15 +4,36 @@
     color:#fff;
     z-index:0;
     width:50%;
-    /* height: 50vh; */
+    /* min-height: 50vh; */
     display:flex;
     flex-direction:column;
     justify-content: center;
     align-items: center;
     margin:  auto;
-    
-    
-    
+      
+  }
+  .addC-body{
+    font-family: 'Open Sans',sans-serif;
+    font-weight: 500;
+    color:#fff;
+    z-index:0;
+    width:50%;
+    /* height: 20vh; */
+    display:flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+    margin:  auto;
+  }
+
+  .addC-body input , .addStd-cont input{
+      width: 75%;
+      margin: auto;
+  }
+  .addC-body label.add{
+      font-size: 1.5em;
+      margin-top: -100px;
+      margin-bottom: 20px;
   }
   .reg-info p {
     text-align:center;
@@ -80,7 +101,7 @@
     align-items: center;
     position: relative;
     width:100%;
-    min-height: 65vh;
+    min-height: 45vh;
     margin: auto;
     
     
@@ -317,5 +338,11 @@
     display:flex;
     flex-direction: row;
 
+}
+
+.label-title {
+    font-family: 'Acme','Ubuntu';
+    letter-spacing: 2px;
+    color:rgba(238, 238, 238, 0.815);
 }
 

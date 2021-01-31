@@ -44,7 +44,7 @@ class History extends Component {
             return (
                 <tr key={ind}>
                     <td className="date">{history.date}</td>
-                    <td><button className="btn btn-light shadow grow details" onClick={() => { this.showDitails(history._id) }}>showDetails</button></td>
+                    <td><button className="shadow grow my-button detailsBtn" hover-data="Show Details" onClick={() => { this.showDitails(history._id) }}><i class="f4 btn-icon fas fa-question"></i></button></td>
                 </tr>
             )
         });
@@ -77,19 +77,21 @@ class History extends Component {
                 {this.state.route ? <Redirect exact to={this.state.route} /> : null}
                 {this.state.showDitails && (<Details historyData={historyData} onChangeRoute={this.props.onChangeRoute} backToHistory={true} />)}
                 { !this.state.showDitails && (<div className="history">
-                    <button hover-data="Back"
-                        onClick={this.back} className="red-btn my-button" >
-                        <i className="btn-icon far fa-arrow-alt-circle-left"></i>
-                    </button>
-                    <div className="table-responsive mt-3">
-                        <table id="table1">
-                            <thead className="text-dark f2" style={{ fontFamily: 'Lobster', letterSpacing: '2px' }}>
+                    <div className="jsBack">
+                        <button hover-data="Back"
+                            onClick={this.back} style={{}} className="red-btn my-button " >
+                            <i className="btn-icon far fa-arrow-alt-circle-left"></i>
+                        </button>
+                    </div>
+                    <div className="table-container mt-3">
+                        <table className="table1">
+                            <thead className="text-dark" >
                                 <tr>
                                     <th>Date</th>
                                     <th>Details</th>
                                 </tr>
                             </thead>
-                            <tbody id='body' style={{ fontFamily: 'Acme', color: 'gray' }}>
+                            <tbody className="tableBody">
                                 {rows}
                             </tbody>
                         </table>

@@ -31,7 +31,7 @@ class EditClass extends Component {
                 <tr id={`r${std.id}`} key={std.id}>
                     <td>{std.id}</td>
                     <td>{std.name}</td>
-                    <td onClick={() => this.deleteStd(std.id)}><img className="icon" src="https://img.icons8.com/flat_round/64/000000/minus.png" alt="delete"/></td>
+                    <td onClick={() => this.deleteStd(std.id)}><i class="icon-delete fas fa-user-times"></i></td>
                 </tr>
             )
         });
@@ -113,7 +113,7 @@ class EditClass extends Component {
     onDeleteClass = () => {
         Swal.fire({
             title: 'Are you sure?',
-            html: "<h5 class='text-danger'>You won't to delete this class !</h5>",
+            html: "<h5 class='text-danger'>You want to delete this class</h5>",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -206,37 +206,47 @@ class EditClass extends Component {
         let { rows } = this.state;
         return (
             <div className="edit-class">
-                <button hover-data="Back"
-                    onClick={this.back} className="red-btn my-button">
-                    <i className="btn-icon far fa-arrow-alt-circle-left"></i>
-                </button>
+                <div className="js">
+                    <button hover-data="Back"
+                        onClick={this.back} className="red-btn my-button">
+                        <i className="btn-icon far fa-arrow-alt-circle-left"></i>
+                    </button>
+                </div>
                 <h2 className="f2 mt2 font-lobster">{this.props.classInfo.className}</h2>
                 <>
-                    <table id="table1" className="" style={{ width: '100%' }}>
-                        <thead className="text-dark" style={{ fontFamily: 'Lobster', letterSpacing: '2px' }}>
+                <div className="table-container mt-3" style={{width:'100%'}}>
+                    <table  className="table1" style={{ width: '100%' }}>
+                        <thead className="text-dark">
                             <tr>
                                 <th>Student ID</th>
                                 <th>Student Name</th>
                                 <th>Delete</th>
                             </tr>
                         </thead>
-                        <tbody id='body' style={{ fontFamily: 'Acme', color: 'gray' }}>
+                        <tbody className="tableBody" >
                             {rows}
                         </tbody>
                     </table>
+                    </div>
+
                 </>
 
-                { !this.state.clickedAdd && (<button className="my-button grow mt-2" onClick={this.onAddStd}>Add Students</button>)}
-                {   this.state.clickedAdd && (<AddStudents createNew={false} onAddStd={this.addStd} />)}
+                { !this.state.clickedAdd && (<button className="my-button grow mt0" onClick={this.onAddStd}>Add Students</button>)}
+                {   this.state.clickedAdd && (
+                <div className="addStd-cont">
+                    <AddStudents createNew={false} onAddStd={this.addStd} />
+                </div> 
+                
+                )}
 
                 { this.state.isThereChanges && (
-                    <Row className="d-flex justify-content-center" xs={1} md={2}>
-                        <Col xs={12} md={6}><button className="my-button grn-btn grow" onClick={this.onConfirm}>Confirm Changes</button></Col>
-                        <Col xs={12} md={6}><button className="my-button grow red-btn" onClick={this.onCancel}>Cancel </button></Col>
-                    </Row>
+                    <div className=" btnEdCon">
+                        <button className="my-button grow red-btn" hover-data="Cancel Changes" onClick={this.onCancel}><i class="  icon-big btn-icon  far fa-times-circle"></i> </button>
+                        <button className="my-button grn-btn grow" hover-data="Confirm Changes" onClick={this.onConfirm}><i class="icon-big btn-icon far fa-check-circle"></i></button>
+                    </div>
                 )}
                 <Row className="ma3 justify-content-start"  >
-                    <Col className="pa0 justify-start flex" xs={12} md={12}><button onClick={this.onDeleteClass} className="my-button grow red-btn">Delete Class !</button></Col>
+                    <Col className="pa0 justify-start flex" xs={12} md={12}><button onClick={this.onDeleteClass} className="delete-btn my-button grow red-btn">Delete Class ! </button></Col>
                 </Row>
             </div>
         )

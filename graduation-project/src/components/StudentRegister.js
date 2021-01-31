@@ -166,17 +166,17 @@ class StudentRegister extends Component {
                 {this.state.route ? <Redirect to={this.state.route} /> : null}
                 <form id="formStudent" hidden={this.state.hideform}>
     
-                    <label>First Name</label>
+                    <label className="label-title ">First Name</label>
                     <input name="firstName" id="firstName" type="text" />
 
-                    <label>Last Name</label>
+                    <label className="label-title ">Last Name</label>
                     <input name="lastName" id="lastName" type="text" />
 
-                    <label>ID Number</label>
+                    <label className="label-title ">ID Number</label>
                     <input name="id_number" id="id_number" type="text" />
 
                     <div className="contSigns">
-                        <label className="uploadFile mt4 grow dim pointer" htmlFor='file'>Upload 3 Images <i class=" fas fa-cloud-upload-alt"></i></label>
+                        <label className="uploadFile mt4 grow dim pointer label-title" htmlFor='file'>Upload 3 Images <i class=" fas fa-cloud-upload-alt"></i></label>
                         <span className="spanSign" ><i hidden={ ! this.state.showFalseSign} className="mmt fas fa-exclamation errorSign "></i><i hidden={ ! this.state.showTrueSign} className=" mmt far fa-check-circle checkSign"></i></span>
                     </div>
                     <input type="file" id="file" className="form-file mt-4" multiple accept="image/*" required onChange={this.checkFiles} />

@@ -98,7 +98,7 @@ class AddStudents extends Component {
                 addedStdLName: arrLN
             });
 
-            document.getElementById(id + 'label').style.background = "#343a40";
+            document.getElementById(id + 'label').style.background = "#343a400a ";
         }
         console.log(this.state.addedStdID, this.state.addedStdFName, this.state.addedStdLName);
     }
@@ -137,13 +137,13 @@ class AddStudents extends Component {
             this.state.addedStdID.forEach((id) => {
                 let name = document.getElementById(id + 'label');
                 if (name !== null) {
-                    name.style.background = "#004d1a";
+                    name.style.background =  '#178326a2';
                 }
 
             })
         }
         filteredArray = filteredArray.map((std, i) => {
-            return <label htmlFor={std.id} id={std.id + 'label'} key={std.id} data-name={std.fname} className="student">{std.fname + ' ' + std.lname + ' | ' + std.id} <input type="checkbox" data-fname={std.fname} data-lname={std.lname} value={std.id} id={std.id} onChange={this.addStudent} className="check" /></label>
+            return <label htmlFor={std.id} id={std.id + 'label'} key={std.id} data-name={std.fname} className="grow student">{std.fname + ' ' + std.lname + ' | ' + std.id} <input type="checkbox" data-fname={std.fname} data-lname={std.lname} value={std.id} id={std.id} onChange={this.addStudent} className="check" /></label>
         })
 
 
@@ -151,9 +151,9 @@ class AddStudents extends Component {
         return (
             <>
                 {this.state.route ? <Redirect to={this.state.route} /> : null}
-                <h1 className="main-title">Add Students</h1>
+                <h1 className="main-title mt5">Add Students</h1>
                 <div className="container-students">
-                <input className="search" onChange={this.handleFilter} type="search" placeholder='search on students' />
+                <input  onChange={this.handleFilter} type="search"  placeholder='search on students' />
                     <div className="cont-cont">
                         <div className="students p-3" id="students">
                             {filteredArray}
@@ -161,7 +161,7 @@ class AddStudents extends Component {
                     </div>
                 </div>
                 <br />
-                <button id='submit' className="btn f3 grow btn-success btn-submit"
+                <button id='submit' className="my-button"
                     onClick={
                         this.props.createNew ?
                             this.addNewClass

@@ -176,10 +176,10 @@ class Login extends Component {
                         <input name='teacherPassword' type="password" placeholder="Password.." className="form-input mt-4" required />
                         <br />
                         <input type="submit" id='submit' onClick={this.checkId} value="Login" className="btn btn-success btn-submit mt-4" /> */}
-                        <label>ID Number</label>
+                        <label className="label-title ">ID Number</label>
                         <input name='teacherId' type="text" />
 
-                        <label>PASSWORD</label>
+                        <label className="label-title ">PASSWORD</label>
                         <input name='teacherPassword' type="password" />
                         <button onClick={this.checkId} className="mt4 my-button ">Sign In</button>
 
@@ -190,14 +190,14 @@ class Login extends Component {
                     {/* <h2 className="main-title ma3" >Reset Password</h2> */}
                     <form className="mt-3" id='resetPassForm' >
                         <div>
-                            <label>Email</label>
+                            <label className="label-title " >Email</label>
                             <input name='email' type="email" />
-                            <label>New Password</label>
+                            <label className="label-title ">New Password</label>
                             <input name='newPass' type="password" />
                             <button onClick={this.getAccessToken} className="mt4 my-button ">Send Token</button>
                         </div>
                     </form>
-                    <p onClick={this.showLoginForm} className="mt4 pointer grow "><span className="forget">login?</span></p>
+                    <p onClick={this.showLoginForm} className="mt4 pointer grow label-title "><span className="forget">login?</span></p>
                 </div>
 
                
