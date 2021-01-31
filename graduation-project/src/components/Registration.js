@@ -1,6 +1,5 @@
 import React from 'react';
 import { Component } from 'react';
-import Swal from 'sweetalert2';
 import '../styles/registration.css';
 import $ from 'jquery';
 import ReactCardFlip from 'react-card-flip';

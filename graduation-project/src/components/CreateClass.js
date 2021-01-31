@@ -117,19 +117,7 @@ class CreateClass extends Component {
                     </div>
                 </div>
 
-
-
-
-
             </>
-
-
-
-
-
-
-
-
 
 
 

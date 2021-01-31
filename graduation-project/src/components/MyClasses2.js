@@ -1,4 +1,4 @@
-import { Button, Col, Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import React, { Component } from 'react';
 import noImage from '../noImage.png';
 import StudentsTable from './StudentsTable';

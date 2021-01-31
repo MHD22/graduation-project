@@ -118,12 +118,12 @@
 .js{
     display: flex;
     flex-direction: row;
-    justify-content: start;
+    justify-content: flex-start;
     margin-left: -8px;
 }
 .jsBack{
     display: flex;
     flex-direction: row;
-    justify-content: start;
+    justify-content: flex-start;
     margin-left: 10%;
 }

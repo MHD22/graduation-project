@@ -255,13 +255,19 @@ i.icons {
 }
 
 .main-div {
-  margin-top: -9%;
+  /* margin-top: -9%; */
+  width:100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+  align-items: center;
 }
 
 .main-div p , .main-div ol {
   letter-spacing: 1px;
-  font-family: 'Lora';
-  font-size: 20px;
+  font-family: 'Recursive';
+  font-size: 1.5em;
 }
 
 .main-div h1 {
@@ -271,6 +277,7 @@ i.icons {
   font-weight: bold;
   font-size: 40px;
 }
+
 
 .main-div b {
   color: orange;
@@ -285,3 +292,20 @@ i.icons {
   width: 300px;
 }
 
+.abstract{
+  min-height: 80vh;
+}
+#Capa_1{
+ fill:white;
+}
+
+
+
+
+/* for full width backgrounds */
+.backgroundHome{
+  width: 100vw;
+  min-height: 100vh;
+  
+
+}
