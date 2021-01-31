@@ -8,6 +8,7 @@ import { storage } from '../firebase/index';
 import EditClass from './EditClass';
 import { Redirect, Route } from 'react-router-dom';
 import './myClasses.css';
+import './home.css';
 
 const initialState = {
     file: null,
@@ -506,21 +507,16 @@ class MyClasses extends Component {
                 <Route path={`${path}/classHistory`} component={() => <History selected_class={this.state.selected_class} onChangeRoute={this.onChangeRoute} />} />
                 <Route path={`${path}/details`} component={() => <Details historyData={this.state.historyData} onChangeRoute={this.onChangeRoute} backToHistory={false} />} />
                 <Route path={`${path}`} exact >
-                    <div className="container text-center" >
+                    <div className=" text-center" >
 
                         <section className="hero-unit">
-
                             <hgroup>
                                 <h2>Select A Class </h2>
-
                             </hgroup>
 
-
                             <div className="flip-cards">
-
                                 {rows}
                             </div>
-
                         </section>
 
                     </div>
@@ -529,31 +525,6 @@ class MyClasses extends Component {
                     <div className="bg--white">
                     </div>
                     <div className="container">
-                        {/* Spinner when get the result */}
-                        {/* <div className="loading" hidden={!this.state.load}>
-                            <div className="circle"></div>
-                            <div className="circle"></div>
-                            <div className="circle"></div>
-                            <div className="circle"></div>
-                        </div> */}
-                        {/* <svg className="spinner" hidden={!this.state.load}>
-                            <g>
-                                <path d="M 50,100 A 1,1 0 0 1 50,0" />
-                            </g>
-                            <g>
-                                <path d="M 50,75 A 1,1 0 0 0 50,-25" />
-                            </g>
-                            <defs>
-                                <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-
-                                    <stop offset="0%" style={{'stop-color': '#FF56A1' , 'stop-opacity':'1'}} />
-                                    <stop offset="50%" style={{'stop-color': '#FF9350' , 'stop-opacity':'1'}} />
-                                    <stop offset="100%" style={{'stop-color':' #2c6a7a' , 'stop-opacity':'1'}} />
-                                </linearGradient>
-                            </defs>
-                        </svg> */}
-
-
 
                         <div class="loader" hidden={!this.state.load}>
                             <ul class="hexagon-container">
@@ -566,8 +537,6 @@ class MyClasses extends Component {
                                 <li class="hexagon hex_7"></li>
                             </ul>
                         </div>
-
-
 
 
                         {/* buttons ,, top  */}

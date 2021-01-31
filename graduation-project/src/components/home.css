@@ -224,14 +224,15 @@
   justify-content: center;
   align-items: center;
   border-radius: 20px;
-  box-shadow: 2px 2px 15px 1px rgba(48, 238, 255, 0.657);
+  padding:0 20px;
+  box-shadow: 0px 0px 15px -3px rgba(48, 238, 255, 0.657);
 }
 
 i.icons {
   font-size: unset;
   font-size: 1.8em;
   color: rgba(13, 201, 218, 0.418) !important;
-  filter: opacity(.8);
+  /* filter: opacity(0); */
   font-weight: bold;
 }
 

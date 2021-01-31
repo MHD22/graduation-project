@@ -22,7 +22,7 @@ class Details extends Component {
                 'borderRadius': '20px'
             }
             return (
-                <div onClick={() => { window.open(img, "_blank") }} style={style} key={ind} className="shadow br3 grow pointer dim">
+                <div onClick={() => { window.open(img, "_blank") }} style={style} key={ind} className="my-shad br3 grow pointer">
                 </div>
             )
         })
@@ -59,28 +59,36 @@ class Details extends Component {
         let imgTags = this.getImages();
         return (
             <>
-                <button hover-data="Back"
-                    onClick={this.back} className="red-btn my-button" >
-                    <i className="btn-icon far fa-arrow-alt-circle-left"></i>
-                </button>
-                <h2 className="orange mt2 font-lobster" >{`Details of ${this.props.historyData.date} day, for ${this.props.historyData.className}.`}</h2>
-                <div className="pa3 ph6 f3 mb5">
-                    <h4 className="green b" style={{ fontFamily: 'Lobster', letterSpacing: '3px' }}>Attendants Students.</h4>
-                    <table id="table1">
-                        <thead className="text-dark" style={{ fontFamily: 'Lobster', letterSpacing: '2px' }}>
-                            <tr>
-                                <th>Student ID</th>
-                                <th>Student Name</th>
-                            </tr>
-                        </thead>
-                        <tbody id='body' style={{ fontFamily: 'Acme', color: 'gray' }}>
-                            {attend}
-                        </tbody>
-                    </table>
-                </div>
-                <h3 className="font-acme">Class Images</h3>
-                <div id="imageContainer" className="row ma4">
-                    {imgTags}
+                <div style={{marginTop: '-5%'}}>
+                    <div className="jsBack" >
+                        <button hover-data="Back"
+                            onClick={this.back} className="red-btn my-button" >
+                            <i className="btn-icon far fa-arrow-alt-circle-left"></i>
+                        </button>
+                    </div>
+                    <h2 className=" mt2 font-rec" >{`Details of ${this.props.historyData.date}, for ${this.props.historyData.className} class.`}</h2>
+                    <div className="my-line neg"></div>
+                    <div className="pv3 mb5">
+                        <h4 className="font-rec">Attendants Students.</h4>
+                        <div className="table-container mt-3">
+                        <table className="table1">
+                            <thead className="text-dark">
+                                <tr>
+                                    <th>Student ID</th>
+                                    <th>Student Name</th>
+                                </tr>
+                            </thead>
+                            <tbody className="tableBody">
+                                {attend}
+                            </tbody>
+                        </table>
+                        </div>
+
+                    </div>
+                    <h3 className="font-rec">Class Images</h3>
+                    <div id="imageContainer" className="row ma4">
+                        {imgTags}
+                    </div>
                 </div>
             </>
         )
