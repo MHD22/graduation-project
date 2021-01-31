@@ -15,14 +15,14 @@ function StudentsTable({students}){
     return(
         <>
             <div className="table-container mt-3">
-                <table id="table1" className=" ">
-                    <thead className="text-dark" style={{ fontFamily : 'Lobster', letterSpacing : '2px' }}>
+                <table id="" className=" table1">
+                    <thead className="text-dark">
                         <tr>
                             <th>Student ID</th>
                             <th>Student Name</th>
                         </tr>
                     </thead>
-                    <tbody id='body' style={{ fontFamily : 'Acme' , color : 'gray' }}>
+                    <tbody className="tableBody">
                         {rows}
                     </tbody>
                 </table>

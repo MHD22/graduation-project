@@ -197,22 +197,22 @@ class TeacherRegister extends Component {
             <>
                 <form id="formTeacher" hidden={this.state.verified}>
 
-                    <label>First Name</label>
+                    <label className="label-title ">First Name</label>
                     <input name="fname" id="fname" type="text" />
 
-                    <label>Last Name</label>
+                    <label className="label-title ">Last Name</label>
                     <input name="lname" id="lname" type="text" />
 
-                    <label>ID Number</label>
+                    <label className="label-title ">ID Number</label>
                     <input name="t_id" id="t_id" type="text" />
 
-                    <label>E-MAIL</label>
+                    <label className="label-title ">E-MAIL</label>
                     <div className="contSigns">
                         <input name="email" id="email" type="email" onChange={this.checkMail} />
                         <span className="spanSign" ><i hidden={ ! this.state.showFalseSignE} className=" fas fa-exclamation errorSign "></i><i hidden={ ! this.state.showTrueSignE} className="far fa-check-circle checkSign"></i></span>
                     </div>
 
-                    <label>PASSWORD</label>
+                    <label className="label-title ">PASSWORD</label>
                     <input name="tpassword" id="tpassword" type="password" />
 
                     <button className="mt4 my-button" onClick={this.newTeacher} >Sign Up</button>

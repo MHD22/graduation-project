@@ -1,6 +1,5 @@
 import React from 'react';
 import { Component } from 'react';
-import Swal from 'sweetalert2';
 import '../styles/registration.css';
 import $ from 'jquery';
 import ReactCardFlip from 'react-card-flip';
@@ -87,7 +86,7 @@ class Registration extends Component {
                                                     <path className="path-moving" d="M24.192,3.813L11.818,16.188L1.5,6.021V2.451C1.5,2.009,1.646,1.5,2.3,1.5h18.4c0.442,0,0.8,0.358,0.8,0.801v18.398c0,0.442-0.357,0.801-0.8,0.801H2.3c-0.442,0-0.8-0.358-0.8-0.801V6" />
                                                 </svg>
                                             </label>
-                                            <label className="forAs pointer" htmlFor="checkAs" >Register As Student</label>
+                                            <label className="forAs pointer label-title" htmlFor="checkAs" >Register As Student</label>
                                         </div>
                                             <div  className="my-line"></div>
 

@@ -1,4 +1,4 @@
-import { Button, Col, Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import React, { Component } from 'react';
 import noImage from '../noImage.png';
 import StudentsTable from './StudentsTable';
@@ -8,6 +8,7 @@ import { storage } from '../firebase/index';
 import EditClass from './EditClass';
 import { Redirect, Route } from 'react-router-dom';
 import './myClasses.css';
+import './home.css';
 
 const initialState = {
     file: null,
@@ -230,7 +231,7 @@ class MyClasses extends Component {
                     let Dim = (right - left);
 
                     //Determine font size and the space between rectangle and text .
-                    let space = parseInt(Dim /3) +2,
+                    let space = parseInt(Dim / 3) + 2,
                         text = `${space}px Carter One`;
                     ctx.font = text;
 
@@ -341,7 +342,7 @@ class MyClasses extends Component {
         for (let i of ids) {
             let row = document.getElementById(i + "");
             if (row) {
-                row.className = 'bg-success text-light';
+                row.style.backgroundColor = '#178326a2';
             }
         }
     }
@@ -506,21 +507,16 @@ class MyClasses extends Component {
                 <Route path={`${path}/classHistory`} component={() => <History selected_class={this.state.selected_class} onChangeRoute={this.onChangeRoute} />} />
                 <Route path={`${path}/details`} component={() => <Details historyData={this.state.historyData} onChangeRoute={this.onChangeRoute} backToHistory={false} />} />
                 <Route path={`${path}`} exact >
-                    <div className="container text-center" >
+                    <div className=" text-center" >
 
                         <section className="hero-unit">
-
                             <hgroup>
                                 <h2>Select A Class </h2>
-
                             </hgroup>
 
-
                             <div className="flip-cards">
-
                                 {rows}
                             </div>
-
                         </section>
 
                     </div>
@@ -529,18 +525,24 @@ class MyClasses extends Component {
                     <div className="bg--white">
                     </div>
                     <div className="container">
-                        {/* Spinner when get the result */}
-                        <div className="loading" hidden={!this.state.load}>
-                            <div className="circle"></div>
-                            <div className="circle"></div>
-                            <div className="circle"></div>
-                            <div className="circle"></div>
+
+                        <div class="loader" hidden={!this.state.load}>
+                            <ul class="hexagon-container">
+                                <li class="hexagon hex_1"></li>
+                                <li class="hexagon hex_2"></li>
+                                <li class="hexagon hex_3"></li>
+                                <li class="hexagon hex_4"></li>
+                                <li class="hexagon hex_5"></li>
+                                <li class="hexagon hex_6"></li>
+                                <li class="hexagon hex_7"></li>
+                            </ul>
                         </div>
+
 
                         {/* buttons ,, top  */}
                         <div className=" d-flex justify-content-between btns" style={{ paddingRight: '12%', paddingLeft: '12%' }}>
                             <button hover-data="Back"
-                                onClick={this.back} className="red-btn mt4 ma1 my-button" >
+                                onClick={this.back} className="red-btn mt4 ma1 my-button" hidden={this.state.load} >
                                 <i className="btn-icon far fa-arrow-alt-circle-left"></i>
                             </button>
                             <div>
@@ -554,7 +556,7 @@ class MyClasses extends Component {
                                 </button>
                             </div>
                         </div>
-                        <div className="my-line2"></div>
+                        <div className="my-line2" hidden={this.state.load}></div>
                         {/* Face recognition */}
                         <Row hidden={this.state.load}>
                             <Col xs={12}>
@@ -563,7 +565,7 @@ class MyClasses extends Component {
 
                                     <p hidden={!this.state.showImage} className="mt-5 f3 b i upload-text">Upload one or more image to take the attendance, Then click on <span className='red f3'>'Done'</span> Button.</p>
 
-                                    <label htmlFor="file2" className="mt-3 my-button">{(this.state.ids.length === 0) ? 'Upload An Image' : 'Upload Another Image'}</label>
+                                    <label htmlFor="file2" className="mt-3 my-button pointer">{(this.state.ids.length === 0) ? 'Upload An Image ' : 'Upload Another Image '} <i class=" fas fa-cloud-upload-alt"></i>   </label>
                                     <input type="file" hidden onChange={this.checkAttendence} accept="image/*" id="file2" className="form-file mt-4 " required />
                                     <br />
 
@@ -576,15 +578,23 @@ class MyClasses extends Component {
                                     {/* The final result will be shown on the img below , that we can edit it's width and height . */}
                                     <img className="img-thumbnail mt-4" src={this.state.file || noImage} alt="Person" width="300" height='300' hidden={this.state.showImage} />
                                     <br />
-                                    <Button hidden={this.state.showImage} onClick={this.clear} style={{ width: '30%' }} className="btn f3 grow btn-warning btn-submit mt-4">Clear</Button>
-                                    <a className="btn f3 grow btn-info btn-submit mt-4" style={{ width: '30%' }} hidden={this.state.showImage} href={`${this.state.file}`} download>Download</a>
-                                    <br />
-                                    <Button hidden={this.state.showImage} onClick={this.sendHistoryData} style={{ width: '30%' }} className="btn f3 grow btn-success btn-submit mt-4 mb-4" disabled={this.state.doneDisable}>Done</Button>
+
+
+                                    <div className="table-buttons2">
+                                        <button hidden={this.state.showImage} onClick={this.clear} className="my-button grow red-btn"><i class="fas fa-trash-alt"></i></button>
+                                        <button hidden={this.state.showImage} className="my-button  grow"><a href={`${this.state.file}`} download></a> <i class="fas fa-download"></i> </button>
+                                        <button hidden={this.state.showImage} onClick={this.sendHistoryData} disabled={this.state.doneDisable} className="my-button grn-btn grow ">Done</button>
+                                    </div>
+
+
+
+
+
                                 </div>
                             </Col>
                         </Row>
 
-                        <div className="my-line"></div>
+                        <div className="my-line" hidden={this.state.load}></div>
                         {/* Student table */}
                         <Row hidden={this.state.load} className="mt5">
                             <Col xs={12} >

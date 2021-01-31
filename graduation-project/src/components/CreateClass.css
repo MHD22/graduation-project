@@ -1,18 +1,18 @@
 .students{
     width: 80%;
-    height: 250px;
-    background: #f1f1f1 ;
+    height: 44vh;
+    background: #f1f1f100 ;
     overflow-y: auto ;
-    border: 1px solid gray;
-    margin-top: 15px;
+    /* border: 1px solid gray; */
+    margin-top: 25px;
     text-align: center;
-    border-radius: 2px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px -2px rgba(250, 250, 250, 0.26);
 }
 .cont-cont{
     width: 100%;
     margin: auto;
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
 
 }
@@ -22,30 +22,25 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    flex-wrap: wrap;
+    
     align-items: center;
     
 }
-.search{
-  padding: 10px;
-  font-size: 17px;
-  border: 1px solid grey;
-  float: left;
-  width: 80%;
-  font-family : 'Sansita Swashed' ;
-  background: #f1f1f1;
-  outline : none ;
-}
+
 
 .student {
-    width: 100% ;
-    height: 45px;
-    line-height: 45px ;
-    border-radius : 50px;
-    color: white;
-    background-color: #343a40 ;
-    font-family : 'Sansita Swashed' ;
+    width: 75% ;
+    /* height: 60px; */
+    line-height: 40px ;
+    border-radius : 25px;
+    color: #eee;
+    background-color: #343a400a ;
+    font-family : 'Ubuntu' ;
     border : 1px solid grey ;
+    cursor:pointer;
+    
+    margin:8px 0 ;
+    
 }
 .check {
     display: none;
@@ -75,6 +70,7 @@
 
 .main-title {
     letter-spacing: 2px;
+    color:rgba(238, 238, 238, 0.726);
 }
 
 .next-btn {
@@ -85,18 +81,49 @@
     outline: none;
 }
 
-.icon {
-    width: 40px;
+.icon-delete {
+    font-size: 1.5em;
+    cursor: pointer;
+    
 }
 
-.icon:hover {
-    transform: scale(1.2,1.2);
+.icon-delete:hover {
+    transform: scale(1.1);
+    color:#ce182f;
 }
 
-#body tr:hover {
+.tableBody tr:hover {
     background-color: black; 
 }
 
 .edit-class {
     margin-top: -8%;
+}
+
+.addStd-cont{
+    width:75%;
+    margin:auto;
+    
+}
+
+.btnEdCon{
+    width:100%;
+    display:flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    
+    align-items: center;
+}
+
+.js{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-left: -8px;
+}
+.jsBack{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-left: 10%;
 }

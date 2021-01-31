@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Nav2.css';
-import Login from '../components/Login';
-import Register from '../components/Register';
-import Home from '../components/Home';
-import About from '../components/About';
-import CreateClass from '../components/CreateClass';
-import MyClasses2 from '../components/MyClasses2';
+import Home from './Home';
+import About from './About';
+import CreateClass from './CreateClass';
+import MyClasses2 from './MyClasses2';
 import { Route, Switch } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import Particles from 'react-particles-js';
