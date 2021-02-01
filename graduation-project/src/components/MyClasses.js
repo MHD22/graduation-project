@@ -492,13 +492,13 @@ class MyClasses extends Component {
 
         return (
              <>  
+             {this.state.route ? <Redirect to={this.state.route} /> : null}
              {this.state.classes.length === 0 &&<section className="hero-unit"><h1 style={{marginTop:'150px'}}> {"You don't have any class yet.. "}</h1> 
              <button style={{margin: '50px 0'}} className='my-button' > 
              <Link style={{color:'#eee', textDecoration:'none' }} to="/create">Create a new class..</Link></button></section> } 
             
              {this.state.classes.length !== 0 &&
             <>
-                {this.state.route ? <Redirect to={this.state.route} /> : null}
                 <Route path={`${path}/editClass`} component={() => <EditClass classInfo={classInfo} onChangeRoute={this.onChangeRoute} />} />
                 <Route path={`${path}/classHistory`} component={() => <History selected_class={this.state.selected_class} onChangeRoute={this.onChangeRoute} />} />
                 <Route path={`${path}/details`} component={() => <Details historyData={this.state.historyData} onChangeRoute={this.onChangeRoute} backToHistory={false} />} />
