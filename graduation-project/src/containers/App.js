@@ -16,9 +16,10 @@ class App extends Component {
         <BrowserRouter>
 
           <Nav />
+          
 
+         <Footer />
         </BrowserRouter>
-        <Footer />
         <input id="baseUrl" hidden defaultValue='https://class-take-attendance.herokuapp.com' />
       </div>
     );

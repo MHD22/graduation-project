@@ -4,7 +4,18 @@ a:hover {
 
 
 .btns {
-  margin-top: -10%;
+  margin-top: -9%;
+
+}
+
+.divBtns{
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content:space-around;
+  align-items: center;
+  padding: 0 12%;
+  
 }
 
 .upload-text {
@@ -22,5 +33,15 @@ a:hover {
 }
 
 .history {
-  margin-top: -15%;
+  margin-top: -9%;
+  min-height: 100vh;
+}
+
+#edit-class1 {
+  margin-top: -9%;
+  min-height: 100vh;
+}
+
+.myCont{
+  min-height: 100vh;
 }

@@ -20,7 +20,7 @@ const initialState = {
     attendStudents: [],
     showImage: true,
     showUploadBtn: false,
-    load: false,
+    load: true,
     hidePage: false,
     classes: [],
     selected_class: '',
@@ -514,7 +514,7 @@ class MyClasses extends Component {
                 <Route path={`${path}/classData`}>
                     <div className="bg--white">
                     </div>
-                    <div className="container">
+                    <div className="container myCont">
 
                         <div class="loader" hidden={!this.state.load}>
                             <ul class="hexagon-container">
@@ -529,23 +529,23 @@ class MyClasses extends Component {
                         </div>
 
                         {/* buttons ,, top  */}
-                        <div className=" d-flex justify-content-between btns" style={{ paddingRight: '12%', paddingLeft: '12%' }}>
+                        <div className=" divBtns btns">
                             <button hover-data="Back"
-                                onClick={this.back} className="red-btn mt4 ma1 my-button" hidden={this.state.load} >
+                                onClick={this.back} className="ma1 red-btn my-button" hidden={this.state.load} >
                                 <i className="btn-icon far fa-arrow-alt-circle-left"></i>
                             </button>
-                            <h3 hidden={this.state.load} className="mt-5 f2 font-lobster ml-5">{this.state.selected_class}</h3>
                             <div>
                                 <button hover-data="Edit Class"
-                                    hidden={this.state.load} onClick={this.editClass} className=" mt4 ma1 my-button">
+                                    hidden={this.state.load} onClick={this.editClass} className=" ma1 my-button">
                                     <i className="btn-icon fas fa-users-cog"></i>
                                 </button>
                                 <button hover-data="Class History"
-                                    hidden={this.state.load} onClick={this.showHistoryPage} className=" mt4 ma1 my-button">
+                                    hidden={this.state.load} onClick={this.showHistoryPage} className=" ma1 my-button">
                                     <i className="btn-icon fas fa-history"></i>
                                 </button>
                             </div>
                         </div>
+                            <h3 hidden={this.state.load} className="f2 mt4 font-lobster">{this.state.selected_class}</h3>
                         <div className="my-line2" hidden={this.state.load}></div>
                         {/* Face recognition */}
                         <Row hidden={this.state.load}>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import '../css/nav.css';
+import '../css/Nav.css';
 import Home from './Home';
 import CreateClass from './CreateClass';
 import MyClasses from './MyClasses';
@@ -8,6 +8,7 @@ import { Route, Switch } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import Particles from 'react-particles-js';
 import Registration from './Registration';
+import Footer from './Footer';
 
 const par = {
     "particles": {
@@ -81,6 +82,7 @@ class Nav extends Component {
 
 
     render() {
+        
 
         return (
             <>
@@ -94,7 +96,7 @@ class Nav extends Component {
                             </div>
                             
                         </div>
-                            <p hidden={! this.state.login} className="navName">DR.<span>{this.state.teacherName}</span></p>
+                            <p hidden={! this.state.login} className="navName">Dr. <span>{this.state.teacherName}</span></p>
                     </div>
                     <div className="main-container">
                         <div className="main">
@@ -109,15 +111,18 @@ class Nav extends Component {
                                                 <Route path="/show" component={MyClasses} />
                                             </Switch>
                                         </Container>
-                                        
+                                        <Footer/>
                                 </div>
                             </header>
+                           
                         </div>
                         <div className="nshadow one"></div>
                         <div className="nshadow two"></div>
                         {/* <div class="nshadow three"></div> */}
                         {/* <div className="nshadow four"></div> */}
                     </div>
+                  
+                   
                     <div className="links" onClick={this.onClickNavItems}>
                         <ul>
                             <li>
@@ -152,6 +157,7 @@ class Nav extends Component {
                         </ul>
                     </div>
                 </div>
+                
             </>
         )
     }

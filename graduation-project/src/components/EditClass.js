@@ -205,7 +205,7 @@ class EditClass extends Component {
     render() {
         let { rows } = this.state;
         return (
-            <div className="edit-class">
+            <div id="edit-class1" className="edit-class">
                 <div className="js">
                     <button hover-data="Back"
                         onClick={this.back} className="red-btn my-button">
