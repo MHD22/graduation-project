@@ -84,7 +84,7 @@ class History extends Component {
                         </button>
                     </div>
                     <div className="table-container mt-3">
-                        {this.state.history.length != 0 ?
+                        {this.state.history.length !== 0 ?
                             <table className="table1">
                                 <thead className="text-dark" >
                                     <tr>

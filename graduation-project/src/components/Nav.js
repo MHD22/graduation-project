@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import '../css/nav.css';
+import '../css/Nav.css';
 import Home from './Home';
 import CreateClass from './CreateClass';
 import MyClasses from './MyClasses';
