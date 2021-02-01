@@ -46,8 +46,8 @@ body {
    color:orange;
    font-size: 1.2em;
    font-weight: bold;
-   
-
+   font-family: 'Lora';
+   letter-spacing: 1px;
 }
 
 .navName span{

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import './Nav2.css';
+import '../css/nav.css';
 import Home from './Home';
-import About from './About';
 import CreateClass from './CreateClass';
-import MyClasses2 from './MyClasses2';
+import MyClasses from './MyClasses';
 import { Route, Switch } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import Particles from 'react-particles-js';
@@ -32,7 +31,7 @@ const par = {
 function getUserDataFromSession() {
     return JSON.parse(sessionStorage.getItem('teacher')) || '';
 }
-class Nav2 extends Component {
+class Nav extends Component {
     constructor() {
         super();
         this.state = {
@@ -106,9 +105,8 @@ class Nav2 extends Component {
                                             <Switch>
                                                 <Route path="/" exact component={Home} />
                                                 <Route path="/login" component={Registration} />
-                                                <Route path="/about" component={About} />
                                                 <Route path="/create" component={() => <CreateClass />} />
-                                                <Route path="/show" component={MyClasses2} />
+                                                <Route path="/show" component={MyClasses} />
                                             </Switch>
                                         </Container>
                                         
@@ -159,4 +157,4 @@ class Nav2 extends Component {
     }
 }
 
-export default Nav2;
+export default Nav;

@@ -1,4 +1,4 @@
-import { Button } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import React, { Component } from 'react';
 import noImage from '../noImage.png';
 import StudentsTable from './StudentsTable';
@@ -6,9 +6,11 @@ import Details from './Details';
 import History from './History';
 import { storage } from '../firebase/index';
 import EditClass from './EditClass';
-import { Redirect, Route} from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
+import '../css/myClasses.css';
+import '../css/home.css';
 
-const initialState ={
+const initialState = {
     file: null,
     width: 0,
     height: 0,
@@ -28,9 +30,9 @@ const initialState ={
     direction: 'check', // OR history , details , edit
     historyData: {},
     route: null,
-    doneDisable: true ,
-    showStudents : [] ,
-    flag:0
+    doneDisable: true,
+    showStudents: [],
+    flag: 0
 }
 class MyClasses extends Component {
     constructor() {
@@ -40,29 +42,31 @@ class MyClasses extends Component {
 
     // Get all the classes for the logged in teacher .
     componentDidMount() {
-        if(this.checkLoggedIn()){
-            let baseUrl= document.getElementById('baseUrl').defaultValue;
+        if (this.checkLoggedIn()) {
+            let baseUrl = document.getElementById('baseUrl').defaultValue;
             fetch(`${baseUrl}/teacherClasses?id=` + JSON.parse(sessionStorage.getItem('teacher')).id_number)
                 .then(res => res.json()).then(data => {
                     this.setState({
                         classes: data,
-    
+
                     })
                 })
                 .catch(e => console.log(e));
         }
     }
-
-    componentDidUpdate(prevProps,prevState) {
-        if(prevState.flag !== 1 ){
-            if(this.checkLoggedIn()){
-                let baseUrl= document.getElementById('baseUrl').defaultValue;
+    componentWillUnmount() {
+        this.setState({ flag: 0 })
+    }
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.flag !== 1) {
+            if (this.checkLoggedIn()) {
+                let baseUrl = document.getElementById('baseUrl').defaultValue;
                 fetch(`${baseUrl}/teacherClasses?id=` + JSON.parse(sessionStorage.getItem('teacher')).id_number)
                     .then(res => res.json()).then(data => {
                         this.setState({
                             classes: data,
-                            flag:1
-        
+                            flag: 1
+
                         })
                     })
                     .catch(e => console.log(e));
@@ -70,15 +74,14 @@ class MyClasses extends Component {
         }
     }
 
-
     //To Check if LoggedIn .
     checkLoggedIn = () => {
         const data = sessionStorage.getItem('teacher');
         if (!data) {
-           this.setState({
-               route:'/login'
-           })
-           return false;
+            this.setState({
+                route: '/login'
+            })
+            return false;
         }
         else {
             return true;
@@ -147,7 +150,7 @@ class MyClasses extends Component {
                 'imgs': this.state.imgs
             }),
         };
-        let baseUrl= document.getElementById('baseUrl').defaultValue;
+        let baseUrl = document.getElementById('baseUrl').defaultValue;
         fetch(`${baseUrl}/history/${this.state.selected_class}`, requestOptions)
             .then(res => res.json())
             .then(console.log)
@@ -161,7 +164,7 @@ class MyClasses extends Component {
             className: this.state.selected_class,
             date: fullDate
         };
-        this.clear() ;
+        this.clear();
         this.setState({
             ids: [],
             imgs: [],
@@ -185,7 +188,7 @@ class MyClasses extends Component {
         };
 
 
-        let baseUrl= document.getElementById('baseUrl').defaultValue;
+        let baseUrl = document.getElementById('baseUrl').defaultValue;
         fetch(`${baseUrl}/checkImage`, requestOptions)
             .then(response => response.json())
             .then(result => {
@@ -196,9 +199,9 @@ class MyClasses extends Component {
                 let ctx = canvas.getContext('2d');
 
                 //Canvas properties .
-                ctx.strokeStyle = 'yellow';
-                ctx.fillStyle = 'yellow';
-                ctx.lineWidth = '5';
+                ctx.strokeStyle = '#fcff04';
+                ctx.fillStyle = '#fcff04';
+                ctx.lineWidth = '3';
 
                 //Change the background of context to the uploaded image .
                 let image = document.getElementById('person');
@@ -213,7 +216,7 @@ class MyClasses extends Component {
                     if (!studetnsIDs.includes(id)) {
                         continue;
                     }
-                    if (result[i].probability * 100 < 80) {
+                    if (result[i].probability * 100 < 85) {
                         continue;
                     }
 
@@ -228,8 +231,8 @@ class MyClasses extends Component {
                     let Dim = (right - left);
 
                     //Determine font size and the space between rectangle and text .
-                    let space = parseInt(Dim / 3),
-                        text = `${space}px Lobster`;
+                    let space = parseInt(Dim / 3) + 2,
+                        text = `${space}px Carter One`;
                     ctx.font = text;
 
                     //Draw the rectangle .
@@ -239,32 +242,32 @@ class MyClasses extends Component {
                     ctx.fillText(name, left, bottom + space);
                 }
 
-                let attendStudents = [] ;
-                let absenceStudents = [] ;
-                for(let i of this.state.students){
-                    let flag = false ;
-                    for(let j of this.state.ids){
-                        if(i.id === j){
-                            flag = true ;
+                let attendStudents = [];
+                let absenceStudents = [];
+                for (let i of this.state.students) {
+                    let flag = false;
+                    for (let j of this.state.ids) {
+                        if (i.id === j) {
+                            flag = true;
                         }
                     }
-                    if(flag){
+                    if (flag) {
                         attendStudents.push({
-                            id : i.id ,
-                            name : i.name
-                        }) ;
+                            id: i.id,
+                            name: i.name
+                        });
                     }
                     else {
                         absenceStudents.push({
-                            id : i.id ,
-                            name : i.name
-                        }) ;
+                            id: i.id,
+                            name: i.name
+                        });
                     }
                 }
 
                 this.setState({
                     ids: ids,
-                    attendStudents ,
+                    attendStudents,
                     absenceStudents
                     // imgs : [imagesLink]
                 });
@@ -337,9 +340,9 @@ class MyClasses extends Component {
     colorTable = () => {
         let { ids } = this.state;
         for (let i of ids) {
-            let row = document.getElementById(i + "") ;
-            if(row){
-                row.className = 'bg-success text-light';
+            let row = document.getElementById(i + "");
+            if (row) {
+                row.style.backgroundColor = '#178326a2';
             }
         }
     }
@@ -349,14 +352,14 @@ class MyClasses extends Component {
         this.setState({
             showImage: true,
             showUploadBtn: false,
-            ids:[],
-            imgs:[]
+            ids: [],
+            imgs: []
         });
-        document.getElementById("file2").value = '' ;
+        document.getElementById("file2").value = '';
         let { students } = this.state;
         for (let student of students) {
-            let stdRow = document.getElementById(student.id) ;
-            if(stdRow){
+            let stdRow = document.getElementById(student.id);
+            if (stdRow) {
                 stdRow.className = '';
             }
         }
@@ -364,24 +367,29 @@ class MyClasses extends Component {
 
     // Get the student of each class .
     CheckClass = (e) => {
-        const name = e.target.getAttribute('data-class');
-        this.setState({
-            selected_class: name
-        })
+        let cName = e.target.getAttribute('data-class');
+        console.log(cName);
         let arr = []
-        this.state.classes.forEach(element => {
-            if (element.className === name) {
+        let { classes } = this.state;
+        classes.forEach(element => {
+            if (element.className === cName) {
+
                 element.students.forEach((std) => {
                     arr.push({ id: std.id_number, name: std.firstName + " " + std.lastName })
                 })
             }
         });
+
+        console.log(arr, this.state.classes);
+
+
         this.setState({
             ids: [],
             imgs: [],
             students: arr,
             hidePage: true,
-            showStudents : arr ,
+            showStudents: arr,
+            selected_class: cName,
             route: '/show/classData'
         })
     }
@@ -398,7 +406,7 @@ class MyClasses extends Component {
     back = () => {
         this.setState({
             hidePage: false,
-            route:'/show'
+            route: '/show'
         });
         this.clear();
     }
@@ -410,32 +418,32 @@ class MyClasses extends Component {
     }
 
     showAllStudents = () => {
-        let showStudents = this.state.students ;
+        let showStudents = this.state.students;
         this.setState({
             showStudents
-        }) ;
-        this.colorTable() ;
+        });
+        this.colorTable();
     }
 
     showAttendStudents = () => {
-        let showStudents = this.state.attendStudents ;
+        let showStudents = this.state.attendStudents;
         this.setState({
             showStudents
-        }) ;
+        });
     }
 
     showAbcentStudents = () => {
-        let showStudents = this.state.absenceStudents ;
+        let showStudents = this.state.absenceStudents;
         this.setState({
             showStudents
-        }) ;
+        });
     }
 
-    onChangeRoute=(route,timer)=>{
+    onChangeRoute = (route, timer) => {
         setTimeout(() => {
-            console.log(route , "clicked");
-            if(this.checkLoggedIn()){
-                let baseUrl= document.getElementById('baseUrl').defaultValue;
+            console.log(route, "clicked");
+            if (this.checkLoggedIn()) {
+                let baseUrl = document.getElementById('baseUrl').defaultValue;
                 fetch(`${baseUrl}/teacherClasses?id=` + JSON.parse(sessionStorage.getItem('teacher')).id_number)
                     .then(res => res.json()).then(data => {
                         this.setState({
@@ -449,79 +457,107 @@ class MyClasses extends Component {
     }
 
     render() {
-        let {path} = this.props.match;
+        let { path } = this.props.match;
         let classInfo = {
             'students': this.state.students,
             'className': this.state.selected_class
         };
-        let bgColors = ['bg-dark', 'bg-primary', 'bg-info', 'bg-success', 'bg-secondary'];
         let rows = this.state.classes.map((cs) => {
-            const num = parseInt(Math.random() * bgColors.length);
-            const classNames = `${bgColors[num]} col-md-5 ml-1 class rounded mt-1 text-center text-light cursor`;
             return (
-                <div onClick={this.CheckClass} key={cs._id} data-class={cs.className} data-student={cs.students} id={cs._id} className={classNames}>
-                    <h1 data-class={cs.className}>{cs.className}</h1>
-                    <p data-class={cs.className}>Students : {cs.students.length}</p>
+
+                <div
+                    onClick={this.CheckClass}
+                    key={cs._id}
+                    data-class={cs.className}
+                    data-student={cs.students}
+                    id={`class:${cs._id}`}
+                    className={`cont-card`}
+                >
+                    <div data-class={cs.className} className="inner-cont-card  large button card-front">
+                        <p data-class={cs.className} >{cs.className}</p>
+                        <i data-class={cs.className} className="far fa-paper-plane icons"></i>
+                    </div>
+
+                    <div data-class={cs.className} className="panel card-back">
+
+                        <div data-class={cs.className} className="inner-cont-card hub-info">
+                            <i data-class={cs.className} className="far mb-3 fa-edit icons"></i>
+                            <p data-class={cs.className}>Contains <br /> <span data-class={cs.className} className="number-span">{cs.students.length}</span> <br /> Students</p>
+                        </div>
+
+                    </div>
                 </div>
             )
         });
 
-        
-
-
         return (
-
-
             <>
                 {this.state.route ? <Redirect to={this.state.route} /> : null}
                 <Route path={`${path}/editClass`} component={() => <EditClass classInfo={classInfo} onChangeRoute={this.onChangeRoute} />} />
                 <Route path={`${path}/classHistory`} component={() => <History selected_class={this.state.selected_class} onChangeRoute={this.onChangeRoute} />} />
                 <Route path={`${path}/details`} component={() => <Details historyData={this.state.historyData} onChangeRoute={this.onChangeRoute} backToHistory={false} />} />
                 <Route path={`${path}`} exact >
-                    <div className="container text-center" >
-                        <h1 className="main-title">Select A Class</h1>
-                        <div className="row d-flex justify-content-center">
-                            {rows}
-                        </div>
+                    <div className=" text-center" >
+
+                        <section className="hero-unit">
+                            <hgroup>
+                                <h2 className="select-class">Select A Class </h2>
+                            </hgroup>
+
+                            <div className="flip-cards">
+                                {rows}
+                            </div>
+                        </section>
+
                     </div>
                 </Route>
                 <Route path={`${path}/classData`}>
-
+                    <div className="bg--white">
+                    </div>
                     <div className="container">
-                        {/* Spinner when get the result */}
-                        <div className="loading" hidden={!this.state.load}>
-                            <div className="circle"></div>
-                            <div className="circle"></div>
-                            <div className="circle"></div>
-                            <div className="circle"></div>
-                        </div>
-                        <div className="d-flex justify-content-between">
-                            <button hidden={this.state.load} onClick={this.editClass} className=" mt4 btn btn-info shadow grow" >Edit Students</button>
-                            <button hidden={this.state.load} onClick={this.showHistoryPage} className=" mt4 btn btn-warning shadow grow" >History</button>
-                        </div>
-                        <div className="row" hidden={this.state.load}>
 
-                            {/* Student table */}
+                        <div class="loader" hidden={!this.state.load}>
+                            <ul class="hexagon-container">
+                                <li class="hexagon hex_1"></li>
+                                <li class="hexagon hex_2"></li>
+                                <li class="hexagon hex_3"></li>
+                                <li class="hexagon hex_4"></li>
+                                <li class="hexagon hex_5"></li>
+                                <li class="hexagon hex_6"></li>
+                                <li class="hexagon hex_7"></li>
+                            </ul>
+                        </div>
 
-                            <div className="col-md-6">
-                                <h3 className="mt-2" style={{ fontFamily: 'Lobster', color: '#343a40' }}>Student of the course</h3>
-                                <StudentsTable students={this.state.showStudents} />
-                                <div className="d-flex justify-content-around">
-                                    <button onClick={this.showAllStudents} className="btn btn-dark br4 grow shadow dim">All Students</button>
-                                    <button onClick={this.showAttendStudents} className="btn btn-success br4 grow shadow dim">Attendance Students</button>
-                                    <button onClick={this.showAbcentStudents} className="btn btn-danger  br4 grow shadow dim">Absence Students</button>
-                                </div>
+                        {/* buttons ,, top  */}
+                        <div className=" d-flex justify-content-between btns" style={{ paddingRight: '12%', paddingLeft: '12%' }}>
+                            <button hover-data="Back"
+                                onClick={this.back} className="red-btn mt4 ma1 my-button" hidden={this.state.load} >
+                                <i className="btn-icon far fa-arrow-alt-circle-left"></i>
+                            </button>
+                            <h3 hidden={this.state.load} className="mt-5 f2 font-lobster ml-5">{this.state.selected_class}</h3>
+                            <div>
+                                <button hover-data="Edit Class"
+                                    hidden={this.state.load} onClick={this.editClass} className=" mt4 ma1 my-button">
+                                    <i className="btn-icon fas fa-users-cog"></i>
+                                </button>
+                                <button hover-data="Class History"
+                                    hidden={this.state.load} onClick={this.showHistoryPage} className=" mt4 ma1 my-button">
+                                    <i className="btn-icon fas fa-history"></i>
+                                </button>
                             </div>
-                            {/* Face recognition */}
-                            <div className="col-md-6 align-self-center">
-                                <img className="mt-2 grow pointer" onClick={this.back} src="https://img.icons8.com/fluent/48/000000/circled-left.png" alt="go back" />
-                                <Button hidden={this.state.showUploadBtn} onClick={this.setShowBtn} style={{ width: '100%' }} className="btn f3 grow btn-dark btn-submit mt-4">Check Attendence</Button>
+                        </div>
+                        <div className="my-line2" hidden={this.state.load}></div>
+                        {/* Face recognition */}
+                        <Row hidden={this.state.load}>
+                            <Col xs={12}>
+                                <button hidden={this.state.showUploadBtn} onClick={this.setShowBtn} className="my-button mt-4">Check Attendence</button>
                                 <div hidden={!this.state.showUploadBtn}>
-                                    <label htmlFor="file2" style={{ width: '50%', backgroundColor: 'darkcyan' }} className="mt-3 grow f4 btn text-light btn-submit">{(this.state.ids.length === 0) ? 'Check Image' : 'Check another Image'}</label>
-                                    <input hidden onChange={this.checkAttendence} type="file" accept="image/*" id="file2" className="form-file mt-4" required />
+
+                                    <p hidden={!this.state.showImage} className="mt-5 f3 b i upload-text">Upload one or more image to take the attendance, Then click on <span className='red f3'>'Done'</span> Button.</p>
+
+                                    <label htmlFor="file2" className="mt-3 my-button f4 pointer">{(this.state.ids.length === 0) ? 'Upload An Image ' : 'Upload Another Image '} <i class=" fas fa-cloud-upload-alt"></i>   </label>
+                                    <input type="file" hidden onChange={this.checkAttendence} accept="image/*" id="file2" className="form-file mt-4 " required />
                                     <br />
-                                    <p hidden={!this.state.showImage} className="mt-5" style={{ fontFamily: 'Acme' }}>To Check Attendence Upload an image for class student , then the system will check it .</p>
-                                    <p hidden={!this.state.showImage} style={{ fontFamily: 'Acme' }}><span className="bg-success p-1 text-light rounded">Green</span> rows on table represents the Attendees student , and the <span className="bg-dark p-1 text-light rounded">white</span> rows for Absence students . </p>
 
                                     {/* Image will display the uploaded image , we use it to draw it on canvas . */}
                                     <img hidden id="person" src={this.state.file} alt="Person" />
@@ -532,13 +568,28 @@ class MyClasses extends Component {
                                     {/* The final result will be shown on the img below , that we can edit it's width and height . */}
                                     <img className="img-thumbnail mt-4" src={this.state.file || noImage} alt="Person" width="300" height='300' hidden={this.state.showImage} />
                                     <br />
-                                    <Button hidden={this.state.showImage} onClick={this.clear} style={{ width: '30%' }} className="btn f3 grow btn-warning btn-submit mt-4">Clear</Button>
-                                    <a className="btn f3 grow btn-info btn-submit mt-4" style={{ width: '30%' }} hidden={this.state.showImage} href={`${this.state.file}`} download>Download</a>
-                                    <br />
-                                    <Button hidden={this.state.showImage} onClick={this.sendHistoryData} style={{ width: '30%' }} className="btn f3 grow btn-success btn-submit mt-4 mb-4" disabled={this.state.doneDisable}>Done</Button>
+
+                                    <div className="table-buttons2">
+                                        <button hidden={this.state.showImage} onClick={this.clear} className="my-button grow red-btn"><i class="fas fa-trash-alt"></i></button>
+                                        <button hidden={this.state.showImage} className="my-button  grow"><a href={`${this.state.file}`} download></a> <i class="fas fa-download"></i> </button>
+                                        <button hidden={this.state.showImage} onClick={this.sendHistoryData} disabled={this.state.doneDisable} className="my-button grn-btn grow ">Done</button>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            </Col>
+                        </Row>
+                        <div className="my-line" hidden={this.state.load}></div>
+                        {/* Student table */}
+                        <Row hidden={this.state.load} className="mt5">
+                            <Col xs={12} >
+                                <h3 className="mt-2 table-header font-acme">Students enrolled this course</h3>
+                                <StudentsTable students={this.state.showStudents} />
+                                <div className="table-buttons">
+                                    <button onClick={this.showAllStudents} className="my-button grow">All Students</button>
+                                    <button onClick={this.showAttendStudents} className="my-button grn-btn grow">Attendance Students</button>
+                                    <button onClick={this.showAbcentStudents} className="my-button grow red-btn">Absence Students</button>
+                                </div>
+                            </Col>
+                        </Row>
                     </div>
                 </Route>
 
