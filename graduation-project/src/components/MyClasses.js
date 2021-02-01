@@ -6,7 +6,7 @@ import Details from './Details';
 import History from './History';
 import { storage } from '../firebase/index';
 import EditClass from './EditClass';
-import { Redirect, Route } from 'react-router-dom';
+import { Link, Redirect, Route } from 'react-router-dom';
 import '../css/myClasses.css';
 import '../css/home.css';
 
@@ -491,6 +491,12 @@ class MyClasses extends Component {
         });
 
         return (
+             <>  
+             {this.state.classes.length === 0 &&<section className="hero-unit"><h1 style={{marginTop:'150px'}}> {"You don't have any class yet.. "}</h1> 
+             <button style={{margin: '50px 0'}} className='my-button' > 
+             <Link style={{color:'#eee', textDecoration:'none' }} to="/create">Create a new class..</Link></button></section> } 
+            
+             {this.state.classes.length !== 0 &&
             <>
                 {this.state.route ? <Redirect to={this.state.route} /> : null}
                 <Route path={`${path}/editClass`} component={() => <EditClass classInfo={classInfo} onChangeRoute={this.onChangeRoute} />} />
@@ -591,10 +597,13 @@ class MyClasses extends Component {
                             </Col>
                         </Row>
                     </div>
-                </Route>
-
-
-            </>);
+                    </Route>
+                    
+                    </>
+             }
+                 </>
+                
+            );
     }
 }
 export default MyClasses;

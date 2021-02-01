@@ -63,9 +63,10 @@
 
 .flip-cards {
   width: 100%;
-  height:80vh;
+  min-height: 50vh;
+  max-height:80vh;
   display: grid;
-  grid-template-columns: repeat( auto-fit, minmax(200px, .5fr));
+  grid-template-columns: repeat( auto-fit, minmax(200px, .4fr));
   justify-content: center;
   gap: 30px;
   padding: 30px;
