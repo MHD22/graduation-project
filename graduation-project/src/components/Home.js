@@ -15,7 +15,7 @@ class Home extends Component {
                         <div className="abstract">
                             <h1>Who WE ARE ?</h1>
                             <p>
-                                <span>Faceify</span> may provide some interesting services which are related to the face recognition mechanism, like(take attendance of students, detect the strangers in a company, counting the presence people, ...etc.)
+                                <span>Faceify</span> provides some interesting services which are related to the face recognition mechanism, like(take attendance of students, detect the strangers in a company, counting the presence people, ...etc.)
                             </p>
                             <img className="home-imgs" src={require('../img/who.svg')} alt="Abstract" />
                         </div>
@@ -67,9 +67,14 @@ class Home extends Component {
                     </Fade>
                     <div className="new-line"></div>
 
-                    <Fade left big>
                         <div className="container">
+                    <Roll top>
+
                             <h1>OUR TEAM</h1>
+                    </Roll>
+                           
+
+                    <Fade left big>
                             <div className="team">
                                 <div className="team-img">
                                     <div className="team-social">
@@ -84,6 +89,8 @@ class Home extends Component {
                                     <h3>Full Stack Developer</h3>
                                 </div>
                             </div>
+                        </Fade>
+                        <Fade right big>
                             <div className="team">
                                 <div className="team-img2">
                                     <div className="team-social">
@@ -98,8 +105,9 @@ class Home extends Component {
                                     <h3>Full Stack Developer</h3>
                                 </div>
                             </div>
+                        </Fade>
                         </div>
-                    </Fade>
+                   
                 </div>
             </>
         )

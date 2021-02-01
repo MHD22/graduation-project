@@ -20,7 +20,7 @@ const initialState = {
     attendStudents: [],
     showImage: true,
     showUploadBtn: false,
-    load: true,
+    load: false,
     hidePage: false,
     classes: [],
     selected_class: '',
