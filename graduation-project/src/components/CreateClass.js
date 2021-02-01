@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import './CreateClass.css';
+import '../css/CreateClass.css';
 import { Redirect } from "react-router-dom";
 import AddStudents from './AddStudents';
 import Swal from 'sweetalert2';
-import './table.css';
+import '../css/table.css';
 import ReactCardFlip from 'react-card-flip';
 import $ from 'jquery';
 import '../styles/registration.css';

@@ -26,6 +26,7 @@
     margin:  auto;
   }
 
+
   .addC-body input , .addStd-cont input{
       width: 75%;
       margin: auto;
@@ -346,3 +347,9 @@
     color:rgba(238, 238, 238, 0.815);
 }
 
+
+@media screen and (max-width:765px){
+    .addC-body{
+        width: 100% ;
+    }
+}

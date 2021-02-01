@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Nav2 from '../components/Nav2';
+import Nav from '../components/Nav';
 import { BrowserRouter } from 'react-router-dom';
 import Footer from '../components/Footer';
 
@@ -15,10 +15,11 @@ class App extends Component {
       <div className="App">
         <BrowserRouter>
 
-          <Nav2 />
+          <Nav />
+          
 
+         <Footer />
         </BrowserRouter>
-        <Footer />
         <input id="baseUrl" hidden defaultValue='https://class-take-attendance.herokuapp.com' />
       </div>
     );

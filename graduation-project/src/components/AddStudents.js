@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Swal from 'sweetalert2' ;
-import './CreateClass.css'
+import '../css/CreateClass.css'
 
 class AddStudents extends Component {
     constructor() {

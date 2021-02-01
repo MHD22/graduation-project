@@ -16,12 +16,13 @@ body {
 }
 
 .nav-container {
-    max-height: 100vh;
+    min-height: 100vh;
     width: 100%;
     /* background-color: #000000e1; */
     background-image: linear-gradient(135deg, #144b55 0%, #1a1819 100%);
     transform-style: preserve-3d;
     overflow: hidden;
+    padding-bottom: 0;
     
 }
 
@@ -46,8 +47,8 @@ body {
    color:orange;
    font-size: 1.2em;
    font-weight: bold;
-   
-
+   font-family: 'Lora';
+   letter-spacing: 1px;
 }
 
 .navName span{
@@ -57,7 +58,7 @@ body {
 
 .navName2{
     color:orange;
-   font-size: 1.6em;
+   font-size: 1em;
    font-weight: bold;
    display:none;
 }
@@ -171,14 +172,17 @@ header {
     min-height: 100vh;
     top: 0;
     left: 0;
-    background-color: #26282b;
+    /* background-color: #26282b; */
+    background-image: linear-gradient(to left, rgba(0,0,0,.4), rgba(0,0,0,.8));
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     color: #fff;
-    padding: 200px 0;
-    padding-top: 350px;
+    
+
+    padding-top: 22%;
+    padding-bottom: 0;
     overflow-y: auto;
     /* z-index: 5; */
 }
@@ -194,7 +198,7 @@ header {
 }
 
 #first-container {
-    margin-top: -222px;
+    margin-top: -11%;
     z-index: 5;
 }
 
@@ -431,7 +435,7 @@ a.active{
 
 
 
-@media screen and (max-width: 600px){
+@media screen and (max-width: 700px){
     .navName{
         display:none;
     }
@@ -446,7 +450,13 @@ a.active{
     }
 }
 
+@media screen and (max-width: 900px){
+    .navName{
+        font-size: .8em;
+    }
+    
 
+}
 
 
 
@@ -454,6 +464,8 @@ a.active{
 .active .overlay {
     width: 100%;
     /* z-index: 5; */
+}
+.overlay{
 }
 
 .active .links {

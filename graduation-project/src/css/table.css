@@ -1,34 +1,40 @@
-.table1{
-    width:100%;
-    margin:0 auto;
-    border:collapse;
+.table1 {
+    width: 100%;
+    margin: 0 auto;
+    border: collapse;
     /* box-shadow:0px 5px 15px -2px  rgba(218, 218, 218, 0.226); */
-    
 }
-.table1 td, .table1 th {
-    border : 4px solid rgba(2, 217, 255, 0.185);
-    padding : 15px 0;
-    color: rgba(216, 216, 216, 0.918) ;
-    font-size : 1.2em;
-    width:40%;
 
+.table1 th {
+    font-family: 'Lobster' !important;
 }
-.table-container{
+
+.table1 td, .table1 th {
+    border: 4px solid rgba(2, 217, 255, 0.185);
+    padding: 15px 0;
+    color: rgba(216, 216, 216, 0.918);
+    font-size: 1.2em;
+    width: 40%;
+    font-family: 'Lexend Deca'
+}
+
+.table-container {
     width: 77%;
     margin: 50px auto;
-    max-height: 50vh;
+    max-height: 80vh;
     overflow-y: auto;
     background-color: rgba(22, 21, 21, 0.253);
     box-shadow: 0px 2px 10px 0px rgba(199, 198, 198, 0.322);
 }
 
 .table1 th {
-    color:#e20e2ee3;
+    color: #e20e2ee3;
     font-weight: normal;
-    font-size:2em;
+    font-size: 2em;
 }
-.my-button{
-    padding:15px 25px;
+
+.my-button {
+    padding: 15px 25px;
     border-radius: 10px;
     background-color: rgba(2, 217, 255, 0.384);
     color: #eee;
@@ -39,95 +45,94 @@
     margin: 10px;
     font-family: 'Righteous';
     letter-spacing: 1px;
-} 
-.my-button:focus {
-    outline: none ;
 }
-.my-button:active{
-    outline: none;
-}  
 
-.my-button:hover{
-   filter:opacity(.7);
+.my-button:focus {
+    outline: none;
+}
+
+.my-button:active {
+    outline: none;
+}
+
+.my-button:hover {
+    filter: opacity(.7);
     box-shadow: inset 0px 2px 15px 2px rgba(43, 40, 40, 0.87);
     transform: translateY(3px);
     /* box-shadow: inset 0px 4px 25px 3px red; */
     color: #eee;
     outline: none;
-    
 }
-.my-button:hover::before{
-    content:attr(hover-data);
 
+.my-button:hover::before {
+    content: attr(hover-data);
 }
+
 .my-button:hover .btn-icon {
-    display:none;
+    display: none;
 }
 
-.red-btn{
+.red-btn {
     background-color: rgba(141, 22, 22, 0.815);
     color: #eee;
     outline: none;
 }
-.grn-btn{
-    background-color: #178326a2; 
+
+.grn-btn {
+    background-color: #178326a2;
     color: #eee;
     outline: none;
-    
-    
 }
-.my-line{
+
+.my-line {
     height: 0;
     width: 50%;
-    margin:50px auto;
-    border-bottom: 3px solid rgba(238, 238, 238, 0.4);   
+    margin: 50px auto;
+    border-bottom: 3px solid rgba(238, 238, 238, 0.4);
 }
-.my-line2{
+
+.my-line2 {
     height: 0;
     width: 75%;
-    margin:50px auto;
+    margin: 50px auto;
     border-bottom: 2px solid rgba(238, 238, 238, 0.4);
-   
 }
 
-.table-buttons{
-    display:flex;
+.table-buttons {
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     padding: 10px 9%;
-    justify-content:space-evenly;
+    justify-content: space-evenly;
 }
 
-.table-buttons2{
-    display:flex;
+.table-buttons2 {
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     padding: 10px 9%;
-    justify-content:center;
-    align-items:center;
-
+    justify-content: center;
+    align-items: center;
 }
 
-.table-buttons2 button a{
-    color:white;
+.table-buttons2 button a {
+    color: white;
     text-decoration: none;
-    
 }
+
 /*  background-color: #0a8d1b8a; */
 
 .icon-big {
     font-size: 1.2em;
 }
 
-.delete-btn{
+.delete-btn {
     font-size: 1.1em;
     margin-left: -15px;
-   
 }
-.detailsBtn{
-    font-size:1em;
-    min-width: 15%;
-    margin:0;
-    
 
+.detailsBtn {
+    font-size: 1em;
+    min-width: 15%;
+    margin: 0;
 }

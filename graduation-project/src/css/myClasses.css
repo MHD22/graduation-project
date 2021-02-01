@@ -1,0 +1,47 @@
+a:hover {
+  text-decoration: underline;
+}
+
+
+.btns {
+  margin-top: -9%;
+
+}
+
+.divBtns{
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content:space-around;
+  align-items: center;
+  padding: 0 12%;
+  
+}
+
+.upload-text {
+  font-family: 'Lora';
+  letter-spacing: 2px;
+}
+
+.date {
+  font-size: 25px !important;
+}
+.details {
+  width: 200px;
+  height: 50px;
+  margin-top: 0;
+}
+
+.history {
+  margin-top: -9%;
+  min-height: 100vh;
+}
+
+#edit-class1 {
+  margin-top: -9%;
+  min-height: 100vh;
+}
+
+.myCont{
+  min-height: 100vh;
+}

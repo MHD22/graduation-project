@@ -1,7 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
-import './details.css';
-import './table.css';
+import '../css/details.css';
+import '../css/table.css';
 
 class Details extends Component {
     constructor() {
@@ -66,7 +66,7 @@ class Details extends Component {
                             <i className="btn-icon far fa-arrow-alt-circle-left"></i>
                         </button>
                     </div>
-                    <h2 className=" mt2 font-rec" >{`Details of ${this.props.historyData.date}, for ${this.props.historyData.className} class.`}</h2>
+                    <h2 className=" mt2 font-rec details-text">{`Details of ${this.props.historyData.date}, for ${this.props.historyData.className} class.`}</h2>
                     <div className="my-line neg"></div>
                     <div className="pv3 mb5">
                         <h4 className="font-rec">Attendants Students.</h4>

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Details from './Details';
 import { Redirect } from 'react-router-dom';
-import './table.css';
-import './myClasses.css';
+import '../css/table.css';
+import '../css/myClasses.css';
 
 class History extends Component {
 
@@ -84,17 +84,21 @@ class History extends Component {
                         </button>
                     </div>
                     <div className="table-container mt-3">
-                        <table className="table1">
-                            <thead className="text-dark" >
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Details</th>
-                                </tr>
-                            </thead>
-                            <tbody className="tableBody">
-                                {rows}
-                            </tbody>
-                        </table>
+                        {this.state.history.length !== 0 ?
+                            <table className="table1">
+                                <thead className="text-dark" >
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="tableBody">
+                                    {rows}
+                                </tbody>
+                            </table>
+                        :
+                        <h1>No Data Available</h1>
+                        }
                     </div>
                 </div>)}
             </>

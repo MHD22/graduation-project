@@ -3,9 +3,9 @@ import { Component } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import AddStudents from './AddStudents';
 import Swal from 'sweetalert2'
-import './CreateClass.css';
-import './table.css';
-import './myClasses.css';
+import '../css/CreateClass.css';
+import '../css/table.css';
+import '../css/myClasses.css';
 
 class EditClass extends Component {
     constructor() {
@@ -205,7 +205,7 @@ class EditClass extends Component {
     render() {
         let { rows } = this.state;
         return (
-            <div className="edit-class">
+            <div id="edit-class1" className="edit-class">
                 <div className="js">
                     <button hover-data="Back"
                         onClick={this.back} className="red-btn my-button">
@@ -215,23 +215,27 @@ class EditClass extends Component {
                 <h2 className="f2 mt2 font-lobster">{this.props.classInfo.className}</h2>
                 <>
                 <div className="table-container mt-3" style={{width:'100%'}}>
-                    <table  className="table1" style={{ width: '100%' }}>
-                        <thead className="text-dark">
-                            <tr>
-                                <th>Student ID</th>
-                                <th>Student Name</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody className="tableBody" >
-                            {rows}
-                        </tbody>
-                    </table>
+                    {this.props.classInfo.students.length != 0 ?
+                        <table className="table1" style={{ width: '100%' }}>
+                            <thead className="text-dark">
+                                <tr>
+                                    <th>Student ID</th>
+                                    <th>Student Name</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody className="tableBody" >
+                                {rows}
+                            </tbody>
+                        </table>
+                    :
+                        <h1>No Data Available</h1>
+                    }
                     </div>
 
                 </>
 
-                { !this.state.clickedAdd && (<button className="my-button grow mt0" onClick={this.onAddStd}>Add Students</button>)}
+                { !this.state.clickedAdd && (<button hidden={this.props.classInfo.students.length == 0} className="my-button grow mt0" onClick={this.onAddStd}>Add Students</button>)}
                 {   this.state.clickedAdd && (
                 <div className="addStd-cont">
                     <AddStudents createNew={false} onAddStd={this.addStd} />
@@ -246,7 +250,7 @@ class EditClass extends Component {
                     </div>
                 )}
                 <Row className="ma3 justify-content-start"  >
-                    <Col className="pa0 justify-start flex" xs={12} md={12}><button onClick={this.onDeleteClass} className="delete-btn my-button grow red-btn">Delete Class ! </button></Col>
+                    <Col className="pa0 justify-start flex" xs={12} md={12}><button onClick={this.onDeleteClass} hidden={this.props.classInfo.students.length == 0} className="delete-btn my-button grow red-btn">Delete Class ! </button></Col>
                 </Row>
             </div>
         )

@@ -96,8 +96,6 @@
     background-color: black; 
 }
 
-
-
 .addStd-cont{
     width:75%;
     margin:auto;
@@ -125,8 +123,3 @@
     justify-content: flex-start;
     margin-left: 10%;
 }
-
-.edit-class {
-    margin-top: -9%;
-}
-

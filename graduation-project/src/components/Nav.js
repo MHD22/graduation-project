@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import './Nav2.css';
+import '../css/Nav.css';
 import Home from './Home';
-import About from './About';
 import CreateClass from './CreateClass';
-import MyClasses2 from './MyClasses2';
+import MyClasses from './MyClasses';
 import { Route, Switch } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import Particles from 'react-particles-js';
 import Registration from './Registration';
+import Footer from './Footer';
 
 const par = {
     "particles": {
@@ -32,7 +32,7 @@ const par = {
 function getUserDataFromSession() {
     return JSON.parse(sessionStorage.getItem('teacher')) || '';
 }
-class Nav2 extends Component {
+class Nav extends Component {
     constructor() {
         super();
         this.state = {
@@ -82,6 +82,7 @@ class Nav2 extends Component {
 
 
     render() {
+        
 
         return (
             <>
@@ -95,7 +96,7 @@ class Nav2 extends Component {
                             </div>
                             
                         </div>
-                            <p hidden={! this.state.login} className="navName">DR.<span>{this.state.teacherName}</span></p>
+                            <p hidden={! this.state.login} className="navName">Dr. <span>{this.state.teacherName}</span></p>
                     </div>
                     <div className="main-container">
                         <div className="main">
@@ -106,20 +107,22 @@ class Nav2 extends Component {
                                             <Switch>
                                                 <Route path="/" exact component={Home} />
                                                 <Route path="/login" component={Registration} />
-                                                <Route path="/about" component={About} />
                                                 <Route path="/create" component={() => <CreateClass />} />
-                                                <Route path="/show" component={MyClasses2} />
+                                                <Route path="/show" component={MyClasses} />
                                             </Switch>
                                         </Container>
-                                        
+                                        <Footer/>
                                 </div>
                             </header>
+                           
                         </div>
                         <div className="nshadow one"></div>
                         <div className="nshadow two"></div>
                         {/* <div class="nshadow three"></div> */}
                         {/* <div className="nshadow four"></div> */}
                     </div>
+                  
+                   
                     <div className="links" onClick={this.onClickNavItems}>
                         <ul>
                             <li>
@@ -154,9 +157,10 @@ class Nav2 extends Component {
                         </ul>
                     </div>
                 </div>
+                
             </>
         )
     }
 }
 
-export default Nav2;
+export default Nav;

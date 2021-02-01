@@ -27,3 +27,6 @@ h3.font-rec{
 .my-shad:hover{
     filter:brightness(1);
 }
+.details-text {
+    font-family: 'Lora';
+}

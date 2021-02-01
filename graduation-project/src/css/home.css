@@ -5,10 +5,11 @@
   /* Hero Unit ----------------------*/
 
 .hero-unit {
-  height: 900px;
+  min-height: 100vh;
+  margin-top: -9%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -62,13 +63,18 @@
 
 .flip-cards {
   width: 100%;
+  height:80vh;
   display: grid;
   grid-template-columns: repeat( auto-fit, minmax(200px, .5fr));
   justify-content: center;
   gap: 30px;
   padding: 30px;
   align-items: center;
+  overflow-y: auto;
+  border-radius: 15px;
+  box-shadow: 0px 0px 15px 1px rgb(218 218 218 / 23%); 
 }
+
 
 .flip-cards div {
   height: 180px;
@@ -151,6 +157,12 @@
   color: white;
 }
 
+.select-class {
+  font-family: 'Lexend Deca';
+  color: orange !important;
+  font-size: 40px;
+}
+
 /*
    * RESPONSIVENESS -------------------------------------------------
    */
@@ -220,12 +232,13 @@
 
 .flip-cards .cont-card .inner-cont-card {
   display: flex;
+  font-family: 'Lora';
   flex-direction: column;
   justify-content: center;
   align-items: center;
   border-radius: 20px;
   padding:0 20px;
-  box-shadow: 0px 0px 15px -3px rgba(48, 238, 255, 0.657);
+  box-shadow:2px 2px 1px rgba(48, 238, 255, 0.657);
 }
 
 i.icons {
@@ -266,16 +279,23 @@ i.icons {
 
 .main-div p , .main-div ol {
   letter-spacing: 1px;
-  font-family: 'Recursive';
+  font-family: 'amiri';
   font-size: 1.5em;
 }
 
-.main-div h1 {
-  font-family: 'Cormorant';
-  letter-spacing: 2px;
-  color : orange;
+.main-div span {
+  color: orange;
   font-weight: bold;
-  font-size: 40px;
+  font-size: 2rem;
+  letter-spacing: 2px;
+}
+
+.main-div h1 {
+  font-family: 'kindly';
+  letter-spacing: 5px;
+  color : orange;
+  font-size: 50px;
+  text-shadow: none;
 }
 
 
@@ -289,23 +309,320 @@ i.icons {
 }
 
 .home-imgs {
-  width: 300px;
+  width: 400px;
+  margin-top: 10px;
 }
 
 .abstract{
   min-height: 80vh;
+  margin-top: -5%;
 }
+
+.whyus, .goals{
+  min-height: 80vh;
+}
+
+.goals{
+  margin-top: 10%;
+}
+
+.goals img {
+  margin-top: -5%;
+}
+
 #Capa_1{
- fill:white;
+ fill:#febd55;
 }
-
-
-
 
 /* for full width backgrounds */
 .backgroundHome{
   width: 100vw;
   min-height: 100vh;
+}
+
+.new-line {
+  margin-top: 20px;
+  width : 70% ;
+  border-bottom: 1px solid white;
+  display: none;
+}
+
+.team-img, .team-img2 {
+  width: 300px;
+  height: 300px;
+  filter : contrast(130%);
+  background-size: cover;
+  margin-right: 10px;
+}
+
+.team-img {
+  background-image: url('../img/Mhd.jpg');
+}
+.team-img2{
+  background-image: url('../img/Mazen.jpg');
+}
+
+.team-desc {
+  margin-top: 5%;
+}
+
+.why {
+  width: 150px;
+}
+
+.img-text {
+  padding: 40px 100px;
+}
+
+.img-text:nth-child(2) {
+  background-color: orange;
+  border-radius: 25px;
+  box-shadow: 0px 0px 10px 1px rgba(156, 154, 154, 0.486);
+
+  
+}
+
+.img-text:nth-child(4){
+  background-color: #c3112d;
+  border-radius: 25px;
+  box-shadow: 0px 0px 10px 1px rgba(156, 154, 154, 0.486);
+
+}
+
+.img-text.img-text:nth-child(5){
+  /* margin-top: 25px; */
+  background-color: #247282;
+  border-radius: 25px;
+  box-shadow: 0px 0px 10px 1px rgba(156, 154, 154, 0.486);
+  
+}
+
+.img-text p {
+  font-size: 30px;
+  font-family: 'Lora';
+}
+
+@media only screen and ( max-width: 60em) {
+  .new-line{
+    display: block;
+  }
+}
+
+@media (max-width: 700px){
+  .flip-cards{
+
+    grid-template-columns: 1fr;
+    padding-left : 25%;
+    padding-right: 0;
+  }
+    
   
 
+  .flip-cards p{
+    font-size:.9em !important;}
+
+  }
+
+    .flip-cards .cont-card{
+      /* width: 100%; */
+    
+    }
+.container {
+  position: relative;
+  width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1.title {
+  position: relative;
+  color: #353535;
+  font-size: 25px;
+  line-height: 35px;
+  text-align: center;
+  margin: 30px auto;
+}
+
+h1.title a {
+  font-size: 22px;
+}
+
+/**********************************/
+/************ Team CSS ************/
+/**********************************/
+.team {
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+  max-width: 300px;
+  margin-bottom: 30px;
+  box-shadow: 2px 2px 8px orange;
+  display: inline-block;
+  margin-left: 20px;
+}
+
+.team .team-img {
+  position: relative;
+  font-size: 0;
+  color: #353535;
+}
+
+.team .team-img img {
+  width: 100%;
+  height: auto;
+}
+
+.team .team-social {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, .5);
+  transition: all .3s;
+  font-size: 0;
+  z-index: 1;
+  opacity: 0;
+}
+
+.team:hover .team-social {
+  opacity: 1;
+}
+
+.team .team-social a {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  margin-right: 5px;
+  padding: 11px 0 10px 0;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 16px;
+  text-align: center;
+  color: #ffffff;
+  transition: all .5s;
+  margin-top: 100px;
+}
+
+.team .team-social a.social-tw {
+  background: #00acee;
+}
+
+.team .team-social a.social-fb {
+  background: #3b5998;
+}
+
+.team .team-social a.social-li {
+  background: #0e76a8;
+}
+
+.team .team-social a.social-in {
+  background: #3f729b;
+}
+
+.team .team-social a.social-yt {
+  background: #c4302b;
+}
+
+.team .team-social a:last-child {
+  margin-right: 0;
+}
+
+.team:hover .team-social a {
+  margin-top: 0;
+}
+
+.team .team-social a:hover {
+  color: #222222;
+  background: #ffffff;
+}
+
+.team .team-content {
+  padding: 20px;
+  background-color: transparent;
+  color: white !important;
+}
+
+.team .team-content h2 {
+  margin: 0 0 5px 0;
+  color: orange;
+  font-family: 'Lora';
+  font-size: 25px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.team .team-content h3 {
+  margin: 0 0 15px 0;
+  color: grey;
+  font-family: 'Lobster';
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.team .team-content p {
+  margin: 0 0 15px 0;
+  color: white;
+  font-size: 16px;
+  font-weight: 400;
+  /* line-height: 24px; */
+}
+
+.team .team-skill {
+  width: 100%;
+}
+
+.team .skill-name {
+  text-align: left;
+}
+
+.team .skill-name p {
+  display: inline-block;
+  color: orange;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.team .skill-name p:last-child {
+  float: right;
+}
+
+.team .progress {
+  position: relative;
+  width: 100%;
+  height: 5px;
+  margin-bottom: 10px;
+  background: #dddddd;
+}
+
+.team .progress:last-child {
+  margin: 0;
+}
+
+.team .progress-bar {
+  position: absolute;
+  width: 0%;
+  height: 5px;
+  top: 0;
+  left: 0;
+  background: #c3112d;
+  transition: all .7s;
+  z-index: 1;
+}
+
+.team:hover .progress-bar.w-70 {
+  width: 70%;
+}
+
+.team:hover .progress-bar.w-80 {
+  width: 80%;
+}
+
+.team:hover .progress-bar.w-90 {
+  width: 90%;
 }
