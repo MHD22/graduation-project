@@ -105,10 +105,10 @@ class Nav extends Component {
                                 <div className="overlay">
                                         <Container id="first-container" >
                                             <Switch>
-                                                <Route path="/" exact component={Home} />
-                                                <Route path="/login" component={Registration} />
-                                                <Route path="/create" component={() => <CreateClass />} />
-                                                <Route path="/show" component={MyClasses} />
+                                                <Route path="https://mhd22.github.io/graduation-project/" exact component={Home} />
+                                                <Route path="https://mhd22.github.io/graduation-project/login" component={Registration} />
+                                                <Route path="https://mhd22.github.io/graduation-project/create" component={() => <CreateClass />} />
+                                                <Route path="https://mhd22.github.io/graduation-project/show" component={MyClasses} />
                                             </Switch>
                                         </Container>
                                         <Footer/>

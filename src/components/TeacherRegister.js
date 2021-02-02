@@ -172,7 +172,7 @@ class TeacherRegister extends Component {
         sessionStorage.setItem('teacher', JSON.stringify(storedData));
     }
     goToHomePage = () => {
-        window.location.replace("http://localhost:3000");
+        window.location.replace("https://mhd22.github.io/graduation-project/");
     }
 
     checkMail =(e)=>{
@@ -190,7 +190,7 @@ class TeacherRegister extends Component {
     render() {
 
         if (this.state.redirect) {
-            return <Redirect to='/' />;
+            return <Redirect to='https://mhd22.github.io/graduation-project/' />;
         }
 
         return (

@@ -65,7 +65,7 @@ class History extends Component {
     }
 
     back = () => {
-        this.props.onChangeRoute('/show/classData', 0);
+        this.props.onChangeRoute('https://mhd22.github.io/graduation-project/show/classData', 0);
     }
     render() {
         let rows = this.renderTable();

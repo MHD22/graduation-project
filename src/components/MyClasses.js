@@ -79,7 +79,7 @@ class MyClasses extends Component {
         const data = sessionStorage.getItem('teacher');
         if (!data) {
             this.setState({
-                route: '/login'
+                route: 'https://mhd22.github.io/graduation-project/login'
             })
             return false;
         }
@@ -171,7 +171,7 @@ class MyClasses extends Component {
             selected_class: [],
             historyData: historyData,
             disableButton: true,
-            route: '/show/details',
+            route: 'https://mhd22.github.io/graduation-project/show/details',
         })
     }
 
@@ -390,14 +390,14 @@ class MyClasses extends Component {
             hidePage: true,
             showStudents: arr,
             selected_class: cName,
-            route: '/show/classData'
+            route: 'https://mhd22.github.io/graduation-project/show/classData'
         })
     }
 
     editClass = () => {
         this.setState({
             direction: 'edit',
-            route: '/show/editClass'
+            route: 'https://mhd22.github.io/graduation-project/show/editClass'
         });
     }
 
@@ -406,14 +406,14 @@ class MyClasses extends Component {
     back = () => {
         this.setState({
             hidePage: false,
-            route: '/show'
+            route: 'https://mhd22.github.io/graduation-project/show'
         });
         this.clear();
     }
 
     showHistoryPage = () => {
         this.setState({
-            route: '/show/classHistory'
+            route: 'https://mhd22.github.io/graduation-project/show/classHistory'
         });
     }
 
@@ -499,10 +499,10 @@ class MyClasses extends Component {
             
              {this.state.classes.length !== 0 &&
             <>
-                <Route path={`${path}/editClass`} component={() => <EditClass classInfo={classInfo} onChangeRoute={this.onChangeRoute} />} />
-                <Route path={`${path}/classHistory`} component={() => <History selected_class={this.state.selected_class} onChangeRoute={this.onChangeRoute} />} />
-                <Route path={`${path}/details`} component={() => <Details historyData={this.state.historyData} onChangeRoute={this.onChangeRoute} backToHistory={false} />} />
-                <Route path={`${path}`} exact >
+                <Route path={`https://mhd22.github.io/graduation-project/editClass`} component={() => <EditClass classInfo={classInfo} onChangeRoute={this.onChangeRoute} />} />
+                <Route path={`https://mhd22.github.io/graduation-project/classHistory`} component={() => <History selected_class={this.state.selected_class} onChangeRoute={this.onChangeRoute} />} />
+                <Route path={`https://mhd22.github.io/graduation-project/details`} component={() => <Details historyData={this.state.historyData} onChangeRoute={this.onChangeRoute} backToHistory={false} />} />
+                <Route path={`https://mhd22.github.io/graduation-project`} exact >
                     <div className=" text-center" >
 
                         <section className="hero-unit">
@@ -517,7 +517,7 @@ class MyClasses extends Component {
 
                     </div>
                 </Route>
-                <Route path={`${path}/classData`}>
+                <Route path={`https://mhd22.github.io/graduation-project/classData`}>
                     <div className="bg--white">
                     </div>
                     <div className="container myCont">

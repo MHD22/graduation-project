@@ -123,7 +123,7 @@ class AddStudents extends Component {
 
     done = (e) => {
         this.setState({
-            route: '/show'
+            route: 'https://mhd22.github.io/graduation-project/show'
         });
     }
 

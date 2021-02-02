@@ -30,7 +30,7 @@ class CreateClass extends Component {
     checkLoggedIn = () => {
         const data = sessionStorage.getItem('teacher');
         if (!data) {
-            this.setState({ route: '/login' });
+            this.setState({ route: 'https://mhd22.github.io/graduation-project/login' });
             return false;
         }
         else {

@@ -137,7 +137,7 @@ class EditClass extends Component {
                     .then(res => res.json())
                     .then(console.log)
                     .catch(e => { console.log("error on Delete class request..", e) });
-                this.props.onChangeRoute('/show', 500);
+                this.props.onChangeRoute('https://mhd22.github.io/graduation-project/show', 500);
                 Swal.fire(
                     'Deleted!',
                     'Class has been deleted.',
@@ -179,7 +179,7 @@ class EditClass extends Component {
                     isThereChanges: false,
                     lastStateOfStudents: [],
                 });
-                this.props.onChangeRoute('/show', 500);
+                this.props.onChangeRoute('https://mhd22.github.io/graduation-project/show', 500);
                 Swal.fire('Saved!', '', 'success')
             } else if (result.isDenied) {
                 this.onCancel();
@@ -199,7 +199,7 @@ class EditClass extends Component {
     back = () => {
         this.setState({
         });
-        this.props.onChangeRoute('/show/classData', 0);
+        this.props.onChangeRoute('https://mhd22.github.io/graduation-project/show/classData', 0);
     }
 
     render() {

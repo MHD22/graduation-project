@@ -30,7 +30,7 @@ class Details extends Component {
     }
 
     back = () => {
-        let route = this.props.backToHistory ? '/show/classHistory' : '/show';
+        let route = this.props.backToHistory ? 'https://mhd22.github.io/graduation-project/show/classHistory' : 'https://mhd22.github.io/graduation-project/show';
         this.props.onChangeRoute(route, 0);
     }
 

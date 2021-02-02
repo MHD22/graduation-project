@@ -111,7 +111,7 @@ class StudentRegister extends Component {
                         title: 'Success',
                         html: '<h5 class="text-success font-lobster mt-2">Student Added Successfully</h5>',
                     }).then(() => {
-                        this.setState({ route: '/' });
+                        this.setState({ route: 'https://mhd22.github.io/graduation-project/' });
                     })
                 }
                 else if (responseStudentData === "Token is wrong.") {
@@ -158,7 +158,7 @@ class StudentRegister extends Component {
     render() {
 
         if (this.state.redirect) {
-            return <Redirect to='/' />;
+            return <Redirect to='https://mhd22.github.io/graduation-project/' />;
         }
 
         return (

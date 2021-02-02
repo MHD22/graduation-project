@@ -231,7 +231,7 @@ function storedUserInSession(userData) {
 }
 
 function goToHomePage() {
-    window.location.replace("http://localhost:3000");
+    window.location.replace("https://mhd22.github.io/graduation-project/");
 }
 
 function checkTheUserData(user) {
