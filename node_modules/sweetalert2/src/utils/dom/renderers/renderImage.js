@@ -8,7 +8,7 @@ export const renderImage = (instance, params) => {
     return dom.hide(image)
   }
 
-  dom.show(image)
+  dom.show(image, '')
 
   // Src, alt
   image.setAttribute('src', params.imageUrl)
@@ -20,8 +20,5 @@ export const renderImage = (instance, params) => {
 
   // Class
   image.className = swalClasses.image
-  dom.applyCustomClass(image, params.customClass, 'image')
-  if (params.imageClass) {
-    dom.addClass(image, params.imageClass)
-  }
+  dom.applyCustomClass(image, params, 'image')
 }
