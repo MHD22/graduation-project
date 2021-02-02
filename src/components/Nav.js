@@ -105,7 +105,7 @@ class Nav extends Component {
                                 <div className="overlay">
                                         <Container id="first-container" >
                                             <Switch>
-                                                <Route path="/" exact component={Home} />
+                                                <Route path="https://faceify-mhd.herokuapp.com/" exact component={Home} />
                                                 <Route path="/login" component={Registration} />
                                                 <Route path="/create" component={() => <CreateClass />} />
                                                 <Route path="/show" component={MyClasses} />
