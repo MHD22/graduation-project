@@ -106,9 +106,9 @@ class Nav extends Component {
                                         <Container id="first-container" >
                                             <Switch>
                                                 <Route path="https://faceify-mhd.herokuapp.com/" exact component={Home} />
-                                                <Route path="/login" component={Registration} />
-                                                <Route path="/create" component={() => <CreateClass />} />
-                                                <Route path="/show" component={MyClasses} />
+                                                <Route path="https://faceify-mhd.herokuapp.com/login" component={Registration} />
+                                                <Route path="https://faceify-mhd.herokuapp.com/create" component={() => <CreateClass />} />
+                                                <Route path="https://faceify-mhd.herokuapp.com/show" component={MyClasses} />
                                             </Switch>
                                         </Container>
                                         <Footer/>
